@@ -1,0 +1,31 @@
+#!/bin/bash
+URL=https://github.com/Lekensteyn/dmg2img.git
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.git||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+git clone $URL
+cd $DIR
+
+# Builld
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

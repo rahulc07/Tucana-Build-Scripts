@@ -1,0 +1,44 @@
+#!/bin/bash
+URL=https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-16.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build &&
+cd    build &&
+
+meson --prefix=/usr       \
+      --buildtype=release \
+      -Ddatabase=gdbm     \
+      -Ddoxygen=false    ..
+
+
+ninja -j16
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "libsndfile alsa-lib dbus glib libcap xorg-libs speex" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
+

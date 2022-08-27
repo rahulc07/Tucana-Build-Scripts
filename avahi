@@ -1,0 +1,69 @@
+#!/bin/bash
+URL=https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget https://www.linuxfromscratch.org/patches/blfs/svn/avahi-0.8-ipv6_race_condition_fix-1.patch
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+patch -Np1 -i ../avahi-0.8-ipv6_race_condition_fix-1.patch
+sed -i '426a if (events & AVAHI_WATCH_HUP) { \
+client_free(c); \
+return; \
+}' avahi-daemon/simple-protocol.c
+
+
+./configure \
+    --prefix=/usr        \
+    --sysconfdir=/etc    \
+    --localstatedir=/var \
+    --disable-static     \
+    --disable-mono       \
+    --disable-monodoc    \
+    --disable-python     \
+    --disable-qt3        \
+    --disable-qt4        \
+    --enable-core-docs   \
+    --with-distro=none   \
+    --enable-compat-howl \
+    --enable-compat-libdns_sd \
+    --with-dbus-system-address='unix:path=/run/dbus/systemd_bus_socket'
+
+make -j16
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+
+echo 'groupadd -fg 84 avahi &&
+useradd -c "Avahi Daemon Owner" -d /run/avahi-daemon -u 84 \
+        -g avahi -s /bin/false avahi'  > /pkgs/avahi/postinst
+echo  "groupadd -fg 86 netdev" >> /pkgs/avahi/postinst
+
+sudo make install
+
+groupadd -fg 84 avahi &&
+useradd -c "Avahi Daemon Owner" -d /run/avahi-daemon -u 84 \
+        -g avahi -s /bin/false avahi
+ groupadd -fg 86 netdev
+
+cd /pkgs
+
+
+
+sudo echo "gtk2 gtk3 libdaemon libglade gobject-introspection glib libevent qt5" > /pkgs/$PACKAGE/depends
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

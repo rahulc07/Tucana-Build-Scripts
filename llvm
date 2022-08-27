@@ -1,0 +1,58 @@
+#!/bin/bash
+# Uncomment Glibc patch 
+URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/llvm-14.0.6.src.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/clang-14.0.6.src.tar.xz
+wget  https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/compiler-rt-14.0.6.src.tar.xz
+wget https://www.linuxfromscratch.org/patches/blfs/svn/compiler-rt-14.0.6-glibc_2_36-1.patch 
+tar -xvf $TAR
+cd $DIR
+
+# Build
+tar -xf ../clang-14.0.6.src.tar.xz -C tools &&
+mv tools/clang-14.0.6.src tools/clang
+tar -xf ../compiler-rt-14.0.6.src.tar.xz -C projects &&
+mv projects/compiler-rt-14.0.6.src projects/compiler-rt
+
+grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
+#patch -Np2 -d projects/compiler-rt <../compiler-rt-14.0.6-glibc_2_36-1.patch
+mkdir build
+cd build
+CC=gcc CXX=g++                                  \
+cmake -DCMAKE_INSTALL_PREFIX=/usr               \
+      -DLLVM_ENABLE_FFI=ON                      \
+      -DCMAKE_BUILD_TYPE=Release                \
+      -DLLVM_BUILD_LLVM_DYLIB=ON                \
+      -DLLVM_LINK_LLVM_DYLIB=ON                 \
+      -DLLVM_ENABLE_RTTI=ON                     \
+      -DLLVM_TARGETS_TO_BUILD="host;AMDGPU;BPF" \
+      -DLLVM_BINUTILS_INCDIR=/usr/include       \
+      -DLLVM_INCLUDE_BENCHMARKS=OFF             \
+      -Wno-dev -G Ninja ..   
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

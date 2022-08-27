@@ -1,0 +1,39 @@
+#!/bin/bash
+URL=https://fltk.org/pub/fltk/1.3.8/fltk-1.3.8-source.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=fltk-1.3.8
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+sed -i -e '/cat./d' documentation/Makefile  
+
+
+./configure --prefix=/usr    \
+            --enable-shared 
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE docdir=/usr/share/doc/fltk-1.3.8 install
+sudo make docdir=/usr/share/doc/fltk-1.3.8 install
+cd /pkgs
+
+
+
+sudo echo "xorg-libs hicolor-icons libjpeg-turbo libpng" > /pkgs/$PACKAGE/depends
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

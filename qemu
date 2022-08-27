@@ -1,0 +1,54 @@
+#!/bin/bash
+URL=https://download.qemu-project.org/qemu-7.0.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+mkdir -vp build &&
+cd        build &&
+
+../configure --prefix=/usr               \
+             --sysconfdir=/etc           \
+             --localstatedir=/var        \
+             --target-list=x86_64-softmmu   \
+             --audio-drv-list=alsa       \
+             --disable-pa                \
+             --disable-vnc-sasl \
+             --disable-vte \
+             --docdir=/usr/share/doc/qemu-7.0.0
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+
+chgrp kvm  /pkgs/qemu/usr/libexec/qemu-bridge-helper &&
+chmod 4750 /pkgs/qemu/usr/libexec/qemu-bridge-helper
+
+sudo make install
+cd /pkgs
+
+chgrp kvm  /usr/libexec/qemu-bridge-helper &&
+chmod 4750 /usr/libexec/qemu-bridge-helper
+
+sudo echo "glib" > /pkgs/$PACKAGE/depends
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

@@ -1,0 +1,45 @@
+#!/bin/bash
+URL=https://github.com/TigerVNC/tigervnc/archive/refs/tags/v1.12.0.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=tigervnc-1.12.0
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build
+cd build
+
+cmake -G "Unix Makefiles"         \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -Wno-dev ..
+  
+
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "fltk xorg gnutls libjpeg-turbo pixman" > /pkgs/$PACKAGE/depends
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

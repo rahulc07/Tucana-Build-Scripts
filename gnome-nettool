@@ -1,0 +1,44 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/gnome-nettool/42/gnome-nettool-42.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/day18/gnome
+wget $URL
+wget https://www.linuxfromscratch.org/patches/blfs/svn/gnome-nettool-42.0-ping_and_netstat_fixes-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+patch -Np1 -i ../gnome-nettool-42.0-ping_and_netstat_fixes-1.patch
+sed -i '/merge_file/s/(.*/(/' data/meson.build
+
+mkdir build &&
+cd    build &&
+
+meson --prefix=/usr --buildtype=release &&
+
+
+ninja -j16
+
+
+# Install
+sudo porg -lp $PACKAGE "ninja install"
+cd /gnome
+sudo ./dir.sh $PACKAGE
+
+
+sudo echo "gtk3 itstool libgtop" > /pkgs/gnome42/$PACKAGE/depends
+sudo rm -r /pkgs/gnome42/$PACKAGE/blfs
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished/gnome42
+
+
+cd /blfs/day18/gnome
+sudo rm -r $DIR
+
+

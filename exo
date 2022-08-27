@@ -1,0 +1,36 @@
+#!/bin/bash
+URL=https://archive.xfce.org/src/xfce/exo/4.16/exo-4.16.4.tar.bz2
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+./configure --prefix=/usr --sysconfdir=/etc &&
+make -j16
+
+
+
+# Install
+sudo porg -lp $PACKAGE "make install"
+cd /pkgs
+sudo ./dir.sh $PACKAGE
+
+
+sudo echo "gtk3 libxfce4 libxfce4util" > /pkgs/$PACKAGE/depends
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

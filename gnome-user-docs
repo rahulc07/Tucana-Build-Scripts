@@ -1,0 +1,35 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/gnome-user-docs/42/gnome-user-docs-42.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/day18/gnome
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure --prefix=/usr &&
+make -j16
+
+
+# Install
+sudo porg -lp $PACKAGE "make install"
+cd /gnome
+sudo ./dir.sh $PACKAGE
+
+
+sudo echo "" > /pkgs/gnome42/$PACKAGE/depends
+sudo rm -r /pkgs/gnome42/$PACKAGE/blfs
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished/gnome42
+
+
+cd /blfs/day18/gnome
+sudo rm -r $DIR
+
+
