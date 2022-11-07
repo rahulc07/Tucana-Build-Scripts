@@ -1,9 +1,9 @@
 #!/bin/bash
-URL=https://mesa.freedesktop.org/archive/mesa-22.1.7.tar.xz
+URL=https://archive.mesa3d.org/mesa-22.2.2.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-
+set -e
 # Get Package
 
 cd /blfs/builds
@@ -24,6 +24,8 @@ meson --prefix=/usr   \
       -Dglx=dri               \
       -Dvalgrind=disabled     \
       -Dlibunwind=disabled    \
+      -Dvulkan-drivers=amd,intel,swrast \
+      -Dvulkan-layers=device-select,intel-nullhw,overlay \
       ..             
 
 
@@ -33,13 +35,14 @@ ninja
 # Install
 sudo  DESTDIR=/pkgs/$PACKAGE ninja install
 sudo ninja install
-install -v -dm755 /pkgs/$PACKAGE/usr/share/doc/mesa-22.1.7
-cp -rfv ../docs/*  /pkgs/$PACKAGE/usr/share/doc/mesa-22.1.7
+install -v -dm755 /pkgs/$PACKAGE/usr/share/doc/mesa
+cp -rfv ../docs/*  /pkgs/$PACKAGE/usr/share/doc/mesa
 cd /pkgs
 
 
 
-sudo echo "wayland-protocols libva llvm libvdpau libdrm mako xorg-libs" > /pkgs/$PACKAGE/depends
+sudo echo "wayland-protocols libva llvm libvdpau libdrm mako xorg-libs libvulkan" > /pkgs/$PACKAGE/depends
+sudo echo "wayland-protocols libva llvm libvdpau libdrm mako xorg-libs glslang meson lm-sensors zstd libdrm cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

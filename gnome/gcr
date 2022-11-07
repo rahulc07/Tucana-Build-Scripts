@@ -1,0 +1,42 @@
+#!/bin/bash
+PKG_VER=3.41.1
+URL=https://download.gnome.org/sources/gcr/3.41/gcr-$PKG_VER.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build &&
+cd    build &&
+sed -i 's:"/desktop:"/org:' schema/*.xml
+
+meson --prefix=/usr --buildtype=release -Dgtk_doc=false .. 
+
+
+ninja 
+
+
+# Install
+ninja install
+DESTDIR=/pkgs/$PACKAGE ninja install
+cd /pkgs
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo rm -r /pkgs/$PACKAGE/blfs
+sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

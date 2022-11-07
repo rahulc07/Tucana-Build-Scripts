@@ -1,0 +1,87 @@
+#!/bin/bash
+set -e
+URL=https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://unifoundry.com/pub/unifont/unifont-14.0.04/font-builds/unifont-14.0.04.pcf.gz
+tar -xvf $TAR
+cd $DIR
+
+# Build EFI
+
+mkdir -pv /pkgs/grub/usr/share/fonts/unifont &&
+gunzip -c ../unifont-14.0.04.pcf.gz > /pkgs/grub/usr/share/fonts/unifont/unifont.pcf
+mkdir -pv /usr/share/fonts/unifont &&
+gunzip -c ../unifont-14.0.04.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+
+./configure --prefix=/usr        \
+            --sysconfdir=/etc    \
+            --disable-efiemu     \
+            --enable-grub-mkfont \
+            --with-platform=efi  \
+            --target=x86_64      \
+            --disable-werror 
+
+
+make -j16
+sudo make DESTDIR=/pkgs/$PACKAGE install
+
+# Remove EFI Files
+
+cd /blfs/builds
+sudo rm -r $DIR
+tar -xvf $TAR
+cd $DIR
+
+# Build BIOS 
+mkdir -pv /pkgs/grub/usr/share/fonts/unifont &&
+gunzip -c ../unifont-14.0.04.pcf.gz > /pkgs/grub/usr/share/fonts/unifont/unifont.pcf
+mkdir -pv /usr/share/fonts/unifont &&
+gunzip -c ../unifont-14.0.04.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+
+./configure --prefix=/usr        \
+            --sysconfdir=/etc    \
+            --disable-efiemu     \
+            --disable-werror 
+sudo make DESTDIR=/pkgs/$PACKAGE install
+mkdir -p /pkgs/$PACKAGE/etc/default
+cat > /pkgs/$PACKAGE/etc/default/grub << "EOF"
+GRUB_DEFAULT=0
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR="Tucana"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+GRUB_CMDLINE_LINUX=""
+
+GRUB_PRELOAD_MODULES="part_gpt part_msdos"
+
+GRUB_TIMEOUT_STYLE=menu
+
+GRUB_GFXMODE=auto
+
+GRUB_GFXPAYLOAD_LINUX=keep
+
+GRUB_DISABLE_RECOVERY=true
+EOF
+
+mkdir -p /pkgs/$PACKAGE/boot/grub
+
+cd /pkgs
+
+
+# Package into 1 cohesive package
+sudo echo "glibc " > /pkgs/$PACKAGE/depends
+sudo echo "base efibootmgr freetype2" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

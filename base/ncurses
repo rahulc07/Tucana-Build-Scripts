@@ -1,0 +1,88 @@
+set -e
+#!/bin/bash
+URL=https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+./configure --prefix=/usr           \
+            --mandir=/usr/share/man \
+            --with-shared           \
+            --without-debug         \
+            --without-normal        \
+            --with-cxx-shared       \
+            --enable-pc-files       \
+            --enable-widec          \
+            --with-pkg-config-libdir=/usr/lib/pkgconfig
+
+
+make -j16
+
+make DESTDIR=$PWD/dest install
+
+
+
+# Install
+
+
+cp -pv  dest/usr/lib/libncursesw.so.6.3 /
+mv -v /libncursesw.so.6.3 /usr/lib
+cp -av dest/* /
+
+mkdir -p /pkgs/ncurses/usr/lib
+install -vm755 dest/usr/lib/libncursesw.so.6.3 /pkgs/ncurses/usr/lib
+rm -v  dest/usr/lib/libncursesw.so.6.3
+cp -av dest/* /pkgs/ncurses
+
+
+for lib in ncurses form panel menu ; do
+    rm -vf                    /usr/lib/lib${lib}.so
+    echo "INPUT(-l${lib}w)" > /usr/lib/lib${lib}.so
+    ln -sfv ${lib}w.pc        /usr/lib/pkgconfig/${lib}.pc
+done
+
+for lib in ncurses form panel menu ; do
+    rm -vf                    /pkgs/ncurses/usr/lib/lib${lib}.so
+    echo "INPUT(-l${lib}w)" > /pkgs/ncurses/usr/lib/lib${lib}.so
+    ln -sfv ${lib}w.pc        /pkgs/ncurses/usr/lib/pkgconfig/${lib}.pc
+done
+
+rm -vf                     /usr/lib/libcursesw.so
+echo "INPUT(-lncursesw)" > /usr/lib/libcursesw.so
+ln -sfv libncurses.so      /usr/lib/libcurses.so
+
+rm -vf                    /pkgs/ncurses/usr/lib/libcursesw.so
+echo "INPUT(-lncursesw)" > /pkgs/ncurses/usr/lib/libcursesw.so
+ln -sfv libncurses.so      /pkgs/ncurses/usr/lib/libcurses.so
+
+mkdir -pv      /usr/share/doc/ncurses-6.3
+cp -v -R doc/* /usr/share/doc/ncurses-6.3
+
+mkdir -pv      /pkgs/ncurses/usr/share/doc/ncurses-6.3
+cp -v -R doc/* /pkgs/ncurses/usr/share/doc/ncurses-6.3
+
+
+cd /pkgs
+
+
+
+sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "bash binutils coreutils diffutils gawk gcc glibc grep make patch sed" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

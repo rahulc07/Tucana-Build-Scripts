@@ -1,0 +1,43 @@
+#!/bin/bash
+PKG_VER=3.4.3
+URL=https://github.com/libffi/libffi/releases/download/$PKG_VER/libffi-$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+# Core 2 Compatibility , you have a problem with this? Consider if your system is even capable of running Tucana then email tucana@projectmoon.ga with your situation
+./configure --prefix=/usr          \
+            --disable-static       \
+            --with-gcc-arch=core2 \
+            --disable-exec-static-tramp
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "bash binutils coreutils gcc glibc make sed" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

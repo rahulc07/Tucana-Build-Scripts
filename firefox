@@ -1,18 +1,22 @@
 #!/bin/bash
-URL=https://archive.mozilla.org/pub/firefox/releases/103.0.2/source/firefox-103.0.2.source.tar.xz
+set -e
+# Last Validated Version 106.0.3
+VER=106.0.3
+URL=https://archive.mozilla.org/pub/firefox/releases/$VER/source/firefox-$VER.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=firefox-103.0.2
+DIR=firefox-$VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
 cd /blfs/builds
 wget $URL
+wget https://src.fedoraproject.org/rpms/firefox/raw/rawhide/f/build-python-3.11.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-
+patch -Np1 < ../build-python-3.11.patch
 cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
 
@@ -107,6 +111,8 @@ EOF
 
 sed -i '/ROOT_CLIP_CHAIN/d' gfx/webrender_bindings/webrender_ffi.h
 
+
+# These keys are for Tucana only not for any other distro, if you need keys check the mozilala docs
 echo "AIzaSyCmvXzMy5AD_zkzsrJ-bkY1m70W9ybiAsg" > google-key
 echo "613364a7-9418-4c86-bcee-57e32fd70c23" > mozilla-key
 
@@ -121,9 +127,8 @@ export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 
 
 # Install
-sudo porg -lp firefox "MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=system ./mach install"
+MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=system DESTDIR=/pkgs/$PACKAGE ./mach install
 cd /pkgs
-sudo ./dir.sh $PACKAGE
 
 mkdir -pv /usr/share/applications &&
 mkdir -pv /usr/share/pixmaps      &&

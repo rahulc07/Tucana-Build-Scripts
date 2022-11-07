@@ -1,12 +1,12 @@
 #!/bin/bash
-URL=https://download.gnome.org/sources/libsoup/3.0/libsoup-3.0.6.tar.xz
+URL=https://download.gnome.org/sources/libsoup/3.2/libsoup-3.2.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=libsoup3
 
 # Get Package
 
-cd /blfs/day18/gnome
+cd /blfs/builds
 wget $URL
 tar -xvf $TAR
 cd $DIR
@@ -28,18 +28,18 @@ ninja -j16
 
 
 # Install
-sudo porg -lp $PACKAGE "ninja install"
-cd /gnome
-sudo ./dir.sh $PACKAGE
+ninja install
+DESTDIR=/pkgs/$PACKAGE ninja install
+cd /pkgs
 
 
-sudo echo "glib-networking libpsl libxml2 sqlite gobject-introspection vala mitkrb" > /pkgs/gnome42/$PACKAGE/depends
-sudo rm -r /pkgs/gnome42/$PACKAGE/blfs
-sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
-sudo cp $PACKAGE.tar.xz /finished/gnome42
+sudo echo "glib-networking libpsl libxml2 sqlite gobject-introspection vala mitkrb" > /pkgs/$PACKAGE/depends
+sudo rm -r /pkgs/$PACKAGE/blfs
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
 
 
-cd /blfs/day18/gnome
+cd /blfs/builds
 sudo rm -r $DIR
 
 

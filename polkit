@@ -1,0 +1,78 @@
+#!/bin/bash
+URL=https://gitlab.freedesktop.org/polkit/polkit/-/archive/122/polkit-122.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+# Get Package
+
+getent passwd polkitd > /dev/null
+
+if [ $? -eq 0 ]; then
+    :
+else
+     groupadd -fg 27 polkitd
+     useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
+fi
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build
+cd build
+
+meson --prefix=/usr                 \
+      --buildtype=release           \
+      -Dman=true                    \
+      -Dsession_tracking=libsystemd-login \
+      -Dtests=true                  \
+      -Djs_engine=duktape           \
+      ..         
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+cat > /etc/pam.d/polkit-1 << "EOF"
+# Begin /etc/pam.d/polkit-1
+
+auth     include        system-auth
+account  include        system-account
+password include        system-password
+session  include        system-session
+
+# End /etc/pam.d/polkit-1
+EOF
+
+cat > /pkgs/polkit/etc/pam.d/polkit-1 << "EOF"
+# Begin /etc/pam.d/polkit-1
+
+auth     include        system-auth
+account  include        system-account
+password include        system-password
+session  include        system-session
+
+# End /etc/pam.d/polkit-1
+EOF
+
+
+sudo echo "duktape glib gobject-introspection pam systemd" > /pkgs/$PACKAGE/depends
+sudo echo 'groupadd -fg 27 polkitd &&
+useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 \
+        -g polkitd -s /bin/false polkitd' > /pkgs/$PACKAGE/postinst
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

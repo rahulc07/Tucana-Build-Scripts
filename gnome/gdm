@@ -1,0 +1,63 @@
+#!/bin/bash
+GNOME_MAJOR=43
+GNOME_MINOR=0
+URL=https://download.gnome.org/sources/gdm/$GNOME_MAJOR/gdm-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+getent passwd gdm  > /dev/null
+
+if [ $? -eq 0 ]; then
+    :
+else
+    groupadd -g 21 gdm &&
+    useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
+             -g gdm -s /bin/false gdm &&
+    passwd -ql gdm
+fi
+
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build &&
+cd    build &&
+
+
+meson --prefix=/usr               \
+      --buildtype=release         \
+      -Dgdm-xsession=true \
+      -Dinitial-vt=7 \
+      -Ddefault-pam-config=lfs ..
+
+ninja -j16
+
+
+# Install
+ninja install && DESTDIR=/pkgs/$PACKAGE ninja install
+
+cd /pkgs
+
+
+sudo echo "accounts-service gtk3 iso-codes itstool libcanberra libdaemon keyutils inetutils" > /pkgs/$PACKAGE/depends
+sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
+sudo echo 'groupadd -g 21 gdm &&
+useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
+        -g gdm -s /bin/false gdm &&
+passwd -ql gdm' >> /pkgs/$PACKAGE/postinst
+sudo rm -r /pkgs/$PACKAGE/blfs
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

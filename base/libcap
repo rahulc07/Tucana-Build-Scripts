@@ -1,0 +1,38 @@
+#!/bin/bash
+URL=https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.66.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+sed -i '/install -m.*STA/d' libcap/Makefile
+
+
+make  prefix=/usr lib=lib -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE  prefix=/usr lib=lib install
+sudo make  prefix=/usr lib=lib install
+cd /pkgs
+
+
+
+sudo echo "attr bash binutils coreutils gcc glibc perl make sed" > /pkgs/$PACKAGE/depends
+sudo echo "glibc" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

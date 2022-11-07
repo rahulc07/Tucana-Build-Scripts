@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# This is the non-xorg version, for the xorg version install vim-xorg
+
+URL=https://github.com/vim/vim/archive/v9.0.0820/vim-9.0.0820.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
+# A warning will popup about unrecognized options but it will effect the make. 
+./configure --prefix=/usr --with-compiledby='Tucana Linux' --with-x=no  --enable-gui=no --disable-canberra --disable-vorbis --disable-mvec
+
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo ln -sfv /usr/bin/vim /pkgs/$PACKAGE/usr/bin/vi
+cd /pkgs
+
+
+
+sudo echo "ncurses glibc tcl python attr acl" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

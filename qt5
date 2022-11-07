@@ -1,22 +1,22 @@
 #!/bin/bash
-URL=https://download.qt.io/archive/qt/5.15/5.15.5/single/qt-everywhere-opensource-src-5.15.5.tar.xz
-TAR=qt-everywhere-opensource-src-5.15.5.tar.xz
-DIR=qt-everywhere-src-5.15.5
+PKG_VER=5.15.7
+URL=https://download.qt.io/archive/qt/5.15/$PKG_VER/single/qt-everywhere-opensource-src-$PKG_VER.tar.xz
+TAR=qt-everywhere-opensource-src-$PKG_VER.tar.xz
+DIR=qt-everywhere-src-$PKG_VER
 PACKAGE=qt5
-
 # Get Package
-
-cd /blfs/day22
-wget  https://www.linuxfromscratch.org/patches/blfs/svn/qt-everywhere-opensource-src-5.15.5-kf5-1.patch
+set -e
+cd /blfs/builds
+wget https://www.linuxfromscratch.org/patches/downloads/qt-everywhere-opensource-src/qt-everywhere-opensource-src-5.15.7-kf5-1.patch
 wget $URL
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-export QT5PREFIX=/usr
-patch -Np1 -i ../qt-everywhere-opensource-src-5.15.5-kf5-1.patch
-./configure -prefix $QT5PREFIX                        \
+patch -Np1 -i ../qt-everywhere-opensource-src-5.15.7-kf5-1.patch
+echo $?
+./configure -prefix /usr                              \
             -sysconfdir /etc/xdg                      \
             -confirm-license                          \
             -opensource                               \
@@ -44,30 +44,36 @@ make -j16
 # Install
 
 
-sudo porg -lp $PACKAGE "make install && find $QT5PREFIX/ -name \*.prl \
-   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \; && QT5BINDIR=$QT5PREFIX/bin
+make INSTALL_ROOT=/pkgs/$PACKAGE install
 
-install -v -dm755 /usr/share/pixmaps/                  &&
+# Remove the references to the build directory in the perl files
+find /pkgs/$PACKAGE/usr/ -name \*.prl \
+   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+# Create the .desktop files
+
+
+install -v -dm755 /pkgs/$PACKAGE/usr/share/pixmaps/                  &&
 
 install -v -Dm644 qttools/src/assistant/assistant/images/assistant-128.png \
-                  /usr/share/pixmaps/assistant-qt5.png &&
+                  /pkgs/$PACKAGE/usr/share/pixmaps/assistant-qt5.png &&
 
 install -v -Dm644 qttools/src/designer/src/designer/images/designer.png \
-                  /usr/share/pixmaps/designer-qt5.png  &&
+                  /pkgs/$PACKAGE/usr/share/pixmaps/designer-qt5.png  &&
 
 install -v -Dm644 qttools/src/linguist/linguist/images/icons/linguist-128-32.png \
-                  /usr/share/pixmaps/linguist-qt5.png  &&
+                  /pkgs/$PACKAGE/usr/share/pixmaps/linguist-qt5.png  &&
 
 install -v -Dm644 qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
-                  /usr/share/pixmaps/qdbusviewer-qt5.png &&
+                  /pkgs/$PACKAGE/usr/share/pixmaps/qdbusviewer-qt5.png &&
 
-install -dm755 /usr/share/applications &&
+install -dm755 /pkgs/$PACKAGE/usr/share/applications &&
 
-cat > /usr/share/applications/assistant-qt5.desktop << EOF
+cat > /pkgs/$PACKAGE/usr/share/applications/assistant-qt5.desktop << EOF
 [Desktop Entry]
 Name=Qt5 Assistant
 Comment=Shows Qt5 documentation and examples
-Exec=$QT5BINDIR/assistant
+Exec=/usr/bin/assistant
 Icon=assistant-qt5.png
 Terminal=false
 Encoding=UTF-8
@@ -75,12 +81,12 @@ Type=Application
 Categories=Qt;Development;Documentation;
 EOF
 
-cat > /usr/share/applications/designer-qt5.desktop << EOF
+cat > /pkgs/$PACKAGE/usr/share/applications/designer-qt5.desktop << EOF
 [Desktop Entry]
 Name=Qt5 Designer
 GenericName=Interface Designer
 Comment=Design GUIs for Qt5 applications
-Exec=$QT5BINDIR/designer
+Exec=/usr/bin/designer
 Icon=designer-qt5.png
 MimeType=application/x-designer;
 Terminal=false
@@ -89,11 +95,11 @@ Type=Application
 Categories=Qt;Development;
 EOF
 
-cat > /usr/share/applications/linguist-qt5.desktop << EOF
+cat > /pkgs/$PACKAGE/usr/share/applications/linguist-qt5.desktop << EOF
 [Desktop Entry]
 Name=Qt5 Linguist
 Comment=Add translations to Qt5 applications
-Exec=$QT5BINDIR/linguist
+Exec=/usr/bin/linguist
 Icon=linguist-qt5.png
 MimeType=text/vnd.trolltech.linguist;application/x-linguist;
 Terminal=false
@@ -102,32 +108,41 @@ Type=Application
 Categories=Qt;Development;
 EOF
 
-cat > /usr/share/applications/qdbusviewer-qt5.desktop << EOF
+cat > /pkgs/$PACKAGE/usr/share/applications/qdbusviewer-qt5.desktop << EOF
 [Desktop Entry]
 Name=Qt5 QDbusViewer
 GenericName=D-Bus Debugger
 Comment=Debug D-Bus applications
-Exec=$QT5BINDIR/qdbusviewer
+Exec=/usr/bin/qdbusviewer
 Icon=qdbusviewer-qt5.png
 Terminal=false
 Encoding=UTF-8
 Type=Application
 Categories=Qt;Development;Debugger;
-EOF && for file in moc uic rcc qmake lconvert lrelease lupdate; do
-  ln -sfrvn $QT5BINDIR/$file /usr/bin/$file-qt5
-done"
-cd /pkgs
-sudo ./dir.sh $PACKAGE   
+EOF
+
+
+
+# End Creation of .desktop files
+
+# Add the -qt5 executables
+
+for file in moc uic rcc qmake lconvert lrelease lupdate; do
+  ln -sfrvn /usr/bin/$file /pkgs/$PACKAGE/usr/bin/$file-qt5
+done
    
+cd /pkgs 
    
-   
-sudo echo "xorg-libs alsa-lib make-ca cups glib gst-plugins-base harfbuzz icu jasper libjpeg-turbo libmng libpng libtiff libwebp libxkbcommon mesa mtdev pcre2 sqlite wayland xcb-util-image xcb-util-keysyms xcb-util-wm ibus bluez libinput pciutils pulseaudio sdl2" > /pkgs/$PACKAGE/depends
-sudo tar -cvf $PACKAGE.tar.xz $PACKAGE
+sudo echo xorg-libs alsa-lib make-ca cups glib gst-plugins-base harfbuzz icu jasper libjpeg-turbo libmng libpng libtiff libwebp libxkbcommon mesa mtdev pcre2 sqlite wayland xcb-util-image xcb-util-keysyms xcb-util-wm ibus bluez libinput pciutils pulseaudio sdl2 > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
+# Method 2 Install
+cp -rpv $PACKAGE/* /
 
-
-cd /blfs/day22
+cd /blfs/builds
 sudo rm -r $DIR
+
+
 
 

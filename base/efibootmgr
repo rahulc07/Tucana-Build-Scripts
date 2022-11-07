@@ -1,0 +1,39 @@
+#!/bin/bash
+URL=https://github.com/rhboot/efibootmgr/archive/18/efibootmgr-18.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+make EFIDIR=TUCANA EFI_LOADER=grubx64.efi
+
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install  EFIDIR=TUCANA
+sudo make install EFIDIR=TUCANA
+cd /pkgs
+
+
+
+sudo echo "efivar popt" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

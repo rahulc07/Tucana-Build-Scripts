@@ -1,0 +1,51 @@
+#!/bin/bash
+URL=https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-30.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+./configure --prefix=/usr          \
+            --sysconfdir=/etc      \
+            --with-openssl         \
+            --with-xz              \
+            --with-zstd            \
+            --with-zlib
+
+
+
+make -j16
+
+
+# Install m2
+sudo make DESTDIR=/pkgs/$PACKAGE install
+cd /pkgs
+
+mkdir -p /pkgs/$PACKAGE/usr/sbin
+for target in depmod insmod modinfo modprobe rmmod; do
+  ln -sfv ../bin/kmod /pkgs/kmod/usr/sbin/$target
+done
+
+ln -sfv kmod /pkgs/kmod/usr/bin/lsmod
+
+sudo echo "glibc xz zlib" > /pkgs/$PACKAGE/depends
+sudo echo "bash binutils bison coreutils flex gcc gettext glibc gzip make openssl pkg-config sed xz zlib" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+# Install using method 2
+cp -rpv /pkgs/kmod/* /
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

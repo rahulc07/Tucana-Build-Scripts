@@ -1,0 +1,41 @@
+#!/bin/bash
+URL=https://ftp.gnu.org/gnu/tar/tar-1.34.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+# These scripts are expected to be run as root
+FORCE_UNSAFE_CONFIGURE=1  \
+./configure --prefix=/usr
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+make DESTDIR=/pkgs/tar -C doc install-html docdir=/usr/share/doc/tar-1.34
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "glibc bzip2 gzip xz zstd acl attr" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

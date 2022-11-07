@@ -1,0 +1,45 @@
+#!/bin/bash
+
+
+URL=https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir -v build
+cd       build
+
+
+../configure                   \
+    --prefix=/usr              \
+    --build=$(../config.guess) \
+    --disable-nls              \
+    --enable-shared            \
+    --enable-gprofng=no        \
+    --disable-werror           \
+    --enable-64-bit-bfd \
+    --enable-multilib \
+
+
+make tooldir=/usr -j16
+
+
+# Install
+sudo make tooldir=/usr install
+rm -fv /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
+
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

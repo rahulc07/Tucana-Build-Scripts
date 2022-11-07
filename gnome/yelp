@@ -1,0 +1,34 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/yelp/42/yelp-42.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure --prefix=/usr --disable-static --with-webkit2gtk-4-0 &&
+make -j16
+
+# Install
+sudo make install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+cd /pkgs
+
+
+sudo echo "gsettings-desktop-schemas webkitgtk yelp-xsl desktop-file-utils gtk-doc" > /pkgs/$PACKAGE/depends
+sudo rm -r /pkgs/$PACKAGE/blfs
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

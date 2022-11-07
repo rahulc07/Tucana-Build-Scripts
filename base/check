@@ -1,0 +1,38 @@
+#!/bin/bash
+URL=https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure --prefix=/usr --disable-static
+
+
+make -j16
+
+
+# Install
+sudo make  docdir=/usr/share/doc/check-0.15.2  DESTDIR=/pkgs/$PACKAGE install
+sudo make  docdir=/usr/share/doc/check-0.15.2  install
+cd /pkgs
+
+
+
+sudo echo "gawk bash" > /pkgs/$PACKAGE/depends
+sudo echo "gawk gcc grep make sed texinfo" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

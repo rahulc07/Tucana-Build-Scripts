@@ -1,0 +1,40 @@
+#!/bin/bash
+URL=https://ftp.gnu.org/gnu/gawk/gawk-5.2.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+sed -i 's/extras//' Makefile.in
+sed -i -i '241i UPREF(m);' interpret.h
+./configure --prefix=/usr
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "bash glibc mpfr" > /pkgs/$PACKAGE/depends
+sudo echo "bash binutils coreutils gcc gettext glibc gmp grep make mpfr patch readline sed texinfo" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

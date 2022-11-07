@@ -1,0 +1,43 @@
+#!/bin/bash
+URL=https://www.freedesktop.org/software/accountsservice/accountsservice-22.08.8.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build
+cd build
+
+meson --prefix=/usr       \
+      --buildtype=release \
+      -Dadmin_group=adm   \
+      ..
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "polkit systemd glib" > /pkgs/$PACKAGE/depends
+sudo echo "polkit systemd gobject-introspection meson ninja" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

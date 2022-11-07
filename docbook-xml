@@ -1,0 +1,132 @@
+#!/bin/bash
+URL=https://www.docbook.org/xml/4.5/docbook-xml-4.5.zip
+ZIP=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $ZIP | sed 's|.zip||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+# Get Package
+
+cd /blfs/builds
+wget $URL
+mkdir -p $DIR
+cd $DIR
+unzip ../$ZIP
+
+# Build
+
+install -v -d -m755 /pkgs/$PACKAGE/usr/share/xml/docbook/xml-dtd-4.5 &&
+install -v -d -m755 /pkgs/$PACKAGE/etc/xml &&
+chown -R root:root . &&
+cp -v -af docbook.cat *.dtd ent/ *.mod \
+    /pkgs/$PACKAGE/usr/share/xml/docbook/xml-dtd-4.5
+
+if [ ! -e /pkgs/$PACKAGE/etc/xml/docbook ]; then
+    xmlcatalog --noout --create /pkgs/$PACKAGE/etc/xml/docbook
+fi &&
+xmlcatalog --noout --add "public" \
+    "-//OASIS//DTD DocBook XML V4.5//EN" \
+    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "public" \
+    "-//OASIS//DTD DocBook XML CALS Table Model V4.5//EN" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5/calstblx.dtd" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "public" \
+    "-//OASIS//DTD XML Exchange Table Model 19990315//EN" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5/soextblx.dtd" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "public" \
+    "-//OASIS//ELEMENTS DocBook XML Information Pool V4.5//EN" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5/dbpoolx.mod" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "public" \
+    "-//OASIS//ELEMENTS DocBook XML Document Hierarchy V4.5//EN" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5/dbhierx.mod" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "public" \
+    "-//OASIS//ELEMENTS DocBook XML HTML Tables V4.5//EN" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5/htmltblx.mod" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "public" \
+    "-//OASIS//ENTITIES DocBook XML Notations V4.5//EN" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5/dbnotnx.mod" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "public" \
+    "-//OASIS//ENTITIES DocBook XML Character Entities V4.5//EN" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5/dbcentx.mod" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "public" \
+    "-//OASIS//ENTITIES DocBook XML Additional General Entities V4.5//EN" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5/dbgenent.mod" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "rewriteSystem" \
+    "http://www.oasis-open.org/docbook/xml/4.5" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5" \
+    /pkgs/$PACKAGE/etc/xml/docbook &&
+xmlcatalog --noout --add "rewriteURI" \
+    "http://www.oasis-open.org/docbook/xml/4.5" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5" \
+    /pkgs/$PACKAGE/etc/xml/docbook
+
+
+if [ ! -e /pkgs/$PACKAGE/etc/xml/catalog ]; then
+    xmlcatalog --noout --create /pkgs/$PACKAGE/etc/xml/catalog
+fi &&
+xmlcatalog --noout --add "delegatePublic" \
+    "-//OASIS//ENTITIES DocBook XML" \
+    "file:////etc/xml/docbook" \
+    /pkgs/$PACKAGE/etc/xml/catalog &&
+xmlcatalog --noout --add "delegatePublic" \
+    "-//OASIS//DTD DocBook XML" \
+    "file:////etc/xml/docbook" \
+    /pkgs/$PACKAGE/etc/xml/catalog &&
+xmlcatalog --noout --add "delegateSystem" \
+    "http://www.oasis-open.org/docbook/" \
+    "file:////etc/xml/docbook" \
+    /pkgs/$PACKAGE/etc/xml/catalog &&
+xmlcatalog --noout --add "delegateURI" \
+    "http://www.oasis-open.org/docbook/" \
+    "file:////etc/xml/docbook" \
+    /pkgs/$PACKAGE/etc/xml/catalog
+
+
+
+for DTDVERSION in 4.1.2 4.2 4.3 4.4
+do
+  xmlcatalog --noout --add "public" \
+    "-//OASIS//DTD DocBook XML V$DTDVERSION//EN" \
+    "http://www.oasis-open.org/docbook/xml/$DTDVERSION/docbookx.dtd" \
+    /pkgs/$PACKAGE/etc/xml/docbook
+  xmlcatalog --noout --add "rewriteSystem" \
+    "http://www.oasis-open.org/docbook/xml/$DTDVERSION" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5" \
+    /pkgs/$PACKAGE/etc/xml/docbook
+  xmlcatalog --noout --add "rewriteURI" \
+    "http://www.oasis-open.org/docbook/xml/$DTDVERSION" \
+    "file:////usr/share/xml/docbook/xml-dtd-4.5" \
+    /pkgs/$PACKAGE/etc/xml/docbook
+  xmlcatalog --noout --add "delegateSystem" \
+    "http://www.oasis-open.org/docbook/xml/$DTDVERSION/" \
+    "file:////etc/xml/docbook" \
+    /pkgs/$PACKAGE/etc/xml/catalog
+  xmlcatalog --noout --add "delegateURI" \
+    "http://www.oasis-open.org/docbook/xml/$DTDVERSION/" \
+    "file:////etc/xml/docbook" \
+    /pkgs/$PACKAGE/etc/xml/catalog
+done
+
+
+cd /pkgs
+
+
+
+sudo echo "libxml2 sgml-common" > /pkgs/$PACKAGE/depends
+sudo echo "libxml2 sgml-common unzip" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

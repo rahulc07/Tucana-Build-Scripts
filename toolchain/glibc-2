@@ -1,0 +1,68 @@
+#!/bin/bash
+
+set -e
+URL=https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://www.linuxfromscratch.org/patches/lfs/11.2/glibc-2.36-fhs-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+patch -Np1 -i ../glibc-2.36-fhs-1.patch
+mkdir -v build
+cd       build
+echo "rootsbindir=/usr/sbin" > configparms
+../configure                             \
+      --prefix=/usr                      \
+      --build=$(../scripts/config.guess) \
+      --enable-kernel=3.2                \
+      --enable-multi-arch                \
+      --with-headers=/usr/include  libc_cv_slibdir=/usr/lib
+
+
+make -j16  --jobserver-style=pipe
+
+
+# Install
+sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
+sudo make install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+
+sed '/RTLDLIST=/s@/usr@@g' -i /usr/bin/ldd
+sed '/RTLDLIST=/s@/usr@@g' -i /pkgs/glibc/usr/bin/ldd
+
+cp -v ../nscd/nscd.conf /etc/nscd.conf
+mkdir -pv /var/cache/nscd
+cp -v ../nscd/nscd.conf /pkgs/glibc/etc/nscd.conf
+mkdir -pv /pkgs/glibc/var/cache/nscd
+
+cat >> /etc/ld.so.conf << "EOF"
+# Add an include directory
+include /etc/ld.so.conf.d/*.conf
+
+EOF
+mkdir -pv /etc/ld.so.conf.d
+
+cat >> /pkgs/glibc/etc/ld.so.conf << "EOF"
+# Add an include directory
+include /etc/ld.so.conf.d/*.conf
+
+EOF
+mkdir -pv /etc/ld.so.conf.d
+cd /pkgs
+sudo echo "linux-api-headers" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

@@ -1,0 +1,41 @@
+#!/bin/bash
+URL=https://download.sourceforge.net/gnu-efi/gnu-efi-3.0.15.tar.bz2
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+  make -j20
+  make -C lib -j20
+  make -C gnuefi -j20
+  make -C inc -j20
+
+make -j16
+
+
+# Install
+sudo make INSTALLROOT=/pkgs/$PACKAGE PREFIX=/usr install
+sudo make PREFIX=/usr install
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

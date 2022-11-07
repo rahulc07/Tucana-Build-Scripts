@@ -1,0 +1,42 @@
+#!/bin/bash
+set -e
+URL=https://github.com/xXTeraXx/Tucana/releases/download/v2.0/mercury-pkg-2.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=mercury
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+# Change install path in Git version, repo is handeled by the install script
+
+# Allow postinstalls to be run
+echo "postinst"
+sed -i 's|#\ bash|bash|g' *
+
+
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/bin
+cp -pv * /pkgs/$PACKAGE/usr/bin
+
+cd /pkgs
+
+
+
+sudo echo "wget bash coreutils" > /pkgs/$PACKAGE/depends
+sudo echo "wget base" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

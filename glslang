@@ -1,0 +1,38 @@
+#!/bin/bash
+URL=https://github.com/KhronosGroup/glslang/archive/refs/tags/11.11.0.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=glslang-11.11.0
+PACKAGE=glslang
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/usr .. -DCMAKE_BUILD_TYPE=Release 
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "gcc" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

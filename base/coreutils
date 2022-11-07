@@ -1,0 +1,50 @@
+#!/bin/bash
+URL=https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget https://www.linuxfromscratch.org/patches/lfs/11.2/coreutils-9.1-i18n-1.patch
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+patch -Np1 -i ../coreutils-9.1-i18n-1.patch
+autoreconf -fiv
+export FORCE_UNSAFE_CONFIGURE=1
+./configure --prefix=/usr                     \
+	--enable-install-program=hostname \
+        --enable-no-install-program=kill,uptime
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+
+mv -v /usr/bin/chroot /usr/sbin
+mv -v /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
+sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8
+
+mv -v /pkgs/coreutils/usr/bin/chroot /pkgs/coreutils/usr/sbin
+mv -v /pkgs/coreutils/usr/share/man/man1/chroot.1 /pkgs/coreutils/usr/share/man/man8/chroot.8
+sed -i 's/"1"/"8"/' /pkgs/coreutils/usr/share/man/man8/chroot.8
+
+cd /pkgs
+
+
+
+sudo echo "gettext glibc gmp grep libcap openssl attr acl" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

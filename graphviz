@@ -1,0 +1,46 @@
+#!/bin/bash
+PKG_VER=6.0.2
+URL=https://gitlab.com/graphviz/graphviz/-/archive/$PKG_VER/graphviz-$PKG_VER.tar.bz2
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac &&
+
+./autogen.sh              &&
+./configure --prefix=/usr \
+            --disable-php \
+            --docdir=/usr/share/doc/graphviz-$PKG_VER
+sed -i "s/0/$(date +%Y%m%d)/" builddate.h
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "pango cairo xorg-libs libjpeg-turbo libpng libtool" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

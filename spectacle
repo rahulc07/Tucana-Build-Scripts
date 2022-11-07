@@ -32,7 +32,7 @@ cd /pkgs
 
 
 
-sudo echo "kf5 kimageannotater" > /pkgs/$PACKAGE/depends
+sudo echo "kf5 kimageannotator" > /pkgs/$PACKAGE/depends
 sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

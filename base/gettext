@@ -1,0 +1,44 @@
+#!/bin/bash
+PKG_VER=0.21.1
+URL=https://ftp.gnu.org/gnu/gettext/gettext-$PKG_VER.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+
+./configure --prefix=/usr    \
+            --disable-static \
+            --docdir=/usr/share/doc/gettext-$PKG_VER
+
+
+make -j20
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+chmod -v 0755 /usr/lib/preloadable_libintl.so
+chmod -v 0755 /pkgs/$PACKAGE/usr/lib/preloadable_libintl.so
+
+sudo echo "acl bash glibc libgcc libunistring" > /pkgs/$PACKAGE/depends
+sudo echo "bash binutils coreutils gawk gcc glibc grep make ncurses sed texinfo" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

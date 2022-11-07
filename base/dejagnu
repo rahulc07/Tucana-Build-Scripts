@@ -1,0 +1,47 @@
+#!/bin/bash
+URL=https://ftp.gnu.org/gnu/dejagnu/dejagnu-1.6.3.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir -v build
+cd       build
+
+../configure --prefix=/usr
+makeinfo --html --no-split -o doc/dejagnu.html ../doc/dejagnu.texi
+makeinfo --plaintext       -o doc/dejagnu.txt  ../doc/dejagnu.texi
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+install -v -dm755  /usr/share/doc/dejagnu-1.6.3
+install -v -m644   doc/dejagnu.{html,txt} /usr/share/doc/dejagnu-1.6.3
+install -v -dm755  /pkgs/dejagnu//usr/share/doc/dejagnu-1.6.3
+install -v -m644   doc/dejagnu.{html,txt} /pkgs/dejagnu/usr/share/doc/dejagnu-1.6.3
+
+
+sudo echo "expect bash" > /pkgs/$PACKAGE/depends
+sudo echo "glibc texinfo  coreutils diffutils expect gcc grep make sed texinfo" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

@@ -1,0 +1,41 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/gnome-online-accounts/3.44/gnome-online-accounts-3.44.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+# These keys are for Tucana only, DO NOT use these for other distros
+./configure --prefix=/usr \
+            --disable-static \
+            --with-google-client-secret=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 \
+            --with-google-client-id=233845737405-3eusr2vavqasdmsg6vesep0lbefhg833.apps.googleusercontent.com
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "gcr json-glib rest vala webkitgtk webkitgtk4.1 webkitgtk5.0 gobject-introspection" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

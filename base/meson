@@ -1,0 +1,40 @@
+#!/bin/bash
+URL=https://github.com/mesonbuild/meson/releases/download/0.63.3/meson-0.63.3.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+pip3 wheel -w dist --no-build-isolation --no-deps $PWD
+
+
+
+
+
+# Install
+# Might have to use --root
+python3 setup.py install --root=/pkgs/$PACKAGE --optimize=1
+install -vDm644 data/shell-completions/bash/meson /pkgs/meson/usr/share/bash-completion/completions/meson
+install -vDm644 data/shell-completions/zsh/_meson /pkgs/meson/usr/share/zsh/site-functions/_meson
+cd /pkgs
+
+
+
+sudo echo "ninja" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+cp -rpv /pkgs/meson/* /
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

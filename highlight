@@ -1,0 +1,44 @@
+#!/bin/bash
+PKG_VER=4.3
+URL=http://www.andre-simon.de/zip/highlight-4.3.tar.bz2
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+ALT_PACKAGE=highlight-gui
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+
+make -j16
+
+# Build GUI
+make doc_dir=/usr/share/doc/highlight-$PKG_VER/ gui
+
+# Install
+sudo make doc_dir=/usr/share/doc/highlight-$PKG_VER/ DESTDIR=/pkgs/$PACKAGE install
+sudo make DESTDIR=/pkgs/$ALT_PACKAGE install-gui
+sudo make install
+sudo make install-gui
+cd /pkgs
+
+
+
+sudo echo "boost lua" > /pkgs/$PACKAGE/depends
+sudo echo "highlight qt5" > /pkgs/$ALT_PACKAGE/depends
+sudo echo "qt5" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo tar -cvzpf $ALT_PACKAGE.tar.xz $ALT_PACKAGE
+sudo cp $ALT_PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

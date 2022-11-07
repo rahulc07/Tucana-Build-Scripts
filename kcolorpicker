@@ -1,5 +1,6 @@
 #!/bin/bash
-URL=https://github.com/ksnip/kColorPicker/archive/refs/tags/v0.2.0.tar.gz
+set -e
+URL=https://github.com/ksnip/kColorPicker/archive/refs/tags/v0.2.0/kColorPicker-0.2.0.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=kColorPicker-0.2.0
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g'  |  tr '[:upper:]' '[:lower:]')

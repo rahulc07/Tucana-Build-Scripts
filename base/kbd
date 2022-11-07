@@ -1,0 +1,44 @@
+#!/bin/bash
+URL=https://www.kernel.org/pub/linux/utils/kbd/kbd-2.5.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://www.linuxfromscratch.org/patches/lfs/development/kbd-2.5.1-backspace-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+patch -Np1 -i ../kbd-2.5.1-backspace-1.patch
+sed -i '/RESIZECONS_PROGS=/s/yes/no/' configure
+sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
+./configure --prefix=/usr --disable-vlock
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+mkdir -pv           /pkgs/$PACKAGE/usr/share/doc/kbd-2.5.1
+cp -R -v docs/doc/* /pkgs/$PACKAGE/usr/share/doc/kbd-2.5.1
+
+cd /pkgs
+
+
+
+sudo echo "bash coreutils glibc" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

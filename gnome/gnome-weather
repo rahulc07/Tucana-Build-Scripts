@@ -1,0 +1,42 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/gnome-weather/43/gnome-weather-43.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build &&
+cd    build &&
+
+
+
+meson --prefix=/usr --buildtype=release .. &&
+
+ninja -j16
+
+
+# Install
+ninja install
+DESTDIR=/pkgs/$PACKAGE ninja install
+cd /pkgs
+
+
+
+sudo echo "libgweather libadwaita gjs libhandy" > /pkgs/$PACKAGE/depends
+sudo rm -r /pkgs/$PACKAGE/blfs
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

@@ -1,0 +1,55 @@
+#!/bin/bash
+URL=https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+ABI="32" \
+CFLAGS="-m32 -O2 -pedantic -fomit-frame-pointer -mtune=generic -march=i686" \
+CXXFLAGS="$CFLAGS" \
+cp -v configfsf.guess config.guess
+cp -v configfsf.sub   config.sub
+
+./configure --prefix=/usr    \
+            --enable-cxx     \
+            --disable-static \
+	    --libdir=/usr/lib32 \
+	    --host=i686-pc-linux-gnu \
+	    --includedir=/usr/include/m32/gmp
+            --docdir=/usr/share/doc/gmp-6.2.1
+sed -i 's/$(exec_prefix)\/include/$\(includedir\)/' Makefile
+make -j16
+
+
+# Install
+
+
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+mkdir -p /pkgs/$PACKAGE/usr/include/m32
+make DESTDIR=$PWD/DESTDIR install
+cp -Rv DESTDIR/usr/include/m32/* /usr/include/m32/
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+
+cd /pkgs
+
+
+
+sudo echo "lib32-glibc gmp lib32-libgcc" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

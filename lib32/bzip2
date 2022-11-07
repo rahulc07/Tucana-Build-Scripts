@@ -1,0 +1,54 @@
+#!/bin/bash
+URL=https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://www.linuxfromscratch.org/patches/lfs/development/bzip2-1.0.8-install_docs-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+sed -e "s/^CC=.*/CC=gcc -m32/" -i Makefile{,-libbz2_so}
+patch -Np1 -i ../bzip2-1.0.8-install_docs-1.patch
+sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
+sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
+make -f Makefile-libbz2_so
+make clean
+
+make -j20
+
+make -j16
+
+
+
+# Install
+
+
+
+install -Dm755 libbz2.so.1.0.8 /pkgs/$PACKAGE/usr/lib32/libbz2.so.1.0.8
+ln -sf libbz2.so.1.0.8 /pkgs/$PACKAGE/usr/lib32/libbz2.so
+ln -sf libbz2.so.1.0.8 /pkgs/$PACKAGE/usr/lib32/libbz2.so.1
+ln -sf libbz2.so.1.0.8 /pkgs/$PACKAGE/usr/lib32/libbz2.so.1.0
+install -Dm644 libbz2.a /pkgs/$PACKAGE/usr/lib32/libbz2.a
+
+cd /pkgs
+
+
+
+sudo echo "bash binutils coreutils diffutils gcc glibc make patch" > /pkgs/$PACKAGE/make-depends
+sudo echo "glibc bzip2" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+cp -rpv /pkgs/$PACKAGE/* /
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

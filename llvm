@@ -1,30 +1,43 @@
 #!/bin/bash
-# Uncomment Glibc patch 
-URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/llvm-14.0.6.src.tar.xz
-TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+PKG_VER=15.0.3
+LLVM_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/llvm-$PKG_VER.src.tar.xz
+CLANG_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/clang-$PKG_VER.src.tar.xz
+COMPILER_RT_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/compiler-rt-$PKG_VER.src.tar.xz
+CMAKE_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/cmake-$PKG_VER.src.tar.xz
+LLVM_TAR=$(echo $LLVM_URL | sed -r 's|(.*)/||')
+CLANG_TAR=$(echo $CLANG_URL | sed -r 's|(.*)/||')
+COMPILER_RT_TAR=$(echo $COMPILER_RT_URL | sed -r 's|(.*)/||')
+CMAKE_TAR=$(echo $CMAKE_URL | sed -r 's|(.*)/||')
+LLVM_DIR=$(echo $LLVM_TAR | sed 's|.tar.*||g')
+CLANG_DIR=$(echo $CLANG_TAR | sed 's|.tar.*||g')
+COMPILER_RT_DIR=$(echo $COMPILER_RT_TAR | sed 's|.tar.*||g')
+PACKAGE=llvm
+PACKAGE2=clang
+PACKAGE3=compiler-rt
 
 # Get Package
 
 cd /blfs/builds
-wget $URL
-wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/clang-14.0.6.src.tar.xz
-wget  https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/compiler-rt-14.0.6.src.tar.xz
-wget https://www.linuxfromscratch.org/patches/blfs/svn/compiler-rt-14.0.6-glibc_2_36-1.patch 
-tar -xvf $TAR
-cd $DIR
+wget $LLVM_URL
+wget $COMPILER_RT_URL
+wget $CLANG_URL
+wget $CMAKE_URL
+wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/clang-ssp.patch
+tar -xvf $LLVM_TAR
+tar -xvf $CMAKE_TAR
+# Needed to ensure that llvm can find cmake
+mv cmake-$PKG_VER.src cmake
+tar -xvf $CLANG_TAR
+tar -xvf $COMPILER_RT_TAR
+cd $LLVM_DIR
 
-# Build
-tar -xf ../clang-14.0.6.src.tar.xz -C tools &&
-mv tools/clang-14.0.6.src tools/clang
-tar -xf ../compiler-rt-14.0.6.src.tar.xz -C projects &&
-mv projects/compiler-rt-14.0.6.src projects/compiler-rt
-
+# Build LLVM Base
 grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
-#patch -Np2 -d projects/compiler-rt <../compiler-rt-14.0.6-glibc_2_36-1.patch
 mkdir build
 cd build
+
+
 CC=gcc CXX=g++                                  \
 cmake -DCMAKE_INSTALL_PREFIX=/usr               \
       -DLLVM_ENABLE_FFI=ON                      \
@@ -35,24 +48,105 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr               \
       -DLLVM_TARGETS_TO_BUILD="host;AMDGPU;BPF" \
       -DLLVM_BINUTILS_INCDIR=/usr/include       \
       -DLLVM_INCLUDE_BENCHMARKS=OFF             \
-      -Wno-dev -G Ninja ..   
+      -Wno-dev -G Ninja ..         
+
+
 
 ninja
 
 
-# Install
+# Install LLVM Base
 sudo  DESTDIR=/pkgs/$PACKAGE ninja install
 sudo ninja install
 cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "glibc" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
 
 cd /blfs/builds
-sudo rm -r $DIR
+
+# Build Clang
+cd $CLANG_DIR
+grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
+
+patch -Np2 < ../clang-ssp.patch
+
+mkdir build
+cd build
 
 
+CC=gcc CXX=g++                                  \
+cmake -DCMAKE_INSTALL_PREFIX=/usr               \
+      -DLLVM_ENABLE_FFI=ON                      \
+      -DCMAKE_BUILD_TYPE=Release                \
+      -DLLVM_BUILD_LLVM_DYLIB=ON                \
+      -DLLVM_ENABLE_RTTI=ON                     \
+      -DLLVM_TARGETS_TO_BUILD="host;AMDGPU;BPF" \
+      -DCLANG_DEFAULT_PIE_ON_LINUX=ON           \
+      -Wno-dev -G Ninja ..
+
+
+
+ninja
+
+
+# Install Clang
+sudo  DESTDIR=/pkgs/$PACKAGE2 ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "glibc gcc gcc llvm" > /pkgs/$PACKAGE2/depends
+sudo tar -cvzpf $PACKAGE2.tar.xz $PACKAGE2
+sudo cp $PACKAGE2.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $CLANG_DIR
+# Build Compiler-RT
+cd $COMPILER_RT_DIR
+grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
+mkdir build
+cd build
+
+
+CC=gcc CXX=g++                                  \
+cmake -DCMAKE_INSTALL_PREFIX=/usr               \
+      -DLLVM_ENABLE_FFI=ON                      \
+      -DCMAKE_BUILD_TYPE=Release                \
+      -DLLVM_BUILD_LLVM_DYLIB=ON                \
+      -DLLVM_LINK_LLVM_DYLIB=ON                 \
+      -DLLVM_ENABLE_RTTI=ON                     \
+      -DLLVM_TARGETS_TO_BUILD="host;AMDGPU;BPF" \
+      -DLLVM_BINUTILS_INCDIR=/usr/include       \
+      -DLLVM_INCLUDE_BENCHMARKS=OFF             \
+      -DCLANG_DEFAULT_PIE_ON_LINUX=ON           \
+      -Wno-dev -G Ninja ..         
+
+
+
+ninja
+
+
+# Install Compiler-RT
+sudo  DESTDIR=/pkgs/$PACKAGE3 ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "libgcc" > /pkgs/$PACKAGE3/depends
+sudo tar -cvzpf $PACKAGE3.tar.xz $PACKAGE3
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $COMPILER_RT_DIR
+sudo rm -r $LLVM_DIR
+# Cleanup cmake modules
+sudo rm -r cmake

@@ -26,7 +26,7 @@ cd /pkgs
 
 
 sudo echo "gtk-update-icon-cache -qtf /usr/share/icons/hicolor" > /pkgs/$PACKAGE/postinst
-sudo echo "harfbuzz gifflib gnutls jansson libtiff imagemagick" > /pkgs/$PACKAGE/depends
+sudo echo "harfbuzz giflib gnutls jansson libtiff imagemagick" > /pkgs/$PACKAGE/depends
 sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

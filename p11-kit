@@ -1,0 +1,52 @@
+#!/bin/bash
+URL=https://github.com/p11-glue/p11-kit/releases/download/0.24.1/p11-kit-0.24.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+sed '20,$ d' -i trust/trust-extract-compat &&
+cat >> trust/trust-extract-compat << "EOF"
+# Copy existing anchor modifications to /etc/ssl/local
+/usr/libexec/make-ca/copy-trust-modifications
+
+# Update trust stores
+/usr/sbin/make-ca -r
+EOF
+
+mkdir p11-build
+cd p11-build
+
+meson --prefix=/usr       \
+      --buildtype=release \
+      -Dtrust_paths=/etc/pki/anchors 
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+ln -sfv /usr/libexec/p11-kit/trust-extract-compat \
+        /pkgs/$PACKAGE/usr/bin/update-ca-certificates
+cd /pkgs
+
+
+
+sudo echo "coreutils systemd" > /pkgs/$PACKAGE/depends
+sudo echo "coreutils systemd meson libffi libtasn1" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

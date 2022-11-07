@@ -1,0 +1,41 @@
+#!/bin/bash
+URL=https://www.x.org/pub/individual/xserver/xwayland-22.1.4.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+sed -i '/install_man/,$d' meson.build
+mkdir build
+cd build
+
+meson --prefix=/usr         \
+      -Dxkb_output_dir=/var/lib/xkb \
+      ..       
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "libxcvt pixman wayland-protocols base-fonts libepoxy libtirpc mesa" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

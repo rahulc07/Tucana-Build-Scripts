@@ -1,0 +1,39 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/gnome-keyring/42/gnome-keyring-42.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=gnome-keyring
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+sed -i 's:"/desktop:"/org:' schema/*.xml &&
+
+./configure --prefix=/usr     \
+            --sysconfdir=/etc &&
+make -j16
+
+
+
+# Install
+make install
+make DESTDIR=/pkgs/$PACKAGE install
+cd /pkgs
+
+
+sudo echo "dbus gcr libxslt gnupg pam" > /pkgs/$PACKAGE/depends
+sudo rm -r /pkgs/$PACKAGE/blfs
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

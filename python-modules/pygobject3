@@ -1,0 +1,43 @@
+#!/bin/bash
+GNOME_MAJOR=43
+GNOME_MINOR=0
+URL=https://download.gnome.org/sources/pygobject/3.42/pygobject-3.42.2.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=pygobject3
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build &&
+cd    build &&
+
+mv -v tests/test_gdbus.py{,.nouse}
+meson --prefix=/usr --buildtype=release ..
+
+
+ninja 
+
+
+# Install
+ninja install
+DESTDIR=/pkgs/$PACKAGE ninja install
+cd /pkgs
+
+
+sudo echo "pycairo gobject-introspection" > /pkgs/$PACKAGE/depends
+sudo rm -rf /pkgs/$PACKAGE/blfs
+sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

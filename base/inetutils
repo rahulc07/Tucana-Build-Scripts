@@ -1,0 +1,48 @@
+#!/bin/bash
+URL=https://ftp.gnu.org/gnu/inetutils/inetutils-2.3.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure --prefix=/usr        \
+            --bindir=/usr/bin    \
+            --localstatedir=/var \
+            --disable-logger     \
+            --disable-whois      \
+            --disable-rcp        \
+            --disable-rexec      \
+            --disable-rlogin     \
+            --disable-rsh        \
+            --disable-servers
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+mkdir -p /pkgs/inetutils/usr/sbin
+mv -v /usr/{,s}bin/ifconfig
+mv -v /pkgs/inetutils/usr/{,s}bin/ifconfig
+
+sudo echo "glibc ncurses readline libgcc iana-etc" > /pkgs/$PACKAGE/depends
+sudo echo "bash binutils coreutils gcc glibc grep make ncurses patch sed texinfo zlib" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

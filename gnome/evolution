@@ -1,0 +1,47 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/evolution/3.46/evolution-3.46.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+mkdir build
+cd build
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DSYSCONF_INSTALL_DIR=/etc  \
+      -DENABLE_INSTALLED_TESTS=ON \
+      -DENABLE_PST_IMPORT=OFF     \
+      -DENABLE_YTNEF=OFF          \
+      -DENABLE_CONTACT_MAPS=OFF   \
+      -DENABLE_MARKDOWN=OFF       \
+      -DWITH_GWEATHER4=ON         \
+      -G Ninja .. 
+
+
+ninja
+
+# Install
+sudo DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "adwaita evolution-data-server gnome-autoar itstool libgdata shared-mime-info webkitgtk enchant gnome-desktop gspell libcanberra libgweather libnotify openldap clutter-gtk geocode-glib highlight" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

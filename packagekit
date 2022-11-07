@@ -1,0 +1,43 @@
+#!/bin/bash
+URL=https://www.freedesktop.org/software/PackageKit/releases/PackageKit-1.2.5.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=packagekit
+set -e
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/packagekit-remove-depend.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+patch -Np1 < ../packagekit-remove-depend.patch
+
+mkdir build
+cd build
+
+meson --prefix=/usr ..
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "sqlite polkit glib2" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

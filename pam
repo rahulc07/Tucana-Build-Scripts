@@ -1,0 +1,112 @@
+#!/bin/bash
+
+# This package does not get installed 
+set -e
+URL=https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=pam
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
+tar -xvf $TAR
+cd $DIR
+
+# Build
+tar -xf ../Linux-PAM-1.5.2-docs.tar.xz --strip-components=1
+./configure --prefix=/usr                        \
+            --sbindir=/usr/sbin                  \
+            --sysconfdir=/etc                    \
+            --libdir=/usr/lib                    \
+            --enable-securedir=/usr/lib/security \
+            --docdir=/usr/share/doc/Linux-PAM-1.5.2 \
+	    --disable-db
+
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+install -v -m755 -d /pkgs/$PACKAGE/etc/pam.d
+
+chmod -v 4755 /pkgs/$PACKAGE/usr/sbin/unix_chkpwd
+
+
+install -vdm755 /etc/pam.d &&
+cat > /pkgs/$PACKAGE/etc/pam.d/system-account << "EOF" &&
+# Begin /etc/pam.d/system-account
+
+account   required    pam_unix.so
+
+# End /etc/pam.d/system-account
+
+EOF
+
+cat > /pkgs/$PACKAGE/etc/pam.d/system-auth << "EOF" &&
+# Begin /etc/pam.d/system-auth
+
+auth      required    pam_unix.so
+
+# End /etc/pam.d/system-auth
+EOF
+
+cat > /pkgs/$PACKAGE/etc/pam.d/system-session << "EOF"
+# Begin /etc/pam.d/system-session
+
+session   required    pam_unix.so
+
+# End /etc/pam.d/system-session
+# Begin Systemd addition
+
+session  required    pam_loginuid.so
+session  optional    pam_systemd.so
+
+# End Systemd addition
+EOF
+cat > /pkgs/$PACKAGE/etc/pam.d/system-password << "EOF"
+# Begin /etc/pam.d/system-password
+
+# use sha512 hash for encryption, use shadow, and try to use any previously
+# defined authentication token (chosen password) set by any prior module
+password  required    pam_unix.so       sha512 shadow try_first_pass
+
+# End /etc/pam.d/system-password
+
+EOF
+
+cat > /pkgs/$PACKAGE/etc/pam.d/other << "EOF"
+# Begin /etc/pam.d/other
+
+auth        required        pam_warn.so
+auth        required        pam_deny.so
+account     required        pam_warn.so
+account     required        pam_deny.so
+password    required        pam_warn.so
+password    required        pam_deny.so
+session     required        pam_warn.so
+session     required        pam_deny.so
+
+# End /etc/pam.d/other
+EOF
+
+
+
+
+cd /pkgs
+
+
+
+sudo echo "glibc libnsl" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

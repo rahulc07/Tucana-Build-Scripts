@@ -1,0 +1,51 @@
+#!/bin/bash
+set -e
+# Last Validated Version 102.4
+VER=102.4.0
+URL=https://archive.mozilla.org/pub/firefox/releases/102.4.0esr/source/firefox-102.4.0esr.source.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=firefox-$VER
+PACKAGE=js102
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://src.fedoraproject.org/rpms/mozjs102/raw/rawhide/f/0001-Python-Build-Use-r-instead-of-rU-file-read-modes.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+# This patch allows the build to work with Python 3.11
+patch -Np1 < ../0001-Python-Build-Use-r-instead-of-rU-file-read-modes.patch
+mkdir obj &&
+cd    obj &&
+
+sh ../js/src/configure.in --prefix=/usr            \
+                          --with-intl-api          \
+                          --with-system-zlib       \
+                          --with-system-icu        \
+                          --disable-jemalloc       \
+                          --disable-debug-symbols  \
+                          --enable-readline    
+make -j20
+
+
+# Install
+
+make DESTDIR=/pkgs/$PACKAGE install
+rm /pkgs/$PACKAGE/usr/lib/*.ajs
+sudo echo "libgcc readline bash zlib" > /pkgs/$PACKAGE/depends
+sudo echo "libgcc readline bash zlib autoconf213 clang llvm python3 rust zip git" > /pkgs/$PACKAGE/depends
+cd /pkgs/$PACKAGE
+sudo rm -rf root blfs
+cd ..
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+sudo cp -rpv /pkgs/$PACKAGE/* /
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

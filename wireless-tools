@@ -1,0 +1,39 @@
+#!/bin/bash
+URL=https://hewlettpackard.github.io/wireless-tools/wireless_tools.29.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=wireless-tools
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget  https://www.linuxfromscratch.org/patches/blfs/svn/wireless_tools-29-fix_iwlist_scanning-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+patch -Np1 -i ../wireless_tools-29-fix_iwlist_scanning-1.patch
+
+
+make -j16
+
+
+# Install
+sudo make PREFIX=/pkgs/$PACKAGE/usr/ INSTALL_MAN=/usr/share/man install
+sudo make PREFIX=/usr INSTALL_MAN=/usr/share/man install
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

@@ -1,0 +1,42 @@
+#!/bin/bash
+# Temporarly on Git because nettool 43 has not been released yet and this links to nautilus
+URL=https://download.gnome.org/sources/gnome-nettool/42/gnome-nettool-42.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://www.linuxfromscratch.org/patches/blfs/svn/gnome-nettool-42.0-ping_and_netstat_fixes-1.patch
+tar -xvf $TAR
+
+cd $DIR
+
+# Build
+sed -i '/merge_file/s/(.*/(/' data/meson.build
+mkdir build &&
+cd    build &&
+
+meson --prefix=/usr --buildtype=release  &&
+
+
+ninja -j16
+
+
+# Install
+ninja install && DESTDIR=/pkgs/$PACKAGE ninja install
+cd /pkgs
+
+
+sudo echo "gtk3 itstool libgtop" > /pkgs/$PACKAGE/depends
+sudo rm -r /pkgs/$PACKAGE/blfs
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

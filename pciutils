@@ -1,0 +1,43 @@
+#!/bin/bash
+URL=https://www.kernel.org/pub/software/utils/pciutils/pciutils-3.8.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+make PREFIX=/usr                \
+     SHAREDIR=/usr/share/hwdata \
+     SHARED=yes
+
+
+# Install
+make PREFIX=/usr                \
+     SHAREDIR=/usr/share/hwdata \
+     SHARED=yes DESTDIR=/pkgs/$PACKAGE                 \
+     install install-lib        &&
+
+chmod -v 755 /pkgs/pciutils/usr/lib/libpci.so
+cd /pkgs
+
+
+
+sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "/usr/sbin/update-pciids" > /pkgs/$PACKAGE/postinst
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+sudo cp -rpv $PACKAGE/* /
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

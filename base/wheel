@@ -1,0 +1,37 @@
+#!/bin/bash
+URL=https://anduin.linuxfromscratch.org/LFS/wheel-0.37.1.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+python3 setup.py build
+
+
+
+
+# Install
+sudo python3 setup.py install --root="/pkgs/$PACKAGE" --optimize=1
+cd /pkgs
+
+
+
+sudo echo "python" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
