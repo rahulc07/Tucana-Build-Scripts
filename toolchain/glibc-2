@@ -43,6 +43,9 @@ mkdir -pv /var/cache/nscd
 cp -v ../nscd/nscd.conf /pkgs/glibc/etc/nscd.conf
 mkdir -pv /pkgs/glibc/var/cache/nscd
 
+install -v -Dm644 ../nscd/nscd.service /pkgs/$PACKAGE/usr/lib/systemd/system/nscd.service
+install -v -Dm644 ../nscd/nscd.service /usr/lib/systemd/system/nscd.service
+
 cat >> /etc/ld.so.conf << "EOF"
 # Add an include directory
 include /etc/ld.so.conf.d/*.conf
