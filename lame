@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz
+URL=https://downloads.sourceforge.net/lame/lame-3.100.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,20 +13,21 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr
+./configure --prefix=/usr --enable-mp3rtp --disable-static
 
 
 make -j16
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo make DESTDIR=/pkgs/$PACKAGE pkghtmldir=/usr/share/doc/lame-3.100 install
+sudo make pkghtmldir=/usr/share/doc/lame-3.100 install
 cd /pkgs
 
 
 
-sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "nasm libsndfile" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

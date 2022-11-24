@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz
+URL=https://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,8 +13,9 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr
+sed -i 's/png_\(sizeof\)/\1/g' examples/png2theora.c 
 
+./configure --prefix=/usr --disable-static
 
 make -j16
 
@@ -26,7 +27,8 @@ cd /pkgs
 
 
 
-sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "libogg libvorbis" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

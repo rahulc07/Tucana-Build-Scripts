@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://github.com/libical/libical/releases/download/v3.0.14/libical-3.0.14.tar.gz
+URL=https://github.com/libical/libical/releases/download/v3.0.16/libical-3.0.16.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,10 +13,8 @@ cd $DIR
 
 # Build
 
-
-mkdir build &&
-cd    build &&
-
+mkdir build
+cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr  \
       -DCMAKE_BUILD_TYPE=Release   \
       -DSHARED_ONLY=yes            \
@@ -24,8 +22,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr  \
       -DGOBJECT_INTROSPECTION=true \
       -DICAL_GLIB_VAPI=true        \
       ..
-
-# Package does not support parralel build
+# Inconsistent faliure with parallel-build
 make -j1
 
 
@@ -36,7 +33,8 @@ cd /pkgs
 
 
 
-sudo echo "gobject-introspection vala icu" > /pkgs/$PACKAGE/depends
+sudo echo "icu libxml2 glib2 berkeley-db glibc" > /pkgs/$PACKAGE/depends
+sudo echo "cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

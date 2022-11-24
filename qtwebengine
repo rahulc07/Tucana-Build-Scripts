@@ -1,8 +1,8 @@
 #!/bin/bash
 PKG_VER=5.15.11
-#URL=https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$PKG_VER.tar.xz
-TAR=qtwebengine-everywhere-src-5.15.11.tar.xz
-DIR=qtwebengine-everywhere-src-5.15.11
+URL=https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$PKG_VER.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=qtwebengine
 export QT5DIR=/usr
 # Get Package
@@ -11,7 +11,7 @@ cd /blfs/builds
 wget  https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$PKG_VER-build_fixes-1.patch
 wget https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$PKG_VER-ffmpeg5_fixes-1.patch
 												
-#wget $URL
+wget $URL
 tar -xvf $TAR
 cd $DIR
 
@@ -30,7 +30,11 @@ find -type f -name "*.pr[io]" |
 
 sed -e '/link_pulseaudio/s/false/true/' \
     -i src/3rdparty/chromium/media/media_options.gni
-    
+
+sed -e 's/\^(?i)/(?i)^/' \
+    -i src/3rdparty/chromium/tools/metrics/ukm/ukm_model.py &&
+sed -e "s/'rU'/'r'/" \
+    -i src/3rdparty/chromium/tools/grit/grit/util.py
     
 sed -i 's/NINJAJOBS/NINJA_JOBS/' src/core/gn_run.pro
 
@@ -44,7 +48,7 @@ make -j16
 
 # Install
 make install 
-make DESTDIR=/pkgs/$PACKAGE install
+make INSTALL_ROOT=/pkgs/$PACKAGE install
 find $QT5DIR/ -name \*.prl \
    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 export QT5DIR=/pkgs/qtwebengine/usr

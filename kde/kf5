@@ -7,8 +7,8 @@
 set -e
 
 
-PKG_VER=5.99.0
-URL=https://download.kde.org/stable/frameworks/5.99/
+PKG_VER=5.100.0
+URL=https://download.kde.org/stable/frameworks/5.100/
 
 # Get Package(s)
 

@@ -7,7 +7,7 @@
 set -e
 
 
-PKG_VER=5.26.2
+PKG_VER=5.26.3
 URL=https://download.kde.org/stable/plasma/$PKG_VER/
 
 # Get Package(s)

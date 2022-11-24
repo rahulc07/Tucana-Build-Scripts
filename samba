@@ -1,0 +1,83 @@
+#!/bin/bash
+URL=https://download.samba.org/pub/samba/stable/samba-4.17.3.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+
+# Credits: Systemd units come from LFS
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+python3 -m venv pyvenv &&
+./pyvenv/bin/pip3 install cryptography pyasn1 iso8601
+
+PYTHON=$PWD/pyvenv/bin/python3             \
+CPPFLAGS="-I/usr/include/tirpc"            \
+LDFLAGS="-ltirpc"                          \
+PATH=$PWD/pyvenv/bin:$PATH                 \
+./configure                                \
+    --prefix=/usr                          \
+    --sysconfdir=/etc                      \
+    --localstatedir=/var                   \
+    --with-piddir=/run/samba               \
+    --with-pammodulesdir=/usr/lib/security \
+    --enable-fhs                           \
+    --without-ad-dc                        \
+    --enable-selftest
+
+
+make -j20
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+
+install -v -m644    examples/smb.conf.default /pkgs/$PACKAGE/etc/samba &&
+
+sed -e "s;log file =.*;log file = /var/log/samba/%m.log;" \
+    -e "s;path = /usr/spool/samba;path = /var/spool/samba;" \
+    -i /pkgs/$PACKAGE/etc/samba/smb.conf.default &&
+
+mkdir -pv /pkgs/$PACKAGE/etc/openldap/schema                        &&
+
+install -v -m644    examples/LDAP/README              \
+                    /pkgs/$PACKAGE/etc/openldap/schema/README.LDAP  &&
+
+install -v -m644    examples/LDAP/samba*              \
+                    /pkgs/$PACKAGE/etc/openldap/schema              &&
+
+install -v -m755    examples/LDAP/{get*,ol*} \
+                    /pkgs/$PACKAGE/etc/openldap/schema
+
+install -dvm 755 /pkgs/$PACKAGE/usr/lib/cups/backend &&
+ln -v -sf /usr/bin/smbspool /pkgs/$PACKAGE/usr/lib/cups/backend/smb
+
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20220720.tar.xz
+tar -xvf blfs-systemd-units-20220720.tar.xz
+cd blfs-systemd-units-20220720
+make DESTDIR=/pkgs/$PACKAGE install-samba
+make DESTDIR=/pkgs/$PACKAGE install-winbindd
+
+
+
+cd /pkgs
+rm -r /pkgs/$PACKAGE/var/run
+cp -rpv samba/* /
+
+sudo echo "gnutls jansson libtirpc lmdb rpcsvc-proto fuse gpgme icu parse-yapp openldap avahi cups-filter cups cyrus-sasl libarchive mitkrb nss popt vala" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

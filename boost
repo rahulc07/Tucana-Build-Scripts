@@ -17,7 +17,6 @@ cd $DIR
 ./b2 stage -j16 threading=multi link=shared
 
 
-make -j16
 
 
 # Install

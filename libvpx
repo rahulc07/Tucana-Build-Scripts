@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz
+URL=https://github.com/webmproject/libvpx/archive/v1.12.0/libvpx-1.12.0.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,8 +13,14 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr
+sed -i 's/cp -p/cp/' build/make/Makefile
 
+mkdir libvpx-build            &&
+cd    libvpx-build            &&
+
+../configure --prefix=/usr    \
+             --enable-shared  \
+             --disable-static
 
 make -j16
 
@@ -26,7 +32,8 @@ cd /pkgs
 
 
 
-sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "which libgcc" > /pkgs/$PACKAGE/depends
+sudo echo "nasm yasm which" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

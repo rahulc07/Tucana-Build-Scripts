@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz
+URL=https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.5.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,8 +13,12 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr
 
+mkdir bld &&
+cd    bld &&
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DGIT_ARCHETYPE=1 ../source 
 
 make -j16
 
@@ -26,7 +30,8 @@ cd /pkgs
 
 
 
-sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

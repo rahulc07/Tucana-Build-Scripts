@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://download.gnome.org/sources/gnome-online-accounts/3.44/gnome-online-accounts-3.44.0.tar.xz
+URL=https://download.gnome.org/sources/gnome-online-accounts/3.45/gnome-online-accounts-3.45.2.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,18 +13,16 @@ cd $DIR
 
 # Build
 # These keys are for Tucana only, DO NOT use these for other distros
-./configure --prefix=/usr \
-            --disable-static \
-            --with-google-client-secret=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 \
-            --with-google-client-id=233845737405-3eusr2vavqasdmsg6vesep0lbefhg833.apps.googleusercontent.com
+mkdir build
+cd build
+meson --prefix=/usr -Dmedia_server=true ..
 
-
-make -j16
+ninja
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
 cd /pkgs
 
 

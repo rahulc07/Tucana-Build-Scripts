@@ -35,7 +35,7 @@ make -j20
 
 make DESTDIR=/pkgs/$PACKAGE install
 rm /pkgs/$PACKAGE/usr/lib/*.ajs
-sudo echo "libgcc readline bash zlib" > /pkgs/$PACKAGE/depends
+sudo echo "libgcc readline bash zlib icu" > /pkgs/$PACKAGE/depends
 sudo echo "libgcc readline bash zlib autoconf213 clang llvm python3 rust zip git" > /pkgs/$PACKAGE/depends
 cd /pkgs/$PACKAGE
 sudo rm -rf root blfs

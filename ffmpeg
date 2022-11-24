@@ -1,0 +1,62 @@
+#!/bin/bash
+URL=https://ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://www.linuxfromscratch.org/patches/blfs/svn/ffmpeg-5.1.2-chromium_method-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+patch -Np1 -i ../ffmpeg-5.1.2-chromium_method-1.patch
+
+sed -i 's/-lflite"/-lflite -lasound"/' configure 
+./configure --prefix=/usr        \
+            --enable-gpl         \
+            --enable-version3    \
+            --enable-nonfree     \
+            --disable-static     \
+            --enable-shared      \
+            --disable-debug      \
+            --enable-libass      \
+            --enable-libfdk-aac  \
+            --enable-libfreetype \
+            --enable-libmp3lame  \
+            --enable-libopus     \
+            --enable-libtheora   \
+            --enable-libvorbis   \
+            --enable-libvpx      \
+            --enable-libx264     \
+            --enable-libx265     \
+            --enable-openssl     \
+            --docdir=/usr/share/doc/ffmpeg
+
+
+make -j16
+gcc tools/qt-faststart.c -o tools/qt-faststart
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+install -v -m755    tools/qt-faststart /pkgs/$PACKAGE/usr/bin &&
+install -v -m755 -d           /pkgs/$PACKAGE/usr/share/doc/ffmpeg &&
+install -v -m644    doc/*.txt /pkgs/$PACKAGE/usr/share/doc/ffmpeg
+cd /pkgs
+
+
+
+sudo echo "libass fdk-aac freetype2 lame libtheora libvorbis libvpx opus x264 x265 nasm yasm alsa-lib libva libvdpau sdl2 fontconfig fribidi" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

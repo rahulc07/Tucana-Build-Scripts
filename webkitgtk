@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-URL=https://webkitgtk.org/releases/webkitgtk-2.38.1.tar.xz
+URL=https://webkitgtk.org/releases/webkitgtk-2.38.2.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -15,6 +15,9 @@ cd $DIR
 # Build
 export CFLAGS+=' -g1'
 export CXXFLAGS+=' -g1'
+export CC=clang
+export CXX=clang++
+
 
 mkdir build &&
 cd    build &&
@@ -41,6 +44,12 @@ ninja install
 DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
+
+#Strip binaries
+pushd .
+cd /pkgs/$PACKAGE/usr/lib
+strip $(file * | grep ELF | sed 's/:.*//')
+popd
 
 sudo echo "cairo woff2 gst-plugins-base gst-plugins-bad gtk3 icu lcms libgudev libsecret libsoup libwebp mesa openjpeg ruby sqlite which wpebackend-foo enchant geoclue gobject-introspection hicolor-icons libnotify wayland" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE

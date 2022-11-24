@@ -1,10 +1,10 @@
 #!/bin/bash
 GNOME_MAJOR=43
 GNOME_MINOR=0
-URL=https://download.gnome.org/sources/vte/0.70/vte-0.70.0.tar.xz
+URL=https://download.gnome.org/sources/vte/0.70/vte-0.70.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')4
 
 # Get Package
 
@@ -18,7 +18,7 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr --buildtype=release -Dfribidi=false ..
+meson --prefix=/usr --buildtype=release -Dfribidi=false .. -Dgtk4=true
 
 ninja 
 

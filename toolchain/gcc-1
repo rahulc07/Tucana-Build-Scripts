@@ -65,7 +65,7 @@ cd       build
     --enable-languages=c,c++ \
     --disable-bootstrap \
 
-make -j16
+make -j20
 
 
 # Install
