@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.6.tar.gz
+URL=https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.7.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

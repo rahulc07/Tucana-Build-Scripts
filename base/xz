@@ -1,6 +1,6 @@
 #!/bin/bash
-PKG_VER=5.2.7
-URL=https://tukaani.org/xz/xz-5.2.7.tar.xz
+PKG_VER=5.2.8
+URL=https://tukaani.org/xz/xz-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

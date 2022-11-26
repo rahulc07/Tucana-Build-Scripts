@@ -48,7 +48,7 @@ install -v -m755 -d           /pkgs/$PACKAGE/usr/share/doc/ffmpeg &&
 install -v -m644    doc/*.txt /pkgs/$PACKAGE/usr/share/doc/ffmpeg
 cd /pkgs
 
-
+sudo cp -rpv $PACKAGE/* /
 
 sudo echo "libass fdk-aac freetype2 lame libtheora libvorbis libvpx opus x264 x265 nasm yasm alsa-lib libva libvdpau sdl2 fontconfig fribidi" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends

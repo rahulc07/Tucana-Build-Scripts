@@ -18,7 +18,7 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr --buildtype=release -Dlibportal=false ..
+meson --prefix=/usr --buildtype=release ..
 
 ninja -j16
 

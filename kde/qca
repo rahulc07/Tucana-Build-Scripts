@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://github.com/gavinhoward/bc/releases/download/6.1.1/bc-6.1.1.tar.xz
+URL=https://download.kde.org/stable/qca/2.3.5/qca-2.3.5.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,7 +13,17 @@ cd $DIR
 
 # Build
 
-CC=gcc ./configure --prefix=/usr -G -O3 -r
+
+
+mkdir build
+cd build
+
+
+cmake -DCMAKE_INSTALL_PREFIX=$QT5DIR            \
+      -DCMAKE_BUILD_TYPE=Release                \
+      -DQCA_MAN_INSTALL_DIR:PATH=/usr/share/man \
+      ..
+
 
 
 make -j16

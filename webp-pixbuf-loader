@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://pypi.org/packages/source/w/wheel/wheel-0.38.4.tar.gz
+URL=https://github.com/aruiz/webp-pixbuf-loader/archive/0.0.7/webp-pixbuf-loader-0.0.7.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,20 +13,23 @@ cd $DIR
 
 # Build
 
+mkdir build
+cd build
 
-python3 setup.py build
+meson --prefix=/usr ..
 
-
+ninja
 
 
 # Install
-sudo python3 setup.py install --root="/pkgs/$PACKAGE" --optimize=1
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
 cd /pkgs
 
 
 
-sudo echo "python" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "gdk-pixbuf libwebp" > /pkgs/$PACKAGE/depends
+sudo echo "gdk-pixbuf-query-loaders --update-cache" > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

@@ -1,8 +1,9 @@
 #!/bin/bash
-URL=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.0.7.tar.xz
+URL=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.0.9.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 KERNEL_VERSION=$(echo $DIR | sed 's/linux-//')
+set -e
 
 cd /usr/src
 
@@ -35,4 +36,15 @@ mkdir -p ../linux-tucana-headers/usr/src
 cd ..
 sudo cp -rpv $DIR linux-tucana-headers/usr/src
 
+# Package
+cd /usr/src
+mv linux-tucana /pkgs
+mv linux-tucana-headers /pkgs
+echo "" > /pkgs/linux-tucana/depend
+echo "linux-tucana rsync" > /pkgs/linux-tucana-headers/depend
+cd /pkgs
+tar -cvzpf linux-tucana.tar.xz linux-tucana
+tar -cvzpf linux-tucana-headers.tar.xz linux-tucana-headers
 
+cp linux-tucana.tar.xz /finished
+cp linux-tucana-headers.tar.xz /finished

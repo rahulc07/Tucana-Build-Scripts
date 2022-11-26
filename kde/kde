@@ -27,7 +27,6 @@ wget -r -nH -nd -A '*.xz' -np $URL
 
 # Set build order
 
-# For 5.26.2 it is kwin.1
 echo " kdecoration-$PKG_VER.tar.xz
  libkscreen-$PKG_VER.tar.xz
  libksysguard-$PKG_VER.tar.xz
@@ -37,7 +36,7 @@ echo " kdecoration-$PKG_VER.tar.xz
  kscreenlocker-$PKG_VER.tar.xz
  oxygen-$PKG_VER.tar.xz
  kinfocenter-$PKG_VER.tar.xz
- kwin-$PKG_VER.1.tar.xz
+ kwin-$PKG_VER.tar.xz
  plasma-workspace-$PKG_VER.tar.xz
  plasma-disks-$PKG_VER.tar.xz
  bluedevil-$PKG_VER.tar.xz

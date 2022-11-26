@@ -1,33 +1,30 @@
-linux-api-headers
-glibc-1
-lib32-glibc-1 # if you do not have this package installed or avaliable, look below
-binutils-1
-gcc-1
-gmp
-mpc
-mpfr 
-gcc-2 # This step ensures that Glibc will be built with a fully fledged compiler
-# Everything from this point ends up in the repos
-glibc-2
-lib32-glibc-2
-binutils-2
-gcc-3
-
-No lib32-glibc:::::
-
-linux-api-headers
-glibc-1
-binutils-1
-gcc-1
-lib32-glibc-1
-gmp
-mpc
-mpfr 
-gcc-2 # This step ensures that Glibc will be built with a fully fledged compiler
-# Everything from this point ends up in the repos
-glibc-2
-lib32-glibc-2
-binutils-2
-gcc-3
+# Complete toolchain rebuild (when glibc updates)
+# You must have a 32 bit compiler on the system BEFORE starting, meaning Tucana 2.0 or higher
 
 
+# Instructions for updating and frequency
+
+# Linux API Headers - Rebuild just the toolchain, only update after glibc release or new change to the ABI
+# Glibc - Rebuild the entire toolchain, push to unstable(weekly) branch, recompile all packages by the next full release.
+# GCC - Updating only gcc should be fine
+
+
+# Stage 1, preliminary builds, mostly for updating glibc
+bash linux-api-headers
+bash binutils-1
+bash gcc-1
+bash glibc-1
+bash lib32-glibc-1
+
+# Stage 2 fully featured compiler and libraries, some are built a 3rd time to include even more features
+# Build GCC Depends again (not really needed but whatever)
+bash gmp
+bash mpfr
+bash mpc
+bash binutils-2
+bash gcc-2
+bash glibc-2
+bash lib32-glibc-2
+
+# Stage 3, rebuild GCC with more compilers and optimizations
+bash gcc-3

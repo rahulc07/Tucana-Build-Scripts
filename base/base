@@ -164,6 +164,15 @@ PRETTY_NAME="Tucana GNU/Linux 2.0"
 VERSION_CODENAME="Rahul Chandra"
 EOF
 
+cat > /pkgs/$PACKAGE/etc/shells << "EOF"
+cat > /etc/shells << "EOF"
+# A list of shells on the system
+
+/bin/sh
+/bin/bash
+
+EOF
+
 
 # Install
 

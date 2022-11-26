@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://sourceforge.net/projects/procps-ng/files/Production/procps-ng-4.0.0.tar.xz
+URL=https://sourceforge.net/projects/procps-ng/files/Production/procps-ng-4.0.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

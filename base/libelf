@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://sourceware.org/ftp/elfutils/0.187/elfutils-0.187.tar.bz2
+URL=https://sourceware.org/ftp/elfutils/0.188/elfutils-0.188.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=libelf
