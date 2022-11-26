@@ -3,7 +3,8 @@
 
 # This script is different from the other scripts, it does not use  a seperate file  for every package
 # It uses a for loop to compile into packages, do not modify this unless you know what you are doing
-
+# Credits:
+# LFS for the build order and method for doing this
 set -e
 
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://wayland.freedesktop.org/releases/wayland-protocols-1.26.tar.xz
+URL=https://wayland.freedesktop.org/releases/wayland-protocols-1.30.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
