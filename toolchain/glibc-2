@@ -2,9 +2,12 @@
 
 set -e
 URL=https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
+# Not actually a seperate package just the time zone info
+ALT_URL=https://data.iana.org/time-zones/releases/tzdata2022g.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
 
 # Get Package
 
@@ -32,33 +35,48 @@ make -j16  --jobserver-style=pipe
 
 # Install
 sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
-sudo make install
+# This is NOT installed on the host system, use mercury-update to update this package
+#sudo make install
+# Assuming that the host system already has its timezone info
 sudo make DESTDIR=/pkgs/$PACKAGE install
+# Time zone stuff
+tar -xvf ../../tzdata*.tar.gz
+mkdir -pv /pkgs/$PACKAGE/usr/share/zoneinfo/{posix,right}
 
-sed '/RTLDLIST=/s@/usr@@g' -i /usr/bin/ldd
-sed '/RTLDLIST=/s@/usr@@g' -i /pkgs/glibc/usr/bin/ldd
 
-cp -v ../nscd/nscd.conf /etc/nscd.conf
-mkdir -pv /var/cache/nscd
-cp -v ../nscd/nscd.conf /pkgs/glibc/etc/nscd.conf
-mkdir -pv /pkgs/glibc/var/cache/nscd
+for tz in etcetera southamerica northamerica europe africa antarctica  \
+          asia australasia backward pacificnew systemv; do
+    zic -L /dev/null   -d /pkgs/$PACKAGE/usr/share/zoneinfo       -y "sh yearistype.sh" ${tz}
+    zic -L /dev/null   -d /pkgs/$PACKAGE/usr/share/zoneinfo/posix -y "sh yearistype.sh" ${tz}
+    zic -L leapseconds -d /pkgs/$PACKAGE/usr/share/zoneinfo/right -y "sh yearistype.sh" ${tz}
+done
 
+cp -v zone.tab zone1970.tab iso3166.tab /pkgs/$PACKAGE/usr/share/zoneinfo
+# This is for daylight savings **sigh**... if the Sunshine Protection act passes, this will need to be changed... remind me then.
+zic -d /pkgs/$PACKAGE/usr/share/zoneinfo -p America/New_York
+
+
+# Fix bug in ldd script
+sed '/RTLDLIST=/s@/usr@@g' -i /pkgs/$PACKAGES/usr/bin/ldd
+
+# Install the NSCD conf files
+cp -v ../nscd/nscd.conf /pkgs/$PACKAGE/etc/nscd.conf
+mkdir -pv /pkgs/$PACKAGE/var/cache/nscd
+# Install the system service
 install -v -Dm644 ../nscd/nscd.service /pkgs/$PACKAGE/usr/lib/systemd/system/nscd.service
-install -v -Dm644 ../nscd/nscd.service /usr/lib/systemd/system/nscd.service
 
-cat >> /etc/ld.so.conf << "EOF"
+
+# ld.so.conf
+cat >> /pkgs/$PACKAGE/etc/ld.so.conf << "EOF"
 # Add an include directory
 include /etc/ld.so.conf.d/*.conf
 
 EOF
-mkdir -pv /etc/ld.so.conf.d
 
-cat >> /pkgs/glibc/etc/ld.so.conf << "EOF"
-# Add an include directory
-include /etc/ld.so.conf.d/*.conf
+mkdir -p /pkgs/$PACKAGE/etc/ld.so.conf.d
 
-EOF
-mkdir -pv /etc/ld.so.conf.d
+
+# Final pakcage
 cd /pkgs
 sudo echo "linux-api-headers" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
