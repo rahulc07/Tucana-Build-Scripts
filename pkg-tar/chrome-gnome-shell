@@ -1,0 +1,22 @@
+#!/bin/bash
+# Using git, there might be other submodules later
+URL=https://gitlab.gnome.org/GNOME/gnome-browser-connector.git
+# If it's a frequently updated git repo without a set version, title it with the tucana version in the for t[version] no minor versions, just append to the major eg 1.1=t11
+TAR_FINAL=chrome-gnome-shell.tar.xz
+# master?
+COMMIT=a844076a26eb015c125fc28fe1b292c068396b19
+# Don't touch
+DIR=$(echo $URL | sed -r 's|(.*)/||' | sed 's/.git//')
+
+cd /blfs/builds
+
+git clone $URL
+cd  $DIR
+git checkout $COMMIT
+cd ..
+mv $DIR $(echo $TAR_FINAL | sed 's/.tar.xz//')
+tar -cvpf $TAR_FINAL $(echo $TAR_FINAL | sed 's/.tar.xz//')
+
+
+
+
