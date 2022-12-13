@@ -3,6 +3,7 @@ URL=https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
 
 # Get Package
 
@@ -27,13 +28,9 @@ make -j16
 sudo make DESTDIR=/pkgs/$PACKAGE install
 sudo make install
 
+mkdir -p /pkgs/coreutils/usr/sbin
 mv -v /usr/bin/chroot /usr/sbin
-mv -v /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
-sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8
-
 mv -v /pkgs/coreutils/usr/bin/chroot /pkgs/coreutils/usr/sbin
-mv -v /pkgs/coreutils/usr/share/man/man1/chroot.1 /pkgs/coreutils/usr/share/man/man8/chroot.8
-sed -i 's/"1"/"8"/' /pkgs/coreutils/usr/share/man/man8/chroot.8
 
 cd /pkgs
 

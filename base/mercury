@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
-URL=https://github.com/xXTeraXx/Tucana/releases/download/v2.0/mercury-pkg-2.0.tar.xz
-TAR=$(echo $URL | sed -r 's|(.*)/||')
+# To update change the commit in pkg-tar
+#URL=https://github.com/xXTeraXx/Tucana/releases/download/v2.0/mercury-pkg-2.0.tar.xz
+TAR=mercury.tar.xz
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=mercury
 
 # Get Package
-
+bash pkg-tar/mercury
 cd /blfs/builds
-wget $URL
 tar -xvf $TAR
 cd $DIR
 
@@ -21,6 +21,8 @@ cd $DIR
 echo "postinst"
 sed -i 's|#\ bash|bash|g' *
 
+#Change install location
+sed -i 's|INSTALL_PATH=.*|INSTALL_PATH=/|' *
 
 # Install
 mkdir -p /pkgs/$PACKAGE/usr/bin

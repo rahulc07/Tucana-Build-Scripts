@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://archive.mesa3d.org/mesa-22.2.4.tar.xz
+URL=https://archive.mesa3d.org/mesa-22.3.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

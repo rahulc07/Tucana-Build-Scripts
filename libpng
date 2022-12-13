@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER=1.6.38
+PKG_VER=1.6.39
 URL=https://downloads.sourceforge.net/libpng/libpng-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

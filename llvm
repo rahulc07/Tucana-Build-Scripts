@@ -23,6 +23,7 @@ wget $LLVM_URL
 wget $COMPILER_RT_URL
 wget $CLANG_URL
 wget $CMAKE_URL
+# Credit for this patch goes to archlinux
 wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/clang-ssp.patch
 tar -xvf $LLVM_TAR
 tar -xvf $CMAKE_TAR

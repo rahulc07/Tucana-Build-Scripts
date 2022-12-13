@@ -83,7 +83,7 @@ mv /pkgs/$PACKAGE/usr/lib/libgcc_s.so* /pkgs/$ALT_PACKAGE/usr/lib
 mv /pkgs/$PACKAGE/usr/lib/libgomp.so* /pkgs/$ALT_PACKAGE/usr/lib
 
 #LibGO
-#mv /pkgs/$PACKAGE/usr/lib/libgo.so* /pkgs/$ALT_PACKAGE/usr/lib
+mv /pkgs/$PACKAGE/usr/lib/libgo.so* /pkgs/$ALT_PACKAGE/usr/lib
 
 #Libquadmath
 mv /pkgs/$PACKAGE/usr/lib/libquadmath.so* /pkgs/$ALT_PACKAGE/usr/lib

@@ -1,12 +1,13 @@
 #!/bin/bash
-URL=https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.20.3.tar.xz
+PKG_VER=1.20.4
+URL=https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
-cd /blfs/day22
+cd /blfs/builds
 wget $URL
 tar -xvf $TAR
 cd $DIR
@@ -20,24 +21,25 @@ cd    build &&
 meson  --prefix=/usr       \
        --buildtype=release \
        -Dgst_debug=false   \
-       -Dpackage-name="GStreamer 1.20.3 Tucana" &&
+       -Dpackage-name="GStreamer $PKG_VER For Tucana" &&
 
 
 ninja
 
 
 # Install
-sudo porg -lp $PACKAGE "ninja install"
+DESTDIR=/pkgs/$PACKAGE ninja install
+ninja install
 cd /pkgs
-sudo ./dir.sh $PACKAGE
+
 
 sudo echo "rm -rf /usr/bin/gst-* /usr/{lib,libexec}/gstreamer-1.0" > /pkgs/$PACKAGE/prerm
 sudo echo "rm -rf /usr/bin/gst-* /usr/{lib,libexec}/gstreamer-1.0" > /pkgs/$PACKAGE/preupdate
 sudo echo "glib gobject-introspection" > /pkgs/$PACKAGE/depends
-sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
 
-cd /blfs/day22
+cd /blfs/builds
 sudo rm -r $DIR
 

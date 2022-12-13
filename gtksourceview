@@ -6,7 +6,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
-cd /blfs/day18/gnome
+cd /blfs/builds
 wget $URL
 tar -xvf $TAR
 cd $DIR
@@ -24,18 +24,17 @@ ninja -j16
 
 
 # Install
-sudo porg -lp $PACKAGE "ninja install"
-cd /gnome
-sudo ./dir.sh $PACKAGE
+ninja install && DESTDIR=/pkgs/$PACKAGE ninja install
+cd /pkgs
 
 
-sudo echo "gtk4 pcre2 gobject-introspection vala gtk-doc" > /pkgs/gnome42/$PACKAGE/depends
-sudo rm -r /pkgs/gnome42/$PACKAGE/blfs
-sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
-sudo cp $PACKAGE.tar.xz /finished/gnome42
+sudo echo "gtk4 pcre2 libxml2 vala" > /pkgs/$PACKAGE/depends
+sudo rm -r /pkgs/$PACKAGE/blfs
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
 
 
-cd /blfs/day18/gnome
+cd /blfs/builds
 sudo rm -r $DIR
 
 

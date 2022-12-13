@@ -20,13 +20,13 @@ make -j16
 
 
 # Install
-sudo porg -lp $PACKAGE "make install"
+make DESTDIR=/pkgs/$PACKAGE install
+make install
 cd /pkgs
-sudo ./dir.sh $PACKAGE
 
 
 sudo echo "gtk3 libxfce4 libxfce4util" > /pkgs/$PACKAGE/depends
-sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo tar -czvpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
 

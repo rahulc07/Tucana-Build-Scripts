@@ -1,45 +1,45 @@
 #!/bin/bash
-URL=https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.19/upower-v0.99.19.tar.bz2
+URL=https://gitlab.freedesktop.org/upower/upower/-/archive/v1.90.0/upower-v1.90.0.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
-cd /blfs/day18/gnome
+cd /blfs/builds
 wget $URL
 tar -xvf $TAR
 cd $DIR
 
 # Build
+sed '/parse_version/d' -i src/linux/integration-test.py
 
 mkdir build &&
 cd    build &&
 
 meson --prefix=/usr       \
       --buildtype=release \
-      -Dgtk-doc=false     \
-      -Dman=false         \
+      -Dgtk-doc=true     \
+      -Dman=true         \
       ..                   && 
 
 
-ninja -j16
+ninja
 
 
 # Install
-sudo porg -lp $PACKAGE "LC_ALL=C ninja install"
-cd /gnome
-sudo ./dir.sh $PACKAGE
+ninja install && DESTDIR=/pkgs/$PACKAGE ninja install
+cd /pkgs
 
 
-sudo echo "libgudev libusb polkit gobject-introspection" > /pkgs/gnome42/$PACKAGE/depends
-sudo echo "systemctl enable upower" > /pkgs/gnome42/$PACKAGE/postinst
-sudo rm -r /pkgs/gnome42/$PACKAGE/blfs
-sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
-sudo cp $PACKAGE.tar.xz /finished/gnome42
+sudo echo "libgudev libusb polkit gobject-introspection" > /pkgs/$PACKAGE/depends
+sudo echo "systemctl enable upower" > /pkgs/$PACKAGE/postinst
+sudo rm -r /pkgs/$PACKAGE/blfs
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
 
 
-cd /blfs/day18/gnome
+cd /blfs/builds
 sudo rm -r $DIR
 
 

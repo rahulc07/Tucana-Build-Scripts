@@ -26,8 +26,8 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
-sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo echo "ncurses" > /pkgs/$PACKAGE/depends
+sudo tar -czvpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
 

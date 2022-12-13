@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://ftp.gnu.org/gnu/emacs/emacs-28.1.tar.xz
+URL=https://ftp.gnu.org/gnu/emacs/emacs-28.2.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -27,7 +27,7 @@ cd /pkgs
 
 sudo echo "gtk-update-icon-cache -qtf /usr/share/icons/hicolor" > /pkgs/$PACKAGE/postinst
 sudo echo "harfbuzz giflib gnutls jansson libtiff imagemagick" > /pkgs/$PACKAGE/depends
-sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo tar -czvpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
 

@@ -13,6 +13,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
+wget $ALT_URL
 wget https://www.linuxfromscratch.org/patches/lfs/11.2/glibc-2.36-fhs-1.patch
 tar -xvf $TAR
 cd $DIR
@@ -45,10 +46,10 @@ mkdir -pv /pkgs/$PACKAGE/usr/share/zoneinfo/{posix,right}
 
 
 for tz in etcetera southamerica northamerica europe africa antarctica  \
-          asia australasia backward pacificnew systemv; do
-    zic -L /dev/null   -d /pkgs/$PACKAGE/usr/share/zoneinfo       -y "sh yearistype.sh" ${tz}
-    zic -L /dev/null   -d /pkgs/$PACKAGE/usr/share/zoneinfo/posix -y "sh yearistype.sh" ${tz}
-    zic -L leapseconds -d /pkgs/$PACKAGE/usr/share/zoneinfo/right -y "sh yearistype.sh" ${tz}
+          asia australasia backward; do
+    zic -L /dev/null   -d /pkgs/$PACKAGE/usr/share/zoneinfo       ${tz}
+    zic -L /dev/null   -d /pkgs/$PACKAGE/usr/share/zoneinfo/posix ${tz}
+    zic -L leapseconds -d /pkgs/$PACKAGE/usr/share/zoneinfo/right ${tz}
 done
 
 cp -v zone.tab zone1970.tab iso3166.tab /pkgs/$PACKAGE/usr/share/zoneinfo
@@ -57,7 +58,7 @@ zic -d /pkgs/$PACKAGE/usr/share/zoneinfo -p America/New_York
 
 
 # Fix bug in ldd script
-sed '/RTLDLIST=/s@/usr@@g' -i /pkgs/$PACKAGES/usr/bin/ldd
+sed '/RTLDLIST=/s@/usr@@g' -i /pkgs/$PACKAGE/usr/bin/ldd
 
 # Install the NSCD conf files
 cp -v ../nscd/nscd.conf /pkgs/$PACKAGE/etc/nscd.conf
