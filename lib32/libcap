@@ -15,8 +15,7 @@ cd $DIR
 
 sed -i '/install -m.*STA/d' libcap/Makefile
 
-export CC="gcc -m32 -march=i686"
-make  prefix=/usr lib=lib32 -j16
+make  prefix=/usr CC="gcc -m32" lib=lib32 -j16
 
 
 # Install
@@ -31,7 +30,7 @@ cd /pkgs
 
 
 
-sudo echo "attr bash binutils coreutils gcc glibc perl make sed" > /pkgs/$PACKAGE/depends
+sudo echo "lib32-glibc libcap" > /pkgs/$PACKAGE/depends
 sudo echo "glibc" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

@@ -1,0 +1,51 @@
+#!/bin/bash
+URL=https://dl.winehq.org/wine/source/7.x/wine-7.22.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=wine
+
+# Get Package
+set -e
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build Wine 64
+mkdir wine-64
+mkdir wine-32
+
+cd wine-64 
+../configure --prefix=/usr --enable-win64 --with-x
+make -j22
+
+cd ../wine-32
+../configure --prefix=/usr --libdir=/usr/lib32/ --with-wine64=../wine-64 --with-x
+make -j22
+
+
+
+
+
+
+
+
+# Install Wine32
+sudo make DESTDIR=/pkgs/$PACKAGE install
+unset PKG_CONFIG_PATH
+
+
+cd /pkgs
+
+
+
+sudo echo "FIXME" > /pkgs/$PACKAGE/depends
+sudo echo "x86_64-w64-mingw32 i686-w64-mingw32 lib32-glibc lib32-xorg-libs xorg-libs lib32-gnutls make-ca" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

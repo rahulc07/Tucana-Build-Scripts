@@ -1,0 +1,40 @@
+#!/bin/bash
+URL=https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/sdk-1.3.231.1/spirv-headers-1.3.231.1.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=SPIRV-Headers-sdk-1.3.231.1
+PACKAGE=spirv-headers
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build-1
+cd build-1
+cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

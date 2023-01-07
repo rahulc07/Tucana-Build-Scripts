@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://download.qemu-project.org/qemu-7.1.0.tar.xz
+URL=https://download.qemu-project.org/qemu-7.2.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -24,10 +24,9 @@ cd        build &&
              --audio-drv-list=pa       \
              --disable-vnc-sasl \
              --disable-vte \
-             --docdir=/usr/share/doc/qemu-7.0.0
 
 
-make -j16
+make -j20
 
 
 # Install

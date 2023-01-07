@@ -77,7 +77,7 @@ EOF
 
 # Usually there would be a modification to the pam,d system-sessions file, that is done during the pam build
 
-cat > /pkgs/systemd/etc/pam.d/systemd-user << "EOF"
+cat > /pkgs/$PACKAGE/etc/pam.d/systemd-user << "EOF"
 # Begin /etc/pam.d/systemd-user
 
 account  required    pam_access.so
@@ -96,11 +96,12 @@ password required    pam_deny.so
 # End /etc/pam.d/systemd-user
 EOF
 
+# Needed for steam to run
+ln -s /pkgs/$PACKAGE/usr/lib/libudev.so.1 /pkgs/$PACKAGE/usr/lib/libudev.so.0
 
 
 sudo echo "pam glibc util-linux libcap acl attr libidn2 libseccomp iptables dbus libgcrypt p11-kit" > /pkgs/$PACKAGE/depends
 sudo echo "pam glibc util-linux libcap acl attr gnu-efi" > /pkgs/$PACKAGE/make-depends
-sudo echo "systemd-machine-id-setup" > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

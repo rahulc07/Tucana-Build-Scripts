@@ -17,7 +17,7 @@ make -f unix/Makefile generic_gcc -j20
 
 
 # Install
-make prefix=/pkgs/$PACKAGE/zip/usr MANDIR=/usr/share/man/man1 -f unix/Makefile install
+make prefix=/pkgs/$PACKAGE/usr MANDIR=/usr/share/man/man1 -f unix/Makefile install
 make prefix=/usr MANDIR=/usr/share/man/man1 -f unix/Makefile install
 cd /pkgs
 

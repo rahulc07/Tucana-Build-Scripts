@@ -26,7 +26,7 @@ cd /pkgs
 
 sudo cp -rpv /pkgs/$PACKAGE/* /
 
-sudo echo "python3 python-flit-core" > /pkgs/$PACKAGE/depends
+sudo echo "python python-flit-core" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

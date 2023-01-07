@@ -1,0 +1,69 @@
+#!/bin/bash
+URL=https://archive.mesa3d.org/mesa-22.3.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+export CC+="gcc -m32" 
+export CXX+="g++ -m32"
+export CFLAGS="-g1 -O2"
+export CXXFLAGS="-g1 -O2"
+export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+
+
+mkdir build
+cd build
+
+  cat >crossfile.ini <<END
+[binaries]
+llvm-config = '/usr/bin/llvm-config32'
+END
+
+meson --prefix=/usr    --native-file crossfile.ini \
+      --buildtype=release     \
+      -Dplatforms=x11,wayland \
+      -Dgallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,iris,crocus,zink,d3d12,i915  \
+      -Dglx=dri               \
+      -Dgallium-nine=true \
+      -Dvalgrind=disabled     \
+      -Dlibunwind=disabled    \
+      -Dvulkan-drivers=amd,intel,swrast \
+      -Dvulkan-layers=device-select,intel-nullhw,overlay \
+      -Dosmesa=true \
+       --libdir=/usr/lib32 \
+      ..             
+
+
+ninja
+
+
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+mkdir -p /pkgs/$PACKAGE/usr/share/vulkan/icd.d
+DESTDIR=$PWD/DESTDIR ninja install
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+cp -Rv DESTDIR/usr/share/vulkan/icd.d/* /pkgs/$PACKAGE/usr/share/vulkan/icd.d
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+cd /pkgs
+
+
+
+sudo echo "lib32-llvm lib32-libvdpau lib32-libdrm mako lib32-xorg-libs lib32-libvulkan mesa" > /pkgs/$PACKAGE/depends
+sudo echo "libva llvm libvdpau libdrm mako xorg-libs glslang meson lm-sensors zstd libdrm cmake" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

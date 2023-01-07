@@ -1,0 +1,56 @@
+#!/bin/bash
+set -e
+URL=https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.8.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+export CC+="gcc -m32" 
+export CXX+="g++ -m32"
+export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+
+
+./configure --prefix=/usr \
+            --docdir=/usr/share/doc/gnutls-3.7.8 \
+            --disable-rpath \
+	    --with-included-libtasn1 \
+	    --without-p11-kit \
+            --with-included-unistring \
+	    --libdir=/usr/lib32 \
+	    --host=i686-pc-linux-gnu \
+
+
+make -j16
+
+
+# Install
+
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+make DESTDIR=$PWD/DESTDIR install
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+
+cd /pkgs
+
+
+
+sudo echo "gnutls lib32-glibc" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

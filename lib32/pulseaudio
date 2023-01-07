@@ -1,0 +1,56 @@
+#!/bin/bash
+URL=https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-16.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+export CFLAGS+="-m32" 
+export CXXFLAGS+="-m32"
+export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build &&
+cd    build &&
+
+meson --prefix=/usr       \
+      --buildtype=release \
+      -Ddoxygen=false   \
+      --libdir=/usr/lib32 \
+      -Ddaemon=false \
+      -Dman=false
+      ..
+
+
+ninja
+
+
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+DESTDIR=$PWD/DESTDIR ninja install
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+
+cd /pkgs
+
+
+
+sudo echo "lib32-alsa-lib lib32-dbus lib32-xorg-libs pulseaudio" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
+

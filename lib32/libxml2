@@ -13,13 +13,14 @@ cd $DIR
 
 # Build
 export CFLAGS="-m32"
+  export PKG_CONFIG=i686-pc-linux-gnu-pkg-config
 export CXXFLAGS="-m32"
 autoreconf -fiv
 ./configure --prefix=/usr           \
             --sysconfdir=/etc       \
             --disable-static        \
             --with-history          \
-            PYTHON=/usr/bin/python3 \
+	    --without-python \
             --docdir=/usr/share/doc/libxml2-2.10.0 \
             --libdir=/usr/lib32 \
 	    --host=i686-pc-linux-gnu \

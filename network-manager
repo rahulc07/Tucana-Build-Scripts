@@ -1,0 +1,71 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/NetworkManager/1.40/NetworkManager-1.40.6.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build
+cd build
+
+
+
+sed -e 's/-qt4/-qt5/'              \
+    -e 's/moc_location/host_bins/' \
+    -i examples/C/qt/meson.build   &&
+
+sed -e 's/Qt/&5/'                  \
+    -i meson.build
+    
+grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
+
+
+mkdir build &&
+cd    build &&
+
+
+
+CXXFLAGS+="$CFLAGS -O2 -fPIC"            \
+meson --prefix=/usr              \
+      --buildtype=release        \
+      -Dlibaudit=no              \
+      -Dlibpsl=false             \
+      -Dnmtui=true               \
+      -Dovs=false                \
+      -Dppp=false                \
+      -Dselinux=false            \
+      -Dqt=false                 \
+      -Dsession_tracking=systemd \
+      -Dmodem_manager=false      \
+      .. &&
+ninja
+
+
+
+
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "jansson libndp dhcp iptables newt nss pygobject3 systemd upower wpa_supplicant curl" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

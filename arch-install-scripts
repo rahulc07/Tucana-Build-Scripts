@@ -1,0 +1,36 @@
+#!/bin/bash
+#URL=
+TAR=arch-install-scripts-t2.tar.xz
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+bash pkg-tar/arch-install-scripts
+cd /blfs/builds
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE PREFIX=/usr install
+cd /pkgs
+
+
+
+sudo echo "asciidoc coreutils" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

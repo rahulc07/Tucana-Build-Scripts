@@ -1,0 +1,49 @@
+#!/bin/bash
+URL=https://www.x.org/pub/individual/lib/libFS-1.0.9.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
+
+
+export CFLAGS+="-m32"
+export CXXFLAGS+="-m32"
+export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure --disable-static --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+  --with-appdefaultdir=/etc/X11/app-defaults --docdir=/usr/share/doc/$PACKAGE --libdir=/usr/lib32
+
+
+make -j20
+
+
+# Install
+
+
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+make DESTDIR=$PWD/DESTDIR install
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+
+
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

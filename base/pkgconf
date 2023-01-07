@@ -1,0 +1,56 @@
+#!/bin/bash
+URL=https://github.com/pkgconf/pkgconf/archive/refs/tags/pkgconf-1.9.3.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=pkgconf-$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=pkgconf
+
+# Get Package
+# Credit to archlinux for personality files
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+./autogen.sh
+
+./configure --prefix=/usr
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+
+cd /pkgs
+
+mkdir -p $PACKAGE/usr/share/pkgconfig/personality.d
+#Lib32 Stuff
+echo "Triplet: i686-pc-linux-gnu
+SysrootDir: /
+DefaultSearchPaths: /usr/lib32/pkgconfig:/usr/share/pkgconfig
+SystemIncludePaths: /usr/include
+SystemLibraryPaths: /usr/lib32" > $PACKAGE/usr/share/pkgconfig/personality.d/i686-pc-linux-gnu.personality
+
+echo "Triplet: x86_64-pc-linux-gnu
+SysrootDir: /
+DefaultSearchPaths: /usr/lib/pkgconfig:/usr/share/pkgconfig
+SystemIncludePaths: /usr/include
+SystemLibraryPaths: /usr/lib" > $PACKAGE/usr/share/pkgconfig/personality.d/x86_64-pc-linux-gnu.personality
+
+sudo ln -s pkgconf $PACKAGE/usr/bin/pkg-config
+sudo ln -s pkgconf $PACKAGE/usr/bin/i686-pc-linux-gnu-pkg-config
+sudo ln -s pkgconf $PACKAGE/usr/bin/x86_64-pc-linux-gnu-pkg-config
+
+
+sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "bash binutils coreutils gawk gcc glibc make grep sed autoconf automake" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+cp -rpv /pkgs/$PACKAGE/* /
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

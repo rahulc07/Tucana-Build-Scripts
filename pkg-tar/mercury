@@ -1,0 +1,23 @@
+#!/bin/bash
+# Using git, there might be other submodules later
+URL=https://github.com/xXTeraXx/Tucana.git
+# If it's a frequently updated git repo without a set version, title it with the tucana version in the for t[version] no minor versions, just append to the major eg 1.1=t11
+TAR_FINAL=mercury.tar.xz
+# master?
+COMMIT=e24a2aace39aee51b98a9229eb2d7506a672c5b9
+# Don't touch
+DIR=$(echo $URL | sed -r 's|(.*)/||' | sed 's/.git//')
+FINAL_DIR=mercury
+cd /blfs/builds
+mkdir -p $FINAL_DIR
+git clone $URL
+cd  $DIR
+git checkout $COMMIT
+# Only using mercury-install mercury-reinstall mercury-update and mercury-sync
+mv mercury/{mercury-install,mercury-reinstall,mercury-update,mercury-sync} ../$FINAL_DIR
+cd ..
+tar -cvpf $TAR_FINAL $FINAL_DIR
+
+
+
+

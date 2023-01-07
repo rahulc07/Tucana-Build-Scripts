@@ -1,0 +1,45 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/libnma/1.8/libnma-1.8.38.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/day18/gnome
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build &&
+cd    build &&
+
+
+meson --prefix=/usr                             \
+      --buildtype=release                       \
+      -Dgtk_doc=false                           \
+      -Dlibnma_gtk4=true                        \
+      -Dmobile_broadband_provider_info=false .. &&
+
+
+ninja -j16
+
+
+# Install
+sudo porg -lp $PACKAGE "ninja install"
+cd /gnome
+sudo ./dir.sh $PACKAGE
+
+
+sudo echo "gcr gtk3 gtk4 iso-codes network-manager vala" > /pkgs/gnome42/$PACKAGE/depends
+sudo rm -r /pkgs/gnome42/$PACKAGE/blfs
+sudo tar -cvpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished/gnome42
+
+
+cd /blfs/day18/gnome
+sudo rm -r $DIR
+
+

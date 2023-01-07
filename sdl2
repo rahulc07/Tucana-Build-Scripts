@@ -1,0 +1,39 @@
+#!/bin/bash
+URL=https://www.libsdl.org/release/SDL2-2.26.1.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=sdl2
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+./configure --prefix=/usr
+
+make -j20
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+rm -v /pkgs/$PACKAGE/usr/lib/libSDL2*.a
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "libxkbcommon wayland-protocols xorg-libs alsa-lib nasm" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

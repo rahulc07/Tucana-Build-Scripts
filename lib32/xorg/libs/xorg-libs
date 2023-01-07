@@ -1,0 +1,17 @@
+#!/bin/bash
+PACKAGE=lib32-xorg-libs
+
+
+
+# Install
+cd /pkgs
+mkdir -p /pkgs/$PACKAGE
+sudo echo "lib32-libX11 lib32-libXext lib32-libFS lib32-libICE lib32-libSM lib32-libXScrnSaver lib32-libXt lib32-libXmu lib32-libXpm lib32-libXaw lib32-libXfixes lib32-libXcomposite lib32-libXrender lib32-libXcursor lib32-libXdamage lib32-libfontenc lib32-libXfont2 lib32-libXft lib32-libXi lib32-libXinerama lib32-libXrandr lib32-libXres lib32-libXtst lib32-libXv lib32-libXvMC lib32-libXxf86dga lib32-libXxf86vm lib32-libdmx lib32-libpciaccess lib32-libxkbfile lib32-libxshmfence" > /pkgs/$PACKAGE/depends
+mkdir -p /pkgs/$PACKAGE/var/cache/mercury/meta-pkgs
+sudo echo "xtrans libX11 libXext libFS libICE libSM libXScrnSaver libXt libXmu libXpm libXaw libXfixes libXcomposite libXrender libXcursor libXdamage libfontenc libXfont2 libXft libXi libXinerama libXrandr libXres libXtst libXv libXvMC libXxf86dga libXxf86vm libdmx libpciaccess libxkbfile libxshmfence" > /pkgs/$PACKAGE/var/cache/mercury/meta-pkgs/xorg-libs
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+
+

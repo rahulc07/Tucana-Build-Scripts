@@ -1,0 +1,53 @@
+#!/bin/bash
+URL=https://gitlab.freedesktop.org/polkit/polkit/-/archive/122/polkit-122.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+wget https://raw.githubusercontent.com/archlinux/svntogit-community/packages/lib32-polkit/trunk/multilib.diff
+cd $DIR
+
+# Build
+export CFLAGS+="-m32" 
+export CXXFLAGS+="-m32"
+export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+
+patch -Np1 < ../multilib.diff
+
+mkdir build
+cd build
+
+meson --prefix=/usr                 \
+      -Dsession_tracking=libsystemd-login \
+      -Dlibs-only=true           \
+      --libdir=/usr/lib32 \
+      -D introspection=false \
+      -D os_type=redhat \
+      ..         
+
+ninja
+
+
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+DESTDIR=$PWD/DESTDIR ninja install
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+cd /pkgs
+
+
+sudo echo "polkit lib32-glib" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

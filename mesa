@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://archive.mesa3d.org/mesa-22.3.0.tar.xz
+URL=https://archive.mesa3d.org/mesa-22.3.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -20,12 +20,14 @@ cd build
 meson --prefix=/usr   \
       --buildtype=release     \
       -Dplatforms=x11,wayland \
-      -Dgallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,iris,crocus,zink,d3d12  \
+      -Dgallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,i915,iris,crocus,zink,d3d12  \
       -Dglx=dri               \
+      -Dgallium-nine=true \
       -Dvalgrind=disabled     \
-      -Dlibunwind=disabled    \
+      -Dlibunwind=enabled    \
       -Dvulkan-drivers=amd,intel,swrast \
       -Dvulkan-layers=device-select,intel-nullhw,overlay \
+      -Dosmesa=true \
       ..             
 
 

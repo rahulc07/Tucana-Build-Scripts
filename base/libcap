@@ -26,7 +26,7 @@ cd /pkgs
 
 
 
-sudo echo "attr bash binutils coreutils gcc glibc perl make sed" > /pkgs/$PACKAGE/depends
+sudo echo "glibc" > /pkgs/$PACKAGE/depends
 sudo echo "glibc" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

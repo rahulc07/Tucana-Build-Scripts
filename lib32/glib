@@ -1,0 +1,61 @@
+#!/bin/bash
+URL=https://download.gnome.org/sources/glib/2.74/glib-2.74.3.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+export CFLAGS+="-m32 -mstackrealign" 
+export CXXFLAGS+="-m32 -mstackrealign"
+export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+# Get Package
+# Credit to archlinux for the test patches
+cd /blfs/builds
+
+wget https://raw.githubusercontent.com/archlinux/svntogit-community/packages/lib32-glib2/trunk/multilib.diff
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+patch -Np1 < ../multilib.diff
+mkdir build
+cd build
+
+meson --prefix=/usr       \
+      --buildtype=release \
+      -Dman=false          \
+      -Dglib_debug=disabled \
+      -Dselinux=disabled \
+      -Dsysprof=disabled \
+      -Dman=false \
+      -Dgtk_doc=false \
+       --libdir=/usr/lib32 \
+      ..     
+
+
+ninja
+
+
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+mkdir -p /pkgs/$PACKAGE/usr/bin
+DESTDIR=$PWD/DESTDIR ninja install
+
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+cp -Rv DESTDIR/usr/bin/gio-querymodules /pkgs/$PACKAGE/usr/bin/gio-querymodules-32
+
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+
+cd /pkgs
+
+
+sudo echo "glib lib32-pcre lib32-libffi lib32-util-linux lib32-zlib" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

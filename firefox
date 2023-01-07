@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 # Last Validated Version 106.0.3
-VER=107.0
+VER=108.0.2
 URL=https://archive.mozilla.org/pub/firefox/releases/$VER/source/firefox-$VER.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=firefox-$VER
@@ -11,12 +11,9 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://src.fedoraproject.org/rpms/firefox/raw/rawhide/f/build-python-3.11.patch
 tar -xvf $TAR
 cd $DIR
-
 # Build
-patch -Np1 < ../build-python-3.11.patch
 cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
 
@@ -157,14 +154,14 @@ mkdir -p /pkgs/firefox/usr/share/pixmaps
 ln -sfv /usr/lib/firefox/browser/chrome/icons/default/default128.png /pkgs/firefox/usr/share/pixmaps/firefox.png
 mkdir -p /pkgs/$PACKAGE/usr/lib/firefox/distribution/
 echo "[Global]
-id=tucana
-version=1.0
+id=Tucana
+version=2.1
 about=Mozilla Firefox built for Tucana Linux
 [Preferences]
 app.distributor=tucana
 app.distributor.channel=firefox" > /pkgs/$PACKAGE/usr/lib/firefox/distribution/distribution.ini
 
-sudo echo "autoconf dbus-glib gtk3 gtk2 libnotify nodejs pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu" > /pkgs/$PACKAGE/depends
+sudo echo "dbus-glib gtk3 gtk2 libnotify pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu" > /pkgs/$PACKAGE/depends
 sudo echo "autoconf dbus-glib gtk3 gtk2 libnotify nodejs pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu cbindgen wireless-tools" > /pkgs/$PACKAGE/depends
 cd /pkgs/$PACKAGE
 sudo rm -rf root blfs

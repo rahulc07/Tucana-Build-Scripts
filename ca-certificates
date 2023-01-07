@@ -1,5 +1,6 @@
 #!/bin/bash
 URL=https://github.com/lfs-book/make-ca/releases/download/v1.10/make-ca-1.10.tar.xz
+URL2=https://src.fedoraproject.org/rpms/ca-certificates/raw/rawhide/f/update-ca-trust
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=ca-certificates
@@ -8,15 +9,17 @@ PACKAGE=ca-certificates
 
 cd /blfs/builds
 wget $URL
+wget $URL2
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
 
-
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
+mkdir -p /pkgs/$PACKAGE/usr/bin
+cp /blfs/builds/update-ca-trust /pkgs/$PACKAGE/usr/bin/
 install -vdm755 /pkgs/$PACKAGE/etc/ssl/local
 cd /pkgs
 

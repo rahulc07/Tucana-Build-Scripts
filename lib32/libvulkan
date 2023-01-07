@@ -1,0 +1,48 @@
+#!/bin/bash
+PKG_VER=1.3.227
+URL=https://github.com/KhronosGroup/Vulkan-Loader/archive/v$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=Vulkan-Loader-$PKG_VER
+PACKAGE=lib32-libvulkan
+set -e 
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+export CFLAGS+="-m32" 
+export CXXFLAGS+="-m32"
+export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_SYSCONFDIR=/etc -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib32 ..
+make -j20
+
+
+# Install
+
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+make DESTDIR=$PWD/DESTDIR install
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+
+cd /pkgs
+
+
+
+sudo echo "lib32-glibc libvulkan" > /pkgs/$PACKAGE/depends
+sudo echo "vulkan-headers glibc cmake git" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

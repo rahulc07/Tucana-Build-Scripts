@@ -1,0 +1,57 @@
+#!/bin/bash
+URL=https://github.com/harfbuzz/harfbuzz/releases/download/5.3.1/harfbuzz-5.3.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+
+mkdir build
+cd build
+
+# Cross Compile Definitions
+export CC="gcc -m32"
+export CXX="g++ -m32"
+export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+
+export CFLAGS+="-m32" 
+export CXXFLAGS+="-m32"
+
+meson --prefix=/usr        \
+      --buildtype=release  \
+      -Dgraphite2=disabled \
+      -Dcairo=disabled \
+      -Dintrospection=disabled \
+      --libdir=/usr/lib32 \
+
+ninja
+
+
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+DESTDIR=$PWD/DESTDIR ninja install
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+cd /pkgs
+
+
+
+sudo echo "harfbuzz lib32-glib" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

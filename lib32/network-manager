@@ -1,0 +1,84 @@
+#!/bin/bash
+set -e
+URL=https://download.gnome.org/sources/NetworkManager/1.40/NetworkManager-1.40.6.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-network-manager
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build
+cd build
+
+
+export CFLAGS+="-m32" 
+export CXXFLAGS+="-m32"
+export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+
+meson --prefix=/usr              \
+    --libdir=/usr/lib32 \
+    -Dcrypto=gnutls \
+    -D dbus_conf_dir=/usr/share/dbus-1/system.d \
+    -D libaudit=no \
+    -D session_tracking_consolekit=false \
+    -D suspend_resume=systemd \
+    -D modify_system=true \
+    -D selinux=false \
+    -D bluez5_dun=false \
+    -Dlibpsl=false \
+    -D concheck=false \
+    -D ebpf=false \
+    -D iwd=false \
+    -D modem_manager=false \
+    -D nm_cloud_setup=false \
+    -D nmcli=false \
+    -D nmtui=false \
+    -D ovs=false \
+    -D ppp=false \
+    -D teamdctl=false \
+    -D config_plugins_default=keyfile \
+    -D ifcfg_rh=false \
+    -D ifupdown=false \
+    -D netconfig=no \
+    -D config_dns_rc_manager_default=symlink \
+    -D vapi=false \
+    -D docs=false \
+    -D introspection=false \
+    -D tests=no \
+    -D more_asserts=no \
+    -D more_logging=false \
+    -D qt=false \
+      ..
+ninja
+
+
+
+
+
+
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/lib32
+DESTDIR=$PWD/DESTDIR ninja install
+cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+rm -rf DESTDIR
+cp -rpv /pkgs/$PACKAGE/* /
+cd /pkgs
+
+
+
+sudo echo "network-manager lib32-libndp lib32-zlib lib32-systemd " > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

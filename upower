@@ -19,7 +19,7 @@ cd    build &&
 
 meson --prefix=/usr       \
       --buildtype=release \
-      -Dgtk-doc=true     \
+      -Dgtk-doc=false     \
       -Dman=true         \
       ..                   && 
 

@@ -1,6 +1,6 @@
 #!/bin/bash
-PKG_VER=2.4.9
-URL=https://prdownloads.sourceforge.net/expat/expat-$PKG_VER.tar.xz
+PKG_VER=2.5.0
+URL=https://sourceforge.net/projects/expat/files/expat/2.5.0/expat-2.5.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')

@@ -1,0 +1,22 @@
+#!/bin/bash
+# Using git, there might be other submodules later
+URL=https://github.com/archlinux/arch-install-scripts.git
+# If it's a frequently updated git repo without a set version, title it with the tucana version in the for t[version] no minor versions, just append to the major eg 1.1=t11
+TAR_FINAL=arch-install-scripts-t2.tar.xz
+# master?
+COMMIT=4802e1197e43e300e8fc545b7b2a0358ad2f920b
+# Don't touch
+DIR=$(echo $URL | sed -r 's|(.*)/||' | sed 's/.git//')
+
+cd /blfs/builds
+
+git clone $URL
+cd  $DIR
+git checkout $COMMIT
+cd ..
+mv $DIR $(echo $TAR_FINAL | sed 's/.tar.xz//')
+tar -cvpf $TAR_FINAL $(echo $TAR_FINAL | sed 's/.tar.xz//')
+
+
+
+

@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://www.openssl.org/source/openssl-3.0.5.tar.gz
+URL=https://www.openssl.org/source/openssl-3.0.7.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
@@ -18,7 +18,8 @@ export CFLAGS="-m32 -march=i686 -Wall -O3" CXXFLAGS="$CFLAGS"
          --libdir=lib32          \
          shared                \
          zlib-dynamic \
-	 linux-generic32
+	 linux-generic32 \
+	 enable-ktls \
 
 
 make -j16

@@ -1,0 +1,48 @@
+#!/bin/bash
+PKG_VER=1.2.59
+URL=https://sourceforge.net/projects/libpng/files/libpng-$PKG_VER.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')12
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget "https://sourceforge.net/projects/libpng-apng/files/libpng12/$PKG_VER/libpng-$PKG_VER-apng.patch.gz"
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+gzip -cd ../libpng-$PKG_VER-apng.patch.gz | patch -p1
+
+
+
+  libtoolize --force --copy
+  aclocal
+  autoconf
+  automake --add-missing
+
+
+./configure --prefix=/usr --disable-static
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+rm -rf /pkgs/$PACKAGE/usr/{bin,include/*.h,lib/{libpng.{a,so},pkgconfig},share}
+cd /pkgs
+
+
+
+sudo echo "zlib" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

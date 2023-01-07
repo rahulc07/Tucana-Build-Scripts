@@ -1,7 +1,7 @@
 #!/bin/bash
-PKG_VER=3.25.1
-MAJOR_VER=$(echo $PKG_VER | cut -c4-)
-URL=https://cmake.org/files/v3.24/cmake-3.24.2.tar.gz
+PKG_VER="3.25.1"
+MAJOR_VER=3.25
+URL=https://cmake.org/files/v$MAJOR_VER/cmake-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

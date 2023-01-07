@@ -34,7 +34,7 @@ cd /pkgs
 
 
 
-sudo echo "lib32-bzip2 lib32-gcc-libs lib32-xz lib32-zlib lib32-zstd elfutils" > /pkgs/$PACKAGE/depends
+sudo echo "lib32-bzip2 lib32-libgcc lib32-xz lib32-zlib lib32-zstd libelf" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
