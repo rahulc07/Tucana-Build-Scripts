@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-PKG_VER=12.2.0
+PKG_VER=12.2.1
 TARGET=$(gcc -dumpmachine)
 URL=https://ftp.gnu.org/gnu/gcc/gcc-$PKG_VER/gcc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -145,7 +145,7 @@ mv /pkgs/$PACKAGE/usr/lib32/libssp.so.* /pkgs/$ALT_PACKAGE2/usr/lib32
 # Package
 cd /pkgs
 
-echo "libgcc glibc zstd mpc mpfr gmp" > /pkgs/$PACKAGE/depends
+echo "libgcc glibc zstd mpc mpfr gmp flex" > /pkgs/$PACKAGE/depends
 echo "libgcc glibc lib32-glibc libisl mpc mpfr lib32-glibc" > /pkgs/$PACKAGE/depends
 tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 cp $PACKAGE.tar.xz /finished

@@ -28,8 +28,10 @@ make -j16
 
 # Install
 mkdir -p /pkgs/$PACKAGE/usr/lib32
+mkdir -p /pkgs/$PACKAGE/usr/include
 make DESTDIR=$PWD/DESTDIR install
 cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
+cp -Rv DESTDIR/usr/include/libunwind-x86.h /pkgs/$PACKAGE/usr/include
 rm -rf DESTDIR
 cp -rpv /pkgs/$PACKAGE/* /
 cd /pkgs

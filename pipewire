@@ -1,7 +1,8 @@
 #!/bin/bash
-URL=https://github.com/PipeWire/pipewire/archive/0.3.61/pipewire-0.3.61.tar.gz
+URL=https://github.com/PipeWire/pipewire/archive/0.3.65/pipewire-0.3.65.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=$(echo $TAR | sed 's|.tar.*||g')
+# Pipewire didn't change the version number in the directory?
+DIR=pipewire-0.3.61
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package

@@ -18,17 +18,15 @@ sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg &&
 sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" \
     -i include/freetype/config/ftoption.h 
 
-mkdir build
-cd build
 
-meson --prefix=/usr ..
+./configure --prefix=/usr --enable-freetype-config --disable-static
 
-ninja
+make -j20
 
 
 # Install
-sudo DESTDIR=/pkgs/$PACKAGE ninja install
-sudo ninja install
+sudo  make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
 cd /pkgs
 
 

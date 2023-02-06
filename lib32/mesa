@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://archive.mesa3d.org/mesa-22.3.1.tar.xz
+URL=https://archive.mesa3d.org/mesa-22.3.4.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
@@ -8,16 +8,20 @@ set -e
 
 cd /blfs/builds
 wget $URL
+wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/mesa/trunk/0003-Revert-iris-Avoid-abort-if-kernel-can-t-allocate-mem.patch
+wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/mesa/trunk/0002-iris-Retry-DRM_IOCTL_I915_GEM_EXECBUFFER2-on-ENOMEM.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 export CC+="gcc -m32" 
 export CXX+="g++ -m32"
-export CFLAGS="-g1 -O2"
-export CXXFLAGS="-g1 -O2"
+export CFLAGS="-g1"
+export CXXFLAGS="-g1"
 export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
 
+patch -Np1 < ../0002-iris-Retry-DRM_IOCTL_I915_GEM_EXECBUFFER2-on-ENOMEM.patch
+patch -Np1 < ../0003-Revert-iris-Avoid-abort-if-kernel-can-t-allocate-mem.patch
 
 mkdir build
 cd build
@@ -32,10 +36,15 @@ meson --prefix=/usr    --native-file crossfile.ini \
       -Dplatforms=x11,wayland \
       -Dgallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,iris,crocus,zink,d3d12,i915  \
       -Dglx=dri               \
+      -Dglvnd=true \
+      -Ddri3=enabled \
+      -Dlibunwind=disabled  \
       -Dgallium-nine=true \
+      -Dgallium-va=enabled \
+      -Dgallium-vdpau=enabled \
+      -Dvideo-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
       -Dvalgrind=disabled     \
-      -Dlibunwind=disabled    \
-      -Dvulkan-drivers=amd,intel,swrast \
+      -Dvulkan-drivers=amd,intel,swrast,intel_hasvk \
       -Dvulkan-layers=device-select,intel-nullhw,overlay \
       -Dosmesa=true \
        --libdir=/usr/lib32 \

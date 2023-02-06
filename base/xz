@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER=5.2.8
+PKG_VER=5.4.1
 URL=https://tukaani.org/xz/xz-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

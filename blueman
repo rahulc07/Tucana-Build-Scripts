@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://github.com/blueman-project/blueman/releases/download/2.3.4/blueman-2.3.4.tar.gz
+URL=https://github.com/blueman-project/blueman/releases/download/2.3.5/blueman-2.3.5.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,6 +13,10 @@ cd $DIR
 
 # Build
 export PATH=$PATH:/usr/sbin
+./autogen.sh
+
+  sed -i '/^dbusdir =/ s/sysconfdir/datadir/' data/configs/Makefile.{am,in}
+
 ./configure --prefix=/usr
 
 

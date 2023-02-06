@@ -97,7 +97,7 @@ password required    pam_deny.so
 EOF
 
 # Needed for steam to run
-ln -s /pkgs/$PACKAGE/usr/lib/libudev.so.1 /pkgs/$PACKAGE/usr/lib/libudev.so.0
+ln -s /usr/lib/libudev.so.1 /pkgs/$PACKAGE/usr/lib/libudev.so.0
 
 
 sudo echo "pam glibc util-linux libcap acl attr libidn2 libseccomp iptables dbus libgcrypt p11-kit" > /pkgs/$PACKAGE/depends

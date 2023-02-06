@@ -1,9 +1,9 @@
-set -e
 #!/bin/bash
-URL=https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
+URL=https://invisible-mirror.net/archives/ncurses/ncurses-6.4.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
 
 # Get Package
 
@@ -35,13 +35,13 @@ make DESTDIR=$PWD/dest install
 # Install
 
 
-cp -pv  dest/usr/lib/libncursesw.so.6.3 /
-mv -v /libncursesw.so.6.3 /usr/lib
+cp -pv  dest/usr/lib/libncursesw.so.6.4 /
+mv -v /libncursesw.so.6.4 /usr/lib
 cp -av dest/* /
 
 mkdir -p /pkgs/ncurses/usr/lib
-install -vm755 dest/usr/lib/libncursesw.so.6.3 /pkgs/ncurses/usr/lib
-rm -v  dest/usr/lib/libncursesw.so.6.3
+install -vm755 dest/usr/lib/libncursesw.so.6.4 /pkgs/ncurses/usr/lib
+rm -v  dest/usr/lib/libncursesw.so.6.4
 cp -av dest/* /pkgs/ncurses
 
 
@@ -65,11 +65,11 @@ rm -vf                    /pkgs/ncurses/usr/lib/libcursesw.so
 echo "INPUT(-lncursesw)" > /pkgs/ncurses/usr/lib/libcursesw.so
 ln -sfv libncurses.so      /pkgs/ncurses/usr/lib/libcurses.so
 
-mkdir -pv      /usr/share/doc/ncurses-6.3
-cp -v -R doc/* /usr/share/doc/ncurses-6.3
+mkdir -pv      /usr/share/doc/ncurses
+cp -v -R doc/* /usr/share/doc/ncurses
 
-mkdir -pv      /pkgs/ncurses/usr/share/doc/ncurses-6.3
-cp -v -R doc/* /pkgs/ncurses/usr/share/doc/ncurses-6.3
+mkdir -pv      /pkgs/ncurses/usr/share/doc/ncurses
+cp -v -R doc/* /pkgs/ncurses/usr/share/doc/ncurses
 
 
 cd /pkgs

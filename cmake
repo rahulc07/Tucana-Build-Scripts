@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER="3.25.1"
+PKG_VER="3.25.2"
 MAJOR_VER=3.25
 URL=https://cmake.org/files/v$MAJOR_VER/cmake-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

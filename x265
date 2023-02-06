@@ -2,7 +2,7 @@
 URL=https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.5.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=x265
 
 # Get Package
 

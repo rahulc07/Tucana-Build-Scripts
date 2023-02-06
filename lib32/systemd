@@ -54,7 +54,7 @@ rm -rf DESTDIR
 cp -rpv /pkgs/$PACKAGE/* /
 cd /pkgs
 # Needed for steam
-ln -s /pkgs/$PACKAGE/usr/lib32/libudev.so.1 /pkgs/$PACKAGE/usr/lib32/libudev.so.0
+ln -sfv /usr/lib32/libudev.so.1 /pkgs/$PACKAGE/usr/lib32/libudev.so.0
 
 sudo echo "lib32-dbus lib32-glibc systemd" > /pkgs/$PACKAGE/depends
 sudo echo "pam glibc util-linux libcap acl attr gnu-efi" > /pkgs/$PACKAGE/make-depends

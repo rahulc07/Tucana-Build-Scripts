@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-URL=https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
+URL=https://ftp.gnu.org/gnu/glibc/glibc-2.37.tar.xz
 # Not actually a seperate package just the time zone info
 ALT_URL=https://data.iana.org/time-zones/releases/tzdata2022g.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

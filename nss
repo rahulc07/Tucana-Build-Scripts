@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-PKG_VER=3.86
+PKG_VER=3.87
 URL=https://archive.mozilla.org/pub/security/nss/releases/NSS_$(sed 's/\./\_/' <<< $PKG_VER)_RTM/src/nss-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -10,12 +10,12 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/nss-3.84-standalone-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/nss-3.87-standalone-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 -i ../nss-3.84-standalone-1.patch
+patch -Np1 -i ../nss-3.87-standalone-1.patch
 
 cd nss
 

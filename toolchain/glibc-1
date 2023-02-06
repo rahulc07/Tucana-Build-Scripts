@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PATH=/opt/tucana/usr/bin:$PATH
-URL=https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
+URL=https://ftp.gnu.org/gnu/glibc/glibc-2.37.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

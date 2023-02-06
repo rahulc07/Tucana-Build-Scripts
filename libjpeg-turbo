@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-2.1.4.tar.gz
+URL=https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-2.1.5.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

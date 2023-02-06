@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://github.com/mesonbuild/meson/releases/download/0.64.1/meson-0.64.1.tar.gz
+URL=https://github.com/mesonbuild/meson/releases/download/1.0.0/meson-1.0.0.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

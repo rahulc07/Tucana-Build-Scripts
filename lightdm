@@ -5,17 +5,7 @@ TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
-getent passwd lightdm > /dev/null
 
-if [ $? -eq 0 ]; then
-    :
-else
-  groupadd -g 65 lightdm       &&
-  useradd  -c "Lightdm Daemon" \
-           -d /var/lib/lightdm \
-           -u 65 -g lightdm    \
-           -s /bin/false lightdm
-fi
 
 # Get Package
 
@@ -45,6 +35,8 @@ make -j16
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make DESTDIR=/pkgs/$PACKAGE -C liblightdm-qt uninstall
+sudo make install
 mkdir -p /pkgs/$PACKAGE/usr/bin
 cp tests/src/lightdm-session /pkgs/$PACKAGE/usr/bin                         &&
 sed -i '1 s/sh/bash --login/' /pkgs/$PACKAGE//usr/bin/lightdm-session        &&
@@ -81,9 +73,83 @@ make DESTDIR=/pkgs/$PACKAGE install-lightdm
 
 cd /pkgs
 
+# Add Xsession stuff
+cd /pkgs/$PACKAGE/etc/lightdm
+echo '#!/bin/sh
+#
+# LightDM wrapper to run around X sessions.
 
+echo "Running X session wrapper"
 
+# Load profile
+for file in "/etc/profile" "$HOME/.profile" "/etc/xprofile" "$HOME/.xprofile"; do
+    if [ -f "$file" ]; then
+        echo "Loading profile from $file";
+        . "$file"
+    fi
+done
+
+# Load resources
+for file in "/etc/X11/Xresources" "$HOME/.Xresources"; do
+    if [ -f "$file" ]; then
+        echo "Loading resource: $file"
+        xrdb -merge "$file"
+    fi
+done
+
+# Load keymaps
+for file in "/etc/X11/Xkbmap" "$HOME/.Xkbmap"; do
+    if [ -f "$file" ]; then
+        echo "Loading keymap: $file"
+        setxkbmap `cat "$file"`
+        XKB_IN_USE=yes
+    fi
+done
+
+# Load xmodmap if not using XKB
+if [ -z "$XKB_IN_USE" ]; then
+    for file in "/etc/X11/Xmodmap" "$HOME/.Xmodmap"; do
+        if [ -f "$file" ]; then
+           echo "Loading modmap: $file"
+           xmodmap "$file"
+        fi
+    done
+fi
+
+unset XKB_IN_USE
+
+# Run all system xinitrc shell scripts
+xinitdir="/etc/X11/xinit/xinitrc.d"
+if [ -d "$xinitdir" ]; then
+    for script in $xinitdir/*; do
+        echo "Loading xinit script $script"
+        if [ -x "$script" -a ! -d "$script" ]; then
+            . "$script"
+        fi
+    done
+fi
+
+# Run user xsession shell script
+script="$HOME/.xsession"
+if [ -x "$script" -a ! -d "$script" ]; then
+    echo "Loading xsession script $script"
+    . "$script"
+fi
+
+echo "X session wrapper complete, running session $@"
+
+exec $@
+' > Xsession
+chmod +x Xsession
+sed -i 's|#session-wrapper=.*|session-wrapper=/etc/lightdm/Xsession|g' lightdm.conf
+
+cd /pkgs
 sudo echo "exo libgcrypt itstool gobject-introspection vala libxklavier accounts-service inetutils" > /pkgs/$PACKAGE/depends
+sudo echo 'groupadd -g 65 lightdm       &&
+useradd  -c "Lightdm Daemon" \
+         -d /var/lib/lightdm \
+         -u 65 -g lightdm    \
+         -s /bin/false lightdm' > /pkgs/$PACKAGE/postinst
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

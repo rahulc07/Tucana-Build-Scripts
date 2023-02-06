@@ -1,6 +1,6 @@
 #!/bin/bash
 GNOME_MAJOR=43
-GNOME_MINOR=0
+GNOME_MINOR=1
 URL=https://download.gnome.org/sources/gnome-desktop/$GNOME_MAJOR/gnome-desktop-$GNOME_MAJOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-PKG_VER=5.2.9
+PKG_VER=5.2.15
 URL=https://ftp.gnu.org/gnu/bash/bash-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

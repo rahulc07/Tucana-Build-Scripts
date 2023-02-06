@@ -8,7 +8,7 @@
 set -e
 
 
-PKG_VER=5.26.3
+PKG_VER=5.26.5
 URL=https://download.kde.org/stable/plasma/$PKG_VER/
 
 # Get Package(s)
@@ -20,7 +20,7 @@ mkdir -p /pkgs/kde
 mkdir -p /finished/kde
 
 cd /blfs/builds/kde
-wget -r -nH -nd -A '*.xz' -np $URL
+#wget -r -nH -nd -A '*.xz' -np $URL
 
 
 # Build
