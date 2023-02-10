@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://dl.winehq.org/wine/source/7.x/wine-7.22.tar.xz
+URL=https://dl.winehq.org/wine/source/8.x/wine-8.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=wine

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Taken straight from LFS (with a couple modifications)
+# Added firmware detection - Rahul Chandra Feburary 9th 2023
 
 URL=https://www.linuxfromscratch.org/blfs/view/svn/postlfs/initramfs.html
 PACKAGE=mkinitramfs
@@ -100,7 +101,22 @@ for file in $(find /etc/udev/rules.d/ -type f) ; do
 done
 
 # Install any firmware present
-cp -a /usr/lib/firmware $WDIR/usr/lib
+#cp -a /usr/lib/firmware $WDIR/usr/lib 
+ # Create directories
+for FOLDER in $(find /usr/lib/firmware -type d); do
+        mkdir -p $WDIR/$FOLDER
+done
+sleep 1
+MODULES=$(sudo lsmod | awk '{print $1}' | sed 's/Module//')
+for MODULE in $MODULES; do
+        FIRMWARE=$(sudo modinfo $MODULE | grep firmware: | sed 's/firmware:       //')
+        for FILE in $FIRMWARE; do
+                cp /usr/lib/firmware/$FILE.xz $WDIR/usr/lib/firmware/$FILE.xz &> /dev/null
+        done
+done
+
+
+
 
 # Copy the RAID configuration file if present
 if [ -f /etc/mdadm.conf ] ; then
@@ -224,7 +240,7 @@ if ls /usr/lib/firmware/intel-ucode/* >/dev/null 2>&1 ||
   mkdir -p $DSTDIR
 
   if [ -d /usr/lib/firmware/amd-ucode ]; then
-    cat /usr/lib/firmware/amd-ucode/microcode_amd*.bin > $DSTDIR/AuthenticAMD.bin
+    cat /usr/lib/firmware/amd-ucode/microcode_amd*.bin.xz > $DSTDIR/AuthenticAMD.bin
   fi
 
   if [ -d /usr/lib/firmware/intel-ucode ]; then

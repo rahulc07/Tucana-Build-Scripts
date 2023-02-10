@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://archive.mesa3d.org/mesa-22.3.4.tar.xz
+URL=https://archive.mesa3d.org/mesa-22.3.5.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -59,7 +59,7 @@ cd /pkgs
 
 
 
-sudo echo "wayland-protocols libva llvm libvdpau libdrm mako xorg-libs libvulkan lm-sensors" > /pkgs/$PACKAGE/depends
+sudo echo "wayland-protocols libva libglvnd llvm libvdpau libdrm mako xorg-libs libvulkan lm-sensors" > /pkgs/$PACKAGE/depends
 sudo echo "wayland-protocols libva llvm libvdpau libdrm mako xorg-libs glslang meson lm-sensors zstd libdrm cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

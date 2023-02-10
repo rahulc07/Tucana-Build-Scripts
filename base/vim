@@ -18,7 +18,7 @@ cd $DIR
 
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 # A warning will popup about unrecognized options but it will effect the make. 
-./configure --prefix=/usr --with-compiledby='Tucana Linux' --with-x=no  --enable-gui=no --disable-canberra --disable-vorbis --disable-mvec
+./configure --prefix=/usr --with-compiledby='Tucana Linux' --with-x=no  --disable-gui --disable-canberra --disable-vorbis --disable-mvec
 
 
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://www.greenwoodsoftware.com/less/less-590.tar.gz
+URL=https://www.greenwoodsoftware.com/less/less-608.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
