@@ -1,0 +1,90 @@
+#!/bin/bash
+
+set -e
+URL=https://ftp.gnu.org/gnu/glibc/glibc-2.37.tar.xz
+# Not actually a seperate package just the time zone info
+ALT_URL=https://data.iana.org/time-zones/releases/tzdata2022g.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget $ALT_URL
+wget https://www.linuxfromscratch.org/patches/lfs/11.2/glibc-2.36-fhs-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+patch -Np1 -i ../glibc-2.36-fhs-1.patch
+mkdir -v build
+cd       build
+echo "rootsbindir=/usr/sbin" > configparms
+../configure                             \
+      --prefix=/usr                      \
+      --build=$(../scripts/config.guess) \
+      --enable-kernel=3.2                \
+      --enable-multi-arch                \
+      --with-headers=/usr/include  libc_cv_slibdir=/usr/lib
+
+
+make -j16  --jobserver-style=pipe
+
+
+# Install
+sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
+# This is NOT installed on the host system, use mercury-update to update this package
+#sudo make install
+# Assuming that the host system already has its timezone info
+sudo make DESTDIR=/pkgs/$PACKAGE install
+# Time zone stuff
+tar -xvf ../../tzdata*.tar.gz
+mkdir -pv /pkgs/$PACKAGE/usr/share/zoneinfo/{posix,right}
+
+
+for tz in etcetera southamerica northamerica europe africa antarctica  \
+          asia australasia backward; do
+    zic -L /dev/null   -d /pkgs/$PACKAGE/usr/share/zoneinfo       ${tz}
+    zic -L /dev/null   -d /pkgs/$PACKAGE/usr/share/zoneinfo/posix ${tz}
+    zic -L leapseconds -d /pkgs/$PACKAGE/usr/share/zoneinfo/right ${tz}
+done
+
+cp -v zone.tab zone1970.tab iso3166.tab /pkgs/$PACKAGE/usr/share/zoneinfo
+# This is for daylight savings **sigh**... if the Sunshine Protection act passes, this will need to be changed... remind me then.
+zic -d /pkgs/$PACKAGE/usr/share/zoneinfo -p America/New_York
+
+
+# Fix bug in ldd script
+sed '/RTLDLIST=/s@/usr@@g' -i /pkgs/$PACKAGE/usr/bin/ldd
+
+# Install the NSCD conf files
+cp -v ../nscd/nscd.conf /pkgs/$PACKAGE/etc/nscd.conf
+mkdir -pv /pkgs/$PACKAGE/var/cache/nscd
+# Install the system service
+install -v -Dm644 ../nscd/nscd.service /pkgs/$PACKAGE/usr/lib/systemd/system/nscd.service
+
+
+# ld.so.conf
+cat >> /pkgs/$PACKAGE/etc/ld.so.conf << "EOF"
+# Add an include directory
+include /etc/ld.so.conf.d/*.conf
+
+EOF
+
+mkdir -p /pkgs/$PACKAGE/etc/ld.so.conf.d
+
+
+# Final pakcage
+cd /pkgs
+sudo echo "linux-api-headers" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

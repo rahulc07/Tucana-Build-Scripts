@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://github.com/strace/strace/releases/download/v5.19/strace-5.19.tar.xz
+URL=https://curl.se/download/curl-7.87.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,7 +13,11 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr
+./configure --prefix=/usr                           \
+            --disable-static                        \
+            --with-openssl                          \
+            --enable-threaded-resolver              \
+            --with-ca-path=/etc/ssl/certs 
 
 
 make -j16
@@ -22,6 +26,9 @@ make -j16
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
 sudo make install
+
+install -v -d -m755 /pkgs/curl/usr/share/doc/curl-7.84.0 &&
+cp -v -R docs/*     /pkgs/curl/usr/share/doc/curl-7.84.0
 cd /pkgs
 
 
