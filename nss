@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
-PKG_VER=3.87
-URL=https://archive.mozilla.org/pub/security/nss/releases/NSS_$(sed 's/\./\_/' <<< $PKG_VER)_RTM/src/nss-$PKG_VER.tar.gz
+PKG_VER=3.88.1
+URL=https://archive.mozilla.org/pub/security/nss/releases/NSS_$(sed 's/\./\_/g' <<< $PKG_VER)_RTM/src/nss-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

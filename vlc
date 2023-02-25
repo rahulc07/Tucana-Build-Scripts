@@ -19,10 +19,6 @@ export LUA_LIBS="$(pkg-config --libs lua52)"   &&
 export CPPFLAGS="$(pkg-config --cflags lua52)" &&
 
 BUILDCC=gcc ./configure --prefix=/usr    \
-                        --disable-opencv \
-                        --disable-libva  \
-                        --disable-vpx    &&
-
 
 
 make -j16

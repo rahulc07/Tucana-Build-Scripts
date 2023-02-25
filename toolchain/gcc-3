@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-PKG_VER=12.2.1
+PKG_VER=12.2.0
 TARGET=$(gcc -dumpmachine)
 URL=https://ftp.gnu.org/gnu/gcc/gcc-$PKG_VER/gcc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-PKG_VER=15.0.6
+PKG_VER=15.0.7
 LLVM_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/llvm-$PKG_VER.src.tar.xz
 CMAKE_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/cmake-$PKG_VER.src.tar.xz
 LLVM_TAR=$(echo $LLVM_URL | sed -r 's|(.*)/||')

@@ -26,7 +26,7 @@ cd /pkgs
 
 
 
-sudo echo "libxau xcb-proto libxdcmp" > /pkgs/$PACKAGE/depends
+sudo echo "libxau xcb-proto libXdmcp" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

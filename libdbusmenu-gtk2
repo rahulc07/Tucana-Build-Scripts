@@ -1,0 +1,41 @@
+#!/bin/bash
+URL=https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://bugs.launchpad.net/ubuntu/+source/libdbusmenu/+bug/1708938/+attachment/4927985/+files/0001-configure-Fix-HAVE_VALGRIND-not-being-defined-when-t.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+sed -i 's/-Werror//' libdbusmenu*/Makefile.{am,in}
+patch -Np1 < ../0001-configure-Fix-HAVE_VALGRIND-not-being-defined-when-t.patch
+autoreconf -fiv
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-tests --disable-static --disable-dumper --with-gtk=2 --disable-valgrind --disable-werror
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "gtk3 libdbusmenu-glib" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

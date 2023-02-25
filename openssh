@@ -1,0 +1,63 @@
+#!/bin/bash
+URL=https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.2p1.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure --prefix=/usr                        \
+	--sysconfdir=/etc/ssh                    \
+        --with-privsep-path=/var/lib/sshd        \
+	--with-default-path=/usr/bin             \
+	--with-superuser-path=/usr/sbin:/usr/bin \
+	--with-pid-dir=/run    
+
+
+make -j20
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+
+# Place doc and extra files in
+mkdir -p /pkgs/$PACKAGE/usr/bin
+mkdir -p /pkgs/$PACKAGE/usr/share/doc
+mkdir -p /pkgs/$PACKAGE/usr/share/man/man1
+install -v -m755    contrib/ssh-copy-id /pkgs/$PACKAGE/usr/bin     &&
+
+install -v -m644    contrib/ssh-copy-id.1 /pkgs/$PACKAGE/usr/share/man/man1 
+install -v -m755 -d /pkgs/$PACKAGE/usr/share/doc/openssh
+install -v -m644    INSTALL LICENCE OVERVIEW README* /pkgs/$PACKAGE/usr/share/doc/openssh
+install  -v -m700 -d /pkgs/$PACKAGE/var/lib/sshd
+chown    -v root:sys /pkgs/$PACKAGE/var/lib/sshd
+
+cd /pkgs
+
+
+
+sudo echo "pam mitkrb" > /pkgs/$PACKAGE/depends
+echo "
+groupadd -g 50 sshd        
+useradd  -c 'sshd PrivSep' \
+	-d /var/lib/sshd  \
+        -g sshd           \
+	-s /bin/false     \
+	-u 50 sshd
+ssh-keygen -A" > /pkgs/$PACKAGE/postinst
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+bash libxfce4util
+bash xfconf
+bash libxfce4ui
+bash ../exo
+bash garcon
+bash xfce4-panel
+bash thunar
+bash thunar-volman
+bash tumbler
+bash xfce4-appfinder
+bash xfce4-power-manager
+bash xfce4-settings
+bash xfdesktop
+bash xfwm4
+bash xfce4-session
+bash parole
+bash xfce4-terminal
+bash xfce4-notifyd
+bash xfce4-pulseaudio-plugin  

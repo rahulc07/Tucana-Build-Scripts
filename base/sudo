@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://www.sudo.ws/dist/sudo-1.9.11p3.tar.gz
+URL=https://www.sudo.ws/dist/sudo-1.9.13.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

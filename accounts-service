@@ -2,7 +2,7 @@
 URL=https://www.freedesktop.org/software/accountsservice/accountsservice-22.08.8.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=accounts-service
 
 # Get Package
 

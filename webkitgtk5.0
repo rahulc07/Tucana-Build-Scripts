@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-URL=https://webkitgtk.org/releases/webkitgtk-2.38.2.tar.xz
+URL=https://webkitgtk.org/releases/webkitgtk-2.38.4.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=webkitgtk5.0

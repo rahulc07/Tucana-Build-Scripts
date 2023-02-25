@@ -82,6 +82,9 @@ WDIR=$(mktemp -d /tmp/initrd-work.XXXXXXXXXX)
 mkdir -p $WDIR/{dev,run,sys,proc,usr/{bin,lib/{firmware,modules},sbin}}
 mkdir -p $WDIR/etc/{modprobe.d,udev/rules.d}
 touch $WDIR/etc/modprobe.d/modprobe.conf
+# Copy modprobe.conf
+cp -rp /etc/modprobe.d/* $WDIR/etc/modprobe.d/
+
 ln -s usr/bin  $WDIR/bin
 ln -s usr/lib  $WDIR/lib
 ln -s usr/sbin $WDIR/sbin
@@ -125,6 +128,12 @@ fi
 
 # Install the init file
 install -m0755 $DATADIR/$INITIN $WDIR/init
+
+# Add the early boot modules
+source /etc/early_load_modules.conf
+for EARLY_LOAD_MODULE in ${EARLY_LOAD_MODULES[@]}; do
+    sed -i "s/do_try_resume\ /modprobe\ $EARLY_LOAD_MODULE\ndo_try_resume\ /" $WDIR/init
+done
 
 if [  -n "$KERNEL_VERSION" ] ; then
   if [ -x /usr/bin/kmod ] ; then
@@ -211,9 +220,9 @@ fi
 # Install the kernel modules if requested
 if [ -n "$KERNEL_VERSION" ]; then
   find \
-     /usr/lib/modules/$KERNEL_VERSION/kernel/{crypto,fs,lib}                      \
+     /usr/lib/modules/$KERNEL_VERSION/kernel/{crypto,fs,lib,arch,virt}                      \
      /usr/lib/modules/$KERNEL_VERSION/kernel/drivers/{block,ata,nvme,md,firewire} \
-     /usr/lib/modules/$KERNEL_VERSION/kernel/drivers/{scsi,message,pcmcia,virtio} \
+     /usr/lib/modules/$KERNEL_VERSION/kernel/drivers/{scsi,message,pcmcia,virtio,video,gpu,vfio} \
      /usr/lib/modules/$KERNEL_VERSION/kernel/drivers/usb/{host,storage}           \
      -type f 2> /dev/null | cpio --make-directories -p --quiet $WDIR
 
@@ -256,6 +265,7 @@ fi
 # Remove the temporary directories and files
 rm -rf $WDIR $unsorted
 printf "done.\n"
+
 
 EOF
 

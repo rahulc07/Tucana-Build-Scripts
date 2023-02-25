@@ -38,7 +38,7 @@ cd /pkgs
 
 
 
-sudo echo "glibc pam" > /pkgs/$PACKAGE1/depends
+sudo echo "glibc pam cyrus-sasl" > /pkgs/$PACKAGE1/depends
 sudo echo "" > /pkgs/$PACKAGE1/make-depends
 sudo tar -cvzpf $PACKAGE1.tar.xz $PACKAGE1
 sudo cp $PACKAGE1.tar.xz /finished

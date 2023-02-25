@@ -1,0 +1,43 @@
+#!/bin/bash
+GNOME_MAJOR=43
+GNOME_MINOR=0
+URL=https://download.gnome.org/sources/amtk/5.6/amtk-5.6.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir abuild &&
+cd    abuild &&
+
+meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+
+
+ninja 
+
+
+# Install
+ninja install
+DESTDIR=/pkgs/$PACKAGE ninja install
+cd /pkgs
+
+
+sudo echo "gtk3" > /pkgs/$PACKAGE/depends
+sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
+sudo rm -rf /pkgs/$PACKAGE/blfs
+sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

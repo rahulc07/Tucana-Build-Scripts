@@ -1,0 +1,39 @@
+#!/bin/bash
+URL=https://github.com/gregkh/usbutils/archive/v015/usbutils-015.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+autoreconf -fi
+./configure --prefix=/usr --datadir=/usr/share/hwdata
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+install -dm755 /pkgs/$PACKAGE/usr/share/hwdata/
+wget http://www.linux-usb.org/usb.ids -O /pkgs/$PACKAGE/usr/share/hwdata/usb.ids
+cd /pkgs
+
+
+
+sudo echo "libusb" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

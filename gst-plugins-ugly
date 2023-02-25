@@ -1,0 +1,47 @@
+#!/bin/bash
+URL=https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.22.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build
+cd build
+
+
+
+meson  --prefix=/usr       \
+       --buildtype=release \
+       -Dgpl=enabled  \
+       -Dpackage-origin=https://github.com/xXTeraXx/Tucana \
+       -Dpackage-name="GStreamer 1.20.5 for Tucana"    \
+       --wrap-mode=nodownload
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "gst-plugins-base a52dec x264 libdvdread" > /pkgs/$PACKAGE/depends
+
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
