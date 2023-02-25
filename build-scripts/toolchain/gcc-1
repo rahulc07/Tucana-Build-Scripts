@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# This is just for the build system, this SHOULD NOT be pushed to the repo or packaged
+
+# Base compiler for all of these scripts it assumed that EVERY package is being updated hence the order. 
+# This will build a new version of GCC for the current version of glibc
+
+URL=https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
+MPC=https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz
+GMP=https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
+MPFR=https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget $MPC
+wget $GMP
+wget $MPFR 
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+tar -xf ../mpfr-4.1.1.tar.xz
+mv -v mpfr-4.1.1 mpfr
+tar -xf ../gmp-6.2.1.tar.xz
+mv -v gmp-6.2.1 gmp
+tar -xf ../mpc-1.2.1.tar.gz
+mv -v mpc-1.2.1 mpc
+
+
+
+
+
+
+sed -e '/m64=/s/lib64/lib/' \
+    -e '/m32=/s/m32=.*/m32=..\/lib32$(call if_multiarch,:i386-linux-gnu)/' \
+    -i.orig gcc/config/i386/t-linux64
+
+
+
+
+sed '/thread_header =/s/@.*@/gthr-posix.h/' \
+    -i libgcc/Makefile.in libstdc++-v3/include/Makefile.in
+    
+mkdir -v build
+cd       build
+
+../configure                                       \
+    --prefix=/usr                                  \
+    --disable-nls                                  \
+    --enable-mulitlib --with-multilib-list=m64,m32                             \
+    --disable-decimal-float                        \
+    --enable-default-pie                           \
+    --enable-default-ssp                           \
+    --disable-libatomic                            \
+    --disable-libgomp                              \
+    --disable-libquadmath                          \
+    --disable-libssp                               \
+    --disable-libvtv                               \
+    --enable-languages=c,c++ \
+    --disable-bootstrap \
+
+make -j20
+
+
+# Install
+sudo make install
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

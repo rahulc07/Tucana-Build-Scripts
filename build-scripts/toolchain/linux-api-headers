@@ -1,8 +1,9 @@
 #!/bin/bash
-URL=https://github.com/strace/strace/releases/download/v5.19/strace-5.19.tar.xz
+
+URL=https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.1.11.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=w64-$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=linux-api-headers
 
 # Get Package
 
@@ -12,15 +13,17 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-CFLAGS="-static"
-./configure --prefix=/usr/x86_64-w64-mingw32 --host=x86_64-w64-mingw32
 
 
-make -j16
+make  headers -j16
+find usr/include -type f ! -name '*.h' -delete
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
+cp -rv usr/include /usr
+mkdir -p /pkgs/$PACKAGE/usr
+cp -rv usr/include /pkgs/$PACKAGE/usr
+
 cd /pkgs
 
 
@@ -28,6 +31,7 @@ cd /pkgs
 sudo echo "" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
+
 
 
 cd /blfs/builds

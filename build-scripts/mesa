@@ -1,0 +1,71 @@
+#!/bin/bash
+URL=https://archive.mesa3d.org/mesa-22.3.5.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/mesa/trunk/0003-Revert-iris-Avoid-abort-if-kernel-can-t-allocate-mem.patch
+wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/mesa/trunk/0002-iris-Retry-DRM_IOCTL_I915_GEM_EXECBUFFER2-on-ENOMEM.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build
+cd build
+
+meson --prefix=/usr   \
+      --buildtype=release     \
+    -Dplatforms=x11,wayland \
+    -Dgallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,i915,iris,crocus,zink,d3d12 \
+    -Dvulkan-drivers=amd,intel,intel_hasvk,swrast,virtio-experimental \
+    -Dvulkan-layers=device-select,intel-nullhw,overlay \
+    -Ddri3=enabled \
+    -Degl=enabled \
+    -Dgallium-extra-hud=true \
+    -Dgallium-nine=true \
+    -Dgallium-va=enabled \
+    -Dgallium-vdpau=enabled \
+    -Dgallium-xa=enabled \
+    -Drust_std=2021 \
+    -Dgbm=enabled \
+    -Dgles1=disabled \
+    -Dgles2=enabled \
+    -Dglvnd=true \
+    -Dglx=dri \
+    -Dlibunwind=enabled \
+    -Dllvm=enabled \
+    -Dlmsensors=enabled \
+    -Dosmesa=true \
+    -Dshared-glapi=enabled \
+    -Dmicrosoft-clc=disabled \
+    -Dvideo-codecs=h264dec,h264enc,h265dec,h265enc,vc1dec \
+      ..             
+
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+install -v -dm755 /pkgs/$PACKAGE/usr/share/doc/mesa
+cp -rfv ../docs/*  /pkgs/$PACKAGE/usr/share/doc/mesa
+cd /pkgs
+
+
+
+sudo echo "wayland-protocols libva libglvnd llvm libvdpau libdrm mako xorg-libs libvulkan lm-sensors" > /pkgs/$PACKAGE/depends
+sudo echo "wayland-protocols libva llvm libvdpau libdrm mako xorg-libs glslang meson lm-sensors zstd libdrm cmake" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

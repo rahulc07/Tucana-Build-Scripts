@@ -1,0 +1,58 @@
+#!/bin/bash
+set -e
+URL=https://webkitgtk.org/releases/webkitgtk-2.38.4.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=webkitgtk5.0
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+export CFLAGS+=' -g1'
+export CXXFLAGS+=' -g1'
+
+mkdir build &&
+cd    build &&
+
+
+cmake -DCMAKE_BUILD_TYPE=Release  \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_SKIP_RPATH=ON       \
+      -DPORT=GTK                  \
+      -DUSE_GTK4=ON               \
+      -DLIB_INSTALL_DIR=/usr/lib  \
+      -DUSE_LIBHYPHEN=OFF         \
+      -DENABLE_GAMEPAD=OFF        \
+      -DENABLE_MINIBROWSER=ON     \
+      -DUSE_WPE_RENDERER=ON       \
+      -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
+      -Wno-dev -G Ninja ..        &&
+
+ninja
+
+
+# Install
+ninja install
+DESTDIR=/pkgs/$PACKAGE ninja install
+cd /pkgs
+
+#Strip binaries
+pushd .
+cd /pkgs/$PACKAGE/usr/lib
+strip $(file * | grep ELF | sed 's/:.*//')
+popd
+
+sudo echo "cairo  gst-plugins-base woff2 gst-plugins-bad gtk3 libsoup3 icu lcms libgudev libsecret libsoup libwebp mesa openjpeg ruby sqlite which wpebackend-foo enchant geoclue gobject-introspection hicolor-icons libnotify wayland" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

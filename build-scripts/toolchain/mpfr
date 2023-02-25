@@ -1,8 +1,8 @@
 #!/bin/bash
-URL=https://github.com/strace/strace/releases/download/v5.19/strace-5.19.tar.xz
+URL=https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=w64-$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
@@ -12,15 +12,18 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-CFLAGS="-static"
-./configure --prefix=/usr/x86_64-w64-mingw32 --host=x86_64-w64-mingw32
 
 
-make -j16
+./configure --prefix=/usr        \
+            --disable-static     \
+            --enable-thread-safe \
+
+make -j20
 
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
 cd /pkgs
 
 

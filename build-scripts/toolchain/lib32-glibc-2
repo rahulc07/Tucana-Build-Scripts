@@ -1,0 +1,84 @@
+#!/bin/bash
+
+set -e
+URL=https://ftp.gnu.org/gnu/glibc/glibc-2.37.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=lib32-glibc
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.37-fhs-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+patch -Np1 -i ../glibc-2.37-fhs-1.patch
+mkdir -v build
+cd       build
+echo "rootsbindir=/usr/sbin" > configparms
+
+
+CC="gcc -m32" CXX="g++ -m32" \
+../configure                             \
+      --prefix=/usr                      \
+      --build=$(../scripts/config.guess) \
+      --enable-kernel=3.2                \
+      --with-headers=/usr/include \
+      --host=i686-pc-linux-gnu \
+      --enable-multi-arch                \
+      --libexecdir=/usr/lib32            \
+      --libdir=/usr/lib32 libc_cv_slibdir=/usr/lib32 \
+
+
+
+make -j20 --jobserver-style=pipe
+
+
+# Install
+sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
+sudo make DESTDIR=$PWD/DESTDIR install
+# Install into new package
+mkdir -p /pkgs/$PACKAGE/usr
+mkdir -p  /pkgs/$PACKAGE/usr/include/gnu/
+mkdir -p /pkgs/$PACKAGE/usr/lib
+# Copy the essential files
+cp -a DESTDIR/usr/lib32 /pkgs/$PACKAGE/usr/
+install -vm644 DESTDIR/usr/include/gnu/{lib-names,stubs}-32.h \
+               /pkgs/$PACKAGE/usr/include/gnu/
+# Make essential symlinks 
+
+ln -sfv usr/lib32 /pkgs/$PACKAGE/lib32
+ln -svf ../lib32/ld-linux.so.2  /pkgs/$PACKAGE/usr/lib/ld-linux.so.2
+
+# Do the same for the host system
+cp -a DESTDIR/usr/lib32 /usr
+install -vm644 DESTDIR/usr/include/gnu/{lib-names,stubs}-32.h \
+               /usr/include/gnu/
+ln -sfv usr/lib32 /lib32
+ln -svf ../lib32/ld-linux.so.2  /lib/ld-linux.so.2
+
+# Add /usr/lib32 to the search path
+mkdir -p /pkgs/$PACKAGE/etc/ld.so.conf.d/
+echo "/usr/lib32" > /etc/ld.so.conf.d/lib32.conf
+
+cd /pkgs
+# Postinst
+echo "ldconfig" > /pkgs/$PACKAGE/postinst
+sudo echo "linux-api-headers gcc lib32-libgcc" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+# Lib32 
+
+
+
+
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

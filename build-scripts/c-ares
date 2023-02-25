@@ -1,8 +1,8 @@
 #!/bin/bash
-URL=https://github.com/strace/strace/releases/download/v5.19/strace-5.19.tar.xz
+URL=https://c-ares.haxx.se/download/c-ares-1.19.0.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=w64-$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
@@ -12,20 +12,24 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-CFLAGS="-static"
-./configure --prefix=/usr/x86_64-w64-mingw32 --host=x86_64-w64-mingw32
 
+mkdir build &&
+cd    build &&
+
+cmake  -DCMAKE_INSTALL_PREFIX=/usr ..
 
 make -j16
 
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
 cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
