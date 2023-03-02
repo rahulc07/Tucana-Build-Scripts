@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://nodejs.org/dist/v18.13.0/node-v18.13.0.tar.xz
+URL=https://nodejs.org/dist/v18.14.1/node-v18.14.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')js
@@ -12,9 +12,6 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-sed -e '/=.*exec/a command -v python3.11 >/dev/null && exec python3.11 "$0" "$@"' \
-    -e s'/((/((3, 11), (/'  \
-    -i configure
 ./configure --prefix=/usr          \
             --shared-cares         \
             --shared-libuv         \

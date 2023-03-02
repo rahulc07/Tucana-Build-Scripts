@@ -18,7 +18,6 @@ cd $DIR
 ./configure --prefix=/usr          \
             --disable-static       \
             --with-gcc-arch=core2 \
-            --disable-exec-static-tramp
 
 
 make -j16

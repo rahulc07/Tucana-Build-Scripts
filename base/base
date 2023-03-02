@@ -5,7 +5,7 @@
 # Tucana would not be possible without them!
 set -e
 PACKAGE=base
-TUCANA_VERSION=1.2
+TUCANA_VERSION=2.2
 
 # Notes 
 # To update
@@ -152,25 +152,25 @@ chmod -v 600  /pkgs/$PACKAGE/var/log/btmp
 
 cat > /pkgs/$PACKAGE/etc/lsb-release << "EOF"
 DISTRIB_ID="Tucana Linux"
-DISTRIB_RELEASE="2.0"
+DISTRIB_RELEASE="2.2"
 DISTRIB_CODENAME="Rahul Chandra"
 DISTRIB_DESCRIPTION="Tucana GNU/Linux"
 EOF
 
 cat > /pkgs/$PACKAGE/etc/os-release << "EOF"
 NAME="Tucana Linux"
-VERSION="2.0"
+VERSION="2.2"
 ID=tucana
-PRETTY_NAME="Tucana GNU/Linux 2.0"
+PRETTY_NAME="Tucana GNU/Linux 2.2"
 VERSION_CODENAME="Rahul Chandra"
 EOF
 
 cat > /pkgs/$PACKAGE/etc/shells << "EOF"
-cat > /etc/shells << "EOF"
 # A list of shells on the system
 
 /bin/sh
 /bin/bash
+/bin/zsh
 
 EOF
 

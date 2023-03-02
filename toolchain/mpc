@@ -15,10 +15,9 @@ cd $DIR
 
 ./configure --prefix=/usr    \
             --disable-static \
-            --docdir=/usr/share/doc/mpc-1.2.1
 
 
-make -j16
+make -j22
 
 
 # Install

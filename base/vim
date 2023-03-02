@@ -2,7 +2,7 @@
 
 # This is the non-xorg version, for the xorg version install vim-xorg
 
-URL=https://github.com/vim/vim/archive/v9.0.0820/vim-9.0.0820.tar.gz
+URL=https://github.com/vim/vim/archive/v9.0.1273/vim-9.0.1273.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

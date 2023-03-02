@@ -28,7 +28,7 @@ cd /pkgs
 
 
 
-sudo echo "lib32-gmp lib32-nettle lib32-gnutls lib32-systemd lib32-openssl libva lib32-libva lib32-mesa lib32-cairo lib32-libdrm lib32-gtk2 lib32-openal lib32-xorg-libs lib32-fontconfig lib32-freetype2 lib32-harfbuzz lib32-libxml2 lib32-wayland lib32-pulseaudio lib32-libsndfile lib32-xz lib32-sdl2 lib32-intel-vaapi lib32-network-manager lib32-libvulkan lib32-ncurses lib32-libelf lib32-openldap lib32-curl lib32-brotli lib32-zstd lib32-pipewire lib32-expat lib32-bzip2 lib32-gdk-pixbuf lib32-pango lib32-libcap ibus lib32-libpng12 zenity" > /pkgs/$PACKAGE/depends
+sudo echo "lib32-gmp lib32-nettle lib32-gnutls lib32-systemd lib32-openssl libva lib32-libva lib32-mesa lib32-cairo lib32-libdrm lib32-gtk2 lib32-openal lib32-xorg-libs lib32-fontconfig lib32-freetype2 lib32-harfbuzz lib32-libxml2 lib32-wayland lib32-pulseaudio lib32-libsndfile lib32-xz lib32-sdl2 lib32-intel-vaapi lib32-network-manager lib32-libvulkan lib32-ncurses lib32-libelf lib32-openldap lib32-curl lib32-brotli lib32-zstd lib32-pipewire lib32-expat lib32-bzip2 lib32-gdk-pixbuf lib32-pango lib32-libcap ibus lib32-libpng12 zenity ca-certificate-utils" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

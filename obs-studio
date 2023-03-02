@@ -1,16 +1,21 @@
 #!/bin/bash
-URL=https://github.com/jp9000/obs-studio/archive/29.0.2.tar.gz
-TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=obs-studio-$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+# Bleeding edge git for now while FFMpeg 6.0 is in testing
+URL=https://github.com/obsproject/obs-studio.git
+DIR=obs-studio
+PACKAGE=$DIR
+#URL=https://github.com/jp9000/obs-studio/archive/29.0.2.tar.gz
+#TAR=$(echo $URL | sed -r 's|(.*)/||')
+#DIR=obs-studio-$(echo $TAR | sed 's|.tar.*||g')
+#PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 set -e
 
 # Get Package
 # Arch patch
 cd /blfs/builds
 wget https://raw.githubusercontent.com/archlinux/svntogit-community/packages/obs-studio/trunk/ignore_unused_submodules.patch
-wget $URL
-tar -xvf $TAR
+#wget $URL
+git clone $URL
+#tar -xvf $TAR
 cd $DIR
 
 # Build
@@ -22,6 +27,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
     -DENABLE_VLC=OFF \
     -DENABLE_NEW_MPEGTS_OUTPUT=OFF \
     -DENABLE_AJA=OFF \
+    -DCALM_DEPRECATION=on \
     -Wno-dev ..
 
 

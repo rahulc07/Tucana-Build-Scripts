@@ -1,6 +1,6 @@
 #!/bin/bash
 # Specify Location of Build Scripts
-SCRIPTS_LOCATION=/home/rahul/lfs/build-scripts
+SCRIPTS_LOCATION=/mnt/
 
 # Rebuild all packages/requested packages in the repo
 
@@ -46,7 +46,6 @@ PACKAGES+=" $(find $SCRIPTS_LOCATION/lib32  -maxdepth 1 -type f | sed 's|.*/||g'
 # Lib32-xorg
 PACKAGES+=" $(find $SCRIPTS_LOCATION/lib32/lib32-xorg/libs/lib32-build-xorg-libs.sh -type f | sed 's|.*/||g')"
 echo $PACKAGES
-exit 0
 for package in $PACKAGES; do
    build_package "$package"
 done

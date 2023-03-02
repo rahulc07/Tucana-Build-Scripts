@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER=5.15.11
+PKG_VER=5.15.12
 URL=https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

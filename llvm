@@ -143,7 +143,7 @@ cd /pkgs
 
 sudo echo "libgcc" > /pkgs/$PACKAGE3/depends
 sudo tar -cvzpf $PACKAGE3.tar.xz $PACKAGE3
-sudo cp $PACKAGE.tar.xz /finished
+sudo cp $PACKAGE3.tar.xz /finished
 
 
 cd /blfs/builds

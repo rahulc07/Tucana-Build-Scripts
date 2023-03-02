@@ -62,7 +62,7 @@ ln -svf ../lib32/ld-linux.so.2  /lib/ld-linux.so.2
 
 # Add /usr/lib32 to the search path
 mkdir -p /pkgs/$PACKAGE/etc/ld.so.conf.d/
-echo "/usr/lib32" > /etc/ld.so.conf.d/lib32.conf
+echo "/usr/lib32" > /pkgs/$PACKAGE/etc/ld.so.conf.d/lib32.conf
 
 cd /pkgs
 # Postinst

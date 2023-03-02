@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=
+URL=https://github.com/ibus/ibus/releases/download/1.5.28/ibus-1.5.28.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,10 +13,19 @@ cd $DIR
 
 # Build
 
+sed -i 's@/desktop/ibus@/org/freedesktop/ibus@g' \
+    data/dconf/org.freedesktop.ibus.gschema.xml
+autoreconf -fi
+./configure \
+            --prefix=/usr              \
+            --sysconfdir=/etc          \
+            --disable-python2          \
+            --disable-emoji-dict       \
+            --disable-unicode-dict     \
 
+rm -f tools/main.c 
 
-
-make -j16
+make -j20
 
 
 # Install
@@ -26,7 +35,8 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "dconf iso-codes vala gtk2 gtk3 libnotify gtk4 gobject-introspection dbus-python pygobject3" > /pkgs/$PACKAGE/depends
+sudo echo "gtk-query-immodules-3.0 --update-cache" > /pkgs/$PACKAGE/postinst
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

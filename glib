@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://download.gnome.org/sources/glib/2.74/glib-2.74.5.tar.xz
+URL=https://download.gnome.org/sources/glib/2.74/glib-2.74.6.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -30,8 +30,8 @@ sudo  DESTDIR=/pkgs/$PACKAGE ninja install
 sudo ninja install
 cd /pkgs
 
-mkdir -p /pkgs/glib/usr/share/doc/glib-2.72.3 &&
-cp -r ../docs/reference/{gio,glib,gobject} /pkgs/glib/usr/share/doc/glib-2.72.3
+mkdir -p /pkgs/glib/usr/share/doc/glib &&
+cp -r ../docs/reference/{gio,glib,gobject} /pkgs/glib/usr/share/doc/glib
 
 
 sudo echo "pcre base" > /pkgs/$PACKAGE/depends

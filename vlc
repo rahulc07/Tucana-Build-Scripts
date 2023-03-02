@@ -3,7 +3,7 @@ URL=https://download.videolan.org/vlc/3.0.18/vlc-3.0.18.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-
+set -e
 # Get Package
 
 cd /blfs/builds

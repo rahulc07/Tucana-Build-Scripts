@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER=3.11.1
+PKG_VER=3.11.2
 URL=https://www.python.org/ftp/python/$PKG_VER/Python-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

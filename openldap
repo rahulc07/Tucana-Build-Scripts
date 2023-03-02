@@ -79,8 +79,8 @@ make -j20
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE2 install
-sudo echo ¨mariadb cyrus-sasl pam coreutils iproute2¨ > /pkgs/$PACKAGE2/depends
-sudo echo ¨¨ > /pkgs/$PACKAGE2/make-depends
+sudo echo "mariadb cyrus-sasl pam coreutils iproute2" > /pkgs/$PACKAGE2/depends
+sudo echo "" > /pkgs/$PACKAGE2/make-depends
 cd /pkgs
 
 sudo tar -cvzpf $PACKAGE2.tar.xz $PACKAGE2

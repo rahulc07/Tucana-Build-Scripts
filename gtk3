@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.34.tar.xz
+URL=https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.36.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

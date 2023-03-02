@@ -1,12 +1,11 @@
 #!/bin/bash
-PKG_VER=1.3.240
+PKG_VER=1.3.242
 URL=https://github.com/KhronosGroup/Vulkan-Loader/archive/v$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=Vulkan-Loader-$PKG_VER
 PACKAGE=libvulkan
 set -e 
 # Get Package
-
 cd /blfs/builds
 wget $URL
 tar -xvf $TAR

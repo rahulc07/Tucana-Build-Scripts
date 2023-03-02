@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz
+URL=https://github.com/facebook/zstd/releases/download/v1.5.4/zstd-1.5.4.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -8,14 +8,11 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/lfs/development/zstd-1.5.2-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-
-patch -Np1 -i ../zstd-1.5.2-upstream_fixes-1.patch
 
 make prefix=/usr -j16
 

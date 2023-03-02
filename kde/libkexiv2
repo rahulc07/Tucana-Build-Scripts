@@ -1,5 +1,6 @@
 #!/bin/bash
-URL=https://download.kde.org/stable/release-service/22.08.0/src/libkexiv2-22.08.0.tar.xz
+PKG_VER=22.12.2
+URL=https://download.kde.org/stable/release-service/$PKG_VER/src/libkexiv2-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://ftp.gnu.org/gnu/texinfo/texinfo-6.8.tar.xz
+URL=https://ftp.gnu.org/gnu/texinfo/texinfo-7.0.2.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
