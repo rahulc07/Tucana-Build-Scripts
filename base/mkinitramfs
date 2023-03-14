@@ -83,8 +83,10 @@ mkdir -p $WDIR/{dev,run,sys,proc,usr/{bin,lib/{firmware,modules},sbin}}
 mkdir -p $WDIR/etc/{modprobe.d,udev/rules.d}
 touch $WDIR/etc/modprobe.d/modprobe.conf
 # Copy modprobe.conf
-cp -rp /etc/modprobe.d/* $WDIR/etc/modprobe.d/
 
+if [ -z "$(ls -A /etc/modprobe.d/)" ]; then
+   cp -rp /etc/modprobe.d/* $WDIR/etc/modprobe.d/
+fi
 ln -s usr/bin  $WDIR/bin
 ln -s usr/lib  $WDIR/lib
 ln -s usr/sbin $WDIR/sbin

@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.2.1.tar.xz
+URL=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.2.6.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 KERNEL_VERSION=$(echo $DIR | sed 's/linux-//')

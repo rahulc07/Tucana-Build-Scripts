@@ -1,0 +1,59 @@
+#!/bin/bash
+URL=https://src.fedoraproject.org/rpms/ca-certificates.git
+DIR=ca-certificates
+PACKAGE=ca-certificate-utils
+# Get Package
+set -e
+cd /blfs/builds
+git clone $URL
+cd $DIR
+
+# Build
+# Credit to Pierre Schmitz and Jan Alexander Steffens for the build process for this (From ArchLinux)
+ a2x -v -f manpage update-ca-trust.8.txt
+   rm update-ca-trust
+   # Custom version of update-ca-trust
+   wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/ca-certificates/trunk/update-ca-trust
+  install -Dt "/pkgs/$PACKAGE/usr/bin" update-ca-trust
+  install -Dt "/pkgs/$PACKAGE/usr/share/man/man8" -m644 update-ca-trust.8
+
+  install -Dm644 README.etcssl "/pkgs/$PACKAGE/etc/ssl/README"
+  install -Dm644 README.java   "/pkgs/$PACKAGE/etc/ssl/certs/java/README"
+  install -Dm644 README.extr   "/pkgs/$PACKAGE/etc/ca-certificates/extracted/README"
+
+  ln -sfr "/pkgs/$PACKAGE/etc/ca-certificates/extracted/tls-ca-bundle.pem" "/pkgs/$PACKAGE/etc/ssl/cert.pem"
+ ln -sfr "/pkgs/$PACKAGE/etc/ca-certificates/extracted/tls-ca-bundle.pem" "/pkgs/$PACKAGE/etc/ssl/certs/ca-certificates.crt"
+ ln -sfr "/pkgs/$PACKAGE/etc/ca-certificates/extracted/tls-ca-bundle.pem" "/pkgs/$PACKAGE/etc/ssl/certs/ca-bundle.crt"
+
+mkdir -p /pkgs/$PACKAGE/usr/share/libalpm/hooks/
+echo "[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Path
+Target = usr/share/ca-certificates/trust-source/*
+
+[Action]
+Description = Rebuilding certificate stores...
+When = PostTransaction
+Exec = /usr/bin/update-ca-trust" > /pkgs/$PACKAGE/usr/share/libalpm/hooks/40-update-ca-trust.hook
+
+
+
+
+
+
+# Install
+cd /pkgs
+
+
+
+sudo echo "bash ca-certificates coreutils findutils p11-kit" > /pkgs/$PACKAGE/depends
+sudo echo "update-ca-trust" > /pkgs/$PACKAGE/postinst
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+
+

@@ -1,11 +1,11 @@
 #!/bin/bash
-URL=https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-1.10.0.tar.xz
+URL=https://github.com/strukturag/libheif/releases/download/v1.15.1/libheif-1.15.1.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-
+set -e
 # Get Package
-
+go env -w GO111MODULE=off
 cd /blfs/builds
 wget $URL
 tar -xvf $TAR
@@ -13,15 +13,11 @@ cd $DIR
 
 # Build
 
+./autogen.sh
+./configure --prefix=/usr --enable-static=no
 
 
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-
-
-
-
+make -j16
 
 
 # Install
@@ -31,7 +27,8 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "ffmpeg" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

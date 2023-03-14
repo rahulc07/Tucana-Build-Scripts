@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-1.10.0.tar.xz
+URL=https://github.com/hughsie/libxmlb/releases/download/0.3.11/libxmlb-0.3.11.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,25 +13,22 @@ cd $DIR
 
 # Build
 
-
-
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 
+meson --prefix=/usr -Dstemmer=true ..
 
-
-
+ninja
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
 cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "libstemmer xz zstd glib" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

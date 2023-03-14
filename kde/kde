@@ -108,7 +108,7 @@ while read -r line; do
       # Package 
   
       make DESTDIR=/pkgs/kde/$PACKAGE install
-      sudo echo "gtk2 gtk3 kf5 libpwquality libqalculate libxkbcommon mesa wayland network-manager pipewire pulseaudio qca sassc taglib xcb-util-cursor fftw gsettings-desktop-schemas libdbusmenu-qt libcanberra libinput libpcap lm-sensors oxygen-icons pciutils accounts-service smartmontools qtwebengine kuserfeedback" > /pkgs/kde/$PACKAGE/depends
+      sudo echo "gtk2 gtk3 kf5 libpwquality libqalculate libxkbcommon mesa wayland network-manager pipewire pulseaudio qca sassc taglib xcb-util-cursor fftw gsettings-desktop-schemas libdbusmenu-qt libcanberra libinput libpcap lm-sensors oxygen-icons pciutils accounts-service smartmontools qtwebengine kuserfeedback appstream" > /pkgs/kde/$PACKAGE/depends
       cd /pkgs/kde
       sudo tar -cvzpf /finished/kde/$PACKAGE.tar.xz $PACKAGE
       cd - 

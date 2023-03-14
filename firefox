@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
-# Last Validated Version 106.0.3
-VER=110.0.1
+# Last Validated Version 110.0.1
+VER=111.0
 URL=https://archive.mozilla.org/pub/firefox/releases/$VER/source/firefox-$VER.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=firefox-$VER
@@ -10,12 +10,10 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 # Get Package
 
 cd /blfs/builds
-wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/firefox/trunk/0001-libwebrtc-screen-cast-sync.patch
 wget $URL
 tar -xvf $TAR
 cd $DIR
 # Build
-patch -Np1 < ../0001-libwebrtc-screen-cast-sync.patch
 cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
 

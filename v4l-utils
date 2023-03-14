@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-1.10.0.tar.xz
+URL=https://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.22.1.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -14,14 +14,11 @@ cd $DIR
 # Build
 
 
+./configure --prefix=/usr     \
+            --sysconfdir=/etc \
+            --disable-static 
 
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-
-
-
-
+make -j16
 
 
 # Install
@@ -31,7 +28,8 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "llvm alsa-lib glu libjpeg-turbo qt5 sdl2" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

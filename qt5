@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER=5.15.7
+PKG_VER=5.15.8
 URL=https://download.qt.io/archive/qt/5.15/$PKG_VER/single/qt-everywhere-opensource-src-$PKG_VER.tar.xz
 TAR=qt-everywhere-opensource-src-$PKG_VER.tar.xz
 DIR=qt-everywhere-src-$PKG_VER
@@ -7,15 +7,15 @@ PACKAGE=qt5
 # Get Package
 set -e
 cd /blfs/builds
-wget https://www.linuxfromscratch.org/patches/downloads/qt-everywhere-opensource-src/qt-everywhere-opensource-src-5.15.7-kf5-1.patch
+wget https://www.linuxfromscratch.org/patches/downloads/qt-everywhere-opensource-src/qt-everywhere-opensource-src-$PKG_VER-kf5-1.patch
 wget $URL
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-patch -Np1 -i ../qt-everywhere-opensource-src-5.15.7-kf5-1.patch
-echo $?
+patch -Np1 -i ../qt-everywhere-opensource-src-$PKG_VER-kf5-1.patch
+mkdir -pv qtbase/.git
 ./configure -prefix /usr                              \
             -sysconfdir /etc/xdg                      \
             -confirm-license                          \

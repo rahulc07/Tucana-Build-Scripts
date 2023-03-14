@@ -2,7 +2,7 @@
 URL=https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.36.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=gtk3
 
 # Get Package
 
@@ -12,25 +12,21 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
-
-./configure --prefix=/usr              \
-            --sysconfdir=/etc          \
-            --enable-broadway-backend  \
-            --enable-x11-backend       \
-            --enable-wayland-backend
-
-make -j16
-
+mkdir build
+cd build
+meson setup --prefix=/usr           \
+            --buildtype=release     \
+            ..
+ninja
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+DESTDIR=/pkgs/$PACKAGE ninja install
+ninja install
 cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "at-spi2-core gdk-pixbuf libepoxy pango wayland sassc" > /pkgs/$PACKAGE/depends
 echo "gtk-query-immodules-3.0 --update-cache && glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE

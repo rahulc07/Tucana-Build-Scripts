@@ -1,0 +1,42 @@
+#!/bin/bash
+URL=https://github.com/snowballstem/snowball/archive/refs/tags/v2.2.0.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=snowball-2.2.0
+PACKAGE=libstemmer
+set -e
+# Get Package
+
+cd /blfs/builds
+wget https://src.fedoraproject.org/rpms/snowball/raw/rawhide/f/snowball-sharedlib.patch
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+patch -Np1 < ../snowball-sharedlib.patch
+
+
+make -j16
+
+
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/{include,lib}
+cp include/libstemmer.h /pkgs/$PACKAGE/usr/include
+cp libstemmer.so.0 /pkgs/$PACKAGE/usr/lib/libstemmer.so.0.0.0
+ln -sf libstemmer.so.0.0.0 /pkgs/$PACKAGE/usr/lib/libstemmer.so.0
+ln -sf libstemmer.so.0 /pkgs/$PACKAGE/usr/lib/libstemmer.so
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

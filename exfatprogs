@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-1.10.0.tar.xz
+URL=https://github.com/exfatprogs/exfatprogs/releases/download/1.2.0/exfatprogs-1.2.0.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,15 +13,10 @@ cd $DIR
 
 # Build
 
+./configure --prefix=/usr --sbindir=/usr/sbin
 
 
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-
-
-
-
+make -j16
 
 
 # Install
@@ -31,7 +26,8 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "glibc" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
