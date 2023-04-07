@@ -1,5 +1,5 @@
 #!/bin/bash
-GNOME_MAJOR=43
+GNOME_MAJOR=44
 GNOME_MINOR=0
 URL=https://download.gnome.org/sources/gnome-settings-daemon/$GNOME_MAJOR/gnome-settings-daemon-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

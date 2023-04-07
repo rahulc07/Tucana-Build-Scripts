@@ -30,15 +30,16 @@ cd       build
 LD=ld
 CFLAGS="-O2" ../configure --prefix=/usr            \
              LD=ld                    \
-             --enable-languages=c,c++,go \
+             --enable-languages=c,c++,go,ada \
              --enable-multilib       \
              --with-multilib-list=m32,m64 \
+             --enable-libada \
              --enable-default-pie \
              --enable-default-ssp  \
              --enable-threads=posix \
              --with-system-zlib \
 
-make BOOT_CFLAGS='-O2' STAGE1_CFLAGS='-O2' bootstrap -j16
+make BOOT_CFLAGS='-O2' STAGE1_CFLAGS='-O2' bootstrap -j20
 #make check -j20
 
 
@@ -145,7 +146,7 @@ mv /pkgs/$PACKAGE/usr/lib32/libssp.so.* /pkgs/$ALT_PACKAGE2/usr/lib32
 # Package
 cd /pkgs
 
-echo "libgcc glibc zstd mpc mpfr gmp flex" > /pkgs/$PACKAGE/depends
+echo "libgcc glibc zstd mpc mpfr gmp flex isl" > /pkgs/$PACKAGE/depends
 echo "libgcc glibc lib32-glibc libisl mpc mpfr lib32-glibc" > /pkgs/$PACKAGE/depends
 tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 cp $PACKAGE.tar.xz /finished

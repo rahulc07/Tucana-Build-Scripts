@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER=4.0
+PKG_VER=4.1
 URL=https://download.gnome.org/sources/gcr/$PKG_VER/gcr-$PKG_VER.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

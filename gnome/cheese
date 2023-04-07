@@ -2,8 +2,7 @@
 GNOME_MAJOR=43
 GNOME_MINOR=0
 # Is in alpha?
-#URL=https://download.gnome.org/sources/cheese/$GNOME_MAJOR/cheese-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
-URL=https://download.gnome.org/sources/cheese/$GNOME_MAJOR/cheese-$GNOME_MAJOR.alpha.tar.xz
+URL=https://download.gnome.org/sources/cheese/$GNOME_MAJOR/cheese-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

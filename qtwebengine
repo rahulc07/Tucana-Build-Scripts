@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER=5.15.12
+PKG_VER=5.15.13
 URL=https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -10,19 +10,20 @@ set -e
 cd /blfs/builds
 wget  https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$PKG_VER-build_fixes-1.patch
 wget https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$PKG_VER-ffmpeg5_fixes-1.patch
-												
+wget https://raw.githubusercontent.com/xXTeraXx/Tucana/master/mercury/patches/qtwebengine-python3.patch
 wget $URL
+												
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-ln -svf /usr/bin/python{2,}
 patch -Np1 -i ../qtwebengine-$PKG_VER-build_fixes-1.patch
 patch -Np1 -i ../qtwebengine-$PKG_VER-ffmpeg5_fixes-1.patch
+patch -Np1 -i ../qtwebengine-python3.patch
 mkdir -pv .git src/3rdparty/chromium/.git
 
-sed -e '/^MODULE_VERSION/s/5.*/5.15.7/' -i .qmake.conf
+sed -e '/^MODULE_VERSION/s/5.*/5.15.8/' -i .qmake.conf
 
 find -type f -name "*.pr[io]" |
   xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
@@ -40,8 +41,8 @@ sed -i 's/NINJAJOBS/NINJA_JOBS/' src/core/gn_run.pro
 
 mkdir build &&
 cd    build &&
-qmake .. -- -system-ffmpeg -webengine-icu &&
-make -j16
+qmake .. -- -system-ffmpeg -proprietary-codecs -webengine-icu &&
+make -j20
 
 
 
@@ -54,7 +55,6 @@ find $QT5DIR/ -name \*.prl \
 export QT5DIR=/pkgs/qtwebengine/usr
 find $QT5DIR/ -name \*.prl \
    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
-rm -v /usr/bin/python
 cd /pkgs
 
 

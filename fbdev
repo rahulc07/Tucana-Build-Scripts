@@ -2,7 +2,7 @@
 URL=https://www.x.org/pub/individual/driver/xf86-video-fbdev-0.5.0.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=fbdev
 
 # Get Package
 

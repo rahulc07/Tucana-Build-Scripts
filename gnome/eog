@@ -1,5 +1,5 @@
 #!/bin/bash
-GNOME_MAJOR=43
+GNOME_MAJOR=44
 GNOME_MINOR=0
 URL=https://download.gnome.org/sources/eog/$GNOME_MAJOR/eog-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -28,7 +28,7 @@ ninja install && DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "adwaita-icon-theme exempi gnome-desktop itstool libjpeg-turbo libpeas shared-mime-info gobject-introspection lcms libexif librsvg gtk-doc libportal" > /pkgs/$PACKAGE/depends
+sudo echo "adwaita-icon-theme exempi gnome-desktop itstool libjpeg-turbo libpeas shared-mime-info gobject-introspection lcms libexif librsvg gtk-doc libportal libheif" > /pkgs/$PACKAGE/depends
 sudo rm -r /pkgs/$PACKAGE/blfs
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

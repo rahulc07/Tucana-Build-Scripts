@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER=6.2.4
+PKG_VER=6.4.0
 URL=https://github.com/gavinhoward/bc/releases/download/$PKG_VER/bc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

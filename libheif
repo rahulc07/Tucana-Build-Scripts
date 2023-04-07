@@ -27,7 +27,7 @@ cd /pkgs
 
 
 
-sudo echo "ffmpeg" > /pkgs/$PACKAGE/depends
+sudo echo "ffmpeg libde265" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

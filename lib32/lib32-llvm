@@ -1,10 +1,14 @@
 #!/bin/bash
 set -e
-PKG_VER=15.0.7
+PKG_VER=16.0.0
 LLVM_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/llvm-$PKG_VER.src.tar.xz
 CMAKE_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/cmake-$PKG_VER.src.tar.xz
+THIRDPARTY_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/third-party-$PKG_VER.src.tar.xz
+
 LLVM_TAR=$(echo $LLVM_URL | sed -r 's|(.*)/||')
 CMAKE_TAR=$(echo $CMAKE_URL | sed -r 's|(.*)/||')
+THIRDPARTY_TAR=$(echo $THIRDPARTY_URL | sed -r 's|(.*)/||')
+
 LLVM_DIR=$(echo $LLVM_TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-llvm
 
@@ -18,16 +22,22 @@ export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
 cd /blfs/builds
 wget $LLVM_URL
 wget $CMAKE_URL
+wget $THIRDPARTY_URL
 tar -xvf $LLVM_TAR
 tar -xvf $CMAKE_TAR
+tar -xvf $THIRDPARTY_TAR
 # Needed to ensure that llvm can find cmake
 mv cmake-$PKG_VER.src cmake
+# New things for llvm
+mv third-party-$PKG_VER.src third-party
 cd $LLVM_DIR
 
 # Build LLVM Base
 grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
 mkdir build
 cd build
+CFLAGS+=' -g1'
+CXXFLAGS+=' -g1'
 
 
 CC=gcc CXX=g++                                  \

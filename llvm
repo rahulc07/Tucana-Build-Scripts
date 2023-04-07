@@ -1,17 +1,22 @@
 #!/bin/bash
 set -e
-PKG_VER=15.0.7
+PKG_VER=16.0.0
 LLVM_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/llvm-$PKG_VER.src.tar.xz
 CLANG_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/clang-$PKG_VER.src.tar.xz
 COMPILER_RT_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/compiler-rt-$PKG_VER.src.tar.xz
 CMAKE_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/cmake-$PKG_VER.src.tar.xz
+THIRDPARTY_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/third-party-$PKG_VER.src.tar.xz
+
 LLVM_TAR=$(echo $LLVM_URL | sed -r 's|(.*)/||')
 CLANG_TAR=$(echo $CLANG_URL | sed -r 's|(.*)/||')
 COMPILER_RT_TAR=$(echo $COMPILER_RT_URL | sed -r 's|(.*)/||')
 CMAKE_TAR=$(echo $CMAKE_URL | sed -r 's|(.*)/||')
+THIRDPARTY_TAR=$(echo $THIRDPARTY_URL | sed -r 's|(.*)/||')
+
 LLVM_DIR=$(echo $LLVM_TAR | sed 's|.tar.*||g')
 CLANG_DIR=$(echo $CLANG_TAR | sed 's|.tar.*||g')
 COMPILER_RT_DIR=$(echo $COMPILER_RT_TAR | sed 's|.tar.*||g')
+
 PACKAGE=llvm
 PACKAGE2=clang
 PACKAGE3=compiler-rt
@@ -23,12 +28,15 @@ wget $LLVM_URL
 wget $COMPILER_RT_URL
 wget $CLANG_URL
 wget $CMAKE_URL
+wget $THIRDPARTY_URL
 # Credit for this patch goes to archlinux
-wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/clang-ssp.patch
 tar -xvf $LLVM_TAR
 tar -xvf $CMAKE_TAR
+tar -xvf $THIRDPARTY_TAR
 # Needed to ensure that llvm can find cmake
 mv cmake-$PKG_VER.src cmake
+# New things for llvm
+mv third-party-$PKG_VER.src third-party
 tar -xvf $CLANG_TAR
 tar -xvf $COMPILER_RT_TAR
 cd $LLVM_DIR
@@ -74,7 +82,6 @@ cd /blfs/builds
 cd $CLANG_DIR
 grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
 
-patch -Np2 < ../clang-ssp.patch
 
 mkdir build
 cd build

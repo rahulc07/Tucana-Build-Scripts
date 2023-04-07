@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.3.tar.gz
+URL=https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.4.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=mako

@@ -8,8 +8,8 @@
 set -e
 
 
-PKG_VER=5.103.0
-URL=https://download.kde.org/stable/frameworks/5.103/
+PKG_VER=5.104.0
+URL=https://download.kde.org/stable/frameworks/5.104/
 
 # Get Package(s)
 
@@ -20,7 +20,7 @@ mkdir -p /pkgs/kf5
 mkdir -p /finished/kf5
 
 cd /blfs/builds/kf5
-#wget -r -nH -nd -A '*.xz' -np $URL
+wget -r -nH -nd -A '*.xz' -np $URL
 
 
 # Build
