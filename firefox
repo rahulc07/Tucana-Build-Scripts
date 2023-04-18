@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-# Last Validated Version 110.0.1
+# Last Validated Version 111.0
 VER=112.0
 URL=https://archive.mozilla.org/pub/firefox/releases/$VER/source/firefox-$VER.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
