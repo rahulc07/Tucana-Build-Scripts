@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://poppler.freedesktop.org/poppler-22.10.0.tar.xz
+URL=https://poppler.freedesktop.org/poppler-23.0.4.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

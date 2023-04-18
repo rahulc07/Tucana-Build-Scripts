@@ -1,5 +1,6 @@
 #!/bin/bash
-URL=https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.21.0/downloads/wayland-1.21.0.tar.xz
+PKG_VER=1.22.0
+URL=https://gitlab.freedesktop.org/wayland/wayland/-/releases/$PKG_VER/downloads/wayland-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

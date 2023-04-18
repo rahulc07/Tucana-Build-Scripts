@@ -1,5 +1,5 @@
 #!/bin/bash
-PKG_VER=5.15.8
+PKG_VER=5.15.9
 URL=https://download.qt.io/archive/qt/5.15/$PKG_VER/single/qt-everywhere-opensource-src-$PKG_VER.tar.xz
 TAR=qt-everywhere-opensource-src-$PKG_VER.tar.xz
 DIR=qt-everywhere-src-$PKG_VER

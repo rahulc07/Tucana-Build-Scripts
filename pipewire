@@ -1,5 +1,6 @@
 #!/bin/bash
-URL=https://github.com/PipeWire/pipewire/archive/0.3.66/pipewire-0.3.66.tar.gz
+PKG_VER=0.3.68
+URL=https://github.com/PipeWire/pipewire/archive/$PKG_VER/pipewire-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 # Pipewire didn't change the version number in the directory?
 DIR=pipewire-0.3.66

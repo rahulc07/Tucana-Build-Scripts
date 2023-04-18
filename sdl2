@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=https://www.libsdl.org/release/SDL2-2.26.1.tar.gz
+URL=https://www.libsdl.org/release/SDL2-2.26.5.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=sdl2
