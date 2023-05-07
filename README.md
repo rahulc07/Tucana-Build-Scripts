@@ -1,1 +1,2 @@
-Will start work on it again after AP exams
+Over the next week will attempt to update basically every script in this repo
+
