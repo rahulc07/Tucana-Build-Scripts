@@ -1,0 +1,40 @@
+#!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://github.com/eqrion/cbindgen/archive/v0.24.3/cbindgen-0.24.3.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+cargo build --release
+
+
+
+# Installinstall -Dm755 target/release/cbindgen /usr/bin/
+install -Dm755 target/release/cbindgen /pkgs/$PACKAGE/usr/bin/
+install -Dm755 target/release/cbindgen /usr/bin/
+cd /pkgs
+
+
+
+sudo echo "rustc" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

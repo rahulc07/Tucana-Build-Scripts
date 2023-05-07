@@ -1,0 +1,90 @@
+#!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://w1.fi/releases/wpa_supplicant-2.10.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+set -e 
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+cat > wpa_supplicant/.config << "EOF"
+CONFIG_BACKEND=file
+CONFIG_CTRL_IFACE=y
+CONFIG_DEBUG_FILE=y
+CONFIG_DEBUG_SYSLOG=y
+CONFIG_DEBUG_SYSLOG_FACILITY=LOG_DAEMON
+CONFIG_DRIVER_NL80211=y
+CONFIG_DRIVER_WEXT=y
+CONFIG_DRIVER_WIRED=y
+CONFIG_EAP_GTC=y
+CONFIG_EAP_LEAP=y
+CONFIG_EAP_MD5=y
+CONFIG_EAP_MSCHAPV2=y
+CONFIG_EAP_OTP=y
+CONFIG_EAP_PEAP=y
+CONFIG_EAP_TLS=y
+CONFIG_EAP_TTLS=y
+CONFIG_IEEE8021X_EAPOL=y
+CONFIG_IPV6=y
+CONFIG_LIBNL32=y
+CONFIG_PEERKEY=y
+CONFIG_PKCS12=y
+CONFIG_READLINE=y
+CONFIG_SMARTCARD=y
+CONFIG_WPS=y
+CFLAGS += -I/usr/include/libnl3
+EOF
+
+cat >> wpa_supplicant/.config << "EOF"
+CONFIG_CTRL_IFACE_DBUS=y
+CONFIG_CTRL_IFACE_DBUS_NEW=y
+CONFIG_CTRL_IFACE_DBUS_INTRO=y
+EOF
+
+cd wpa_supplicant &&
+make BINDIR=/usr/sbin LIBDIR=/usr/lib -j22
+
+
+
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/sbin
+mkdir -p /pkgs/$PACKAGE/usr/share/man/man8/
+mkdir -p /pkgs/$PACKAGE/usr/share/man/man5/
+mkdir -p /pkgs/$PACKAGE/usr/share/dbus-1/system-services/
+mkdir -p /pkgs/$PACKAGE/etc/dbus-1/system.d
+install -vD -m755 wpa_{cli,passphrase,supplicant} /pkgs/$PACKAGE/usr/sbin/ &&
+install -vD -m644 doc/docbook/wpa_supplicant.conf.5 /pkgs/$PACKAGE/usr/share/man/man5/ &&
+install -vD -m644 doc/docbook/wpa_{cli,passphrase,supplicant}.8 /pkgs/$PACKAGE/usr/share/man/man8/
+install -vD -m644 dbus/fi.w1.wpa_supplicant1.service \
+                 /pkgs/$PACKAGE/usr/share/dbus-1/system-services/ &&
+install -v -d -m755 /pkgs/$PACKAGE/etc/dbus-1/system.d &&
+install -v -m644 dbus/dbus-wpa_supplicant.conf \
+                 /pkgs/$PACKAGE/etc/dbus-1/system.d/wpa_supplicant.conf
+update-desktop-database -q
+
+
+cd /pkgs
+
+cp -rpv $PACKAGE/* /
+
+sudo echo "libnl desktop-file-utils libxml2" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "update-desktop-database -q" > /pkgs/$PACKAGE/postinst
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

@@ -1,0 +1,58 @@
+#!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+
+# This is just for the build system, this SHOULD NOT be pushed to the repo or packaged
+
+URL=https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+PATH_HOLD=$PATH &&
+export PATH=/opt/gnat/bin:$PATH_HOLD
+
+
+
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+sed -e '/m64=/s/lib64/lib/' \
+    -e '/m32=/s/m32=.*/m32=..\/lib32$(call if_multiarch,:i386-linux-gnu)/' \
+    -i.orig gcc/config/i386/t-linux64
+
+
+
+    
+mkdir -v build
+cd       build
+LD=ld
+../configure --prefix=/usr            \
+             LD=ld                    \
+             --enable-languages=,ada \
+             --disable-multilib \
+             --disable-bootstrap      \
+             --with-system-zlib \
+             --enable-default-pie        \
+             --enable-default-ssp        \
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/ada install
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

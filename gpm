@@ -1,0 +1,48 @@
+#!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://anduin.linuxfromscratch.org/BLFS/gpm/gpm-1.20.7.tar.bz2
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://www.linuxfromscratch.org/patches/blfs/svn/gpm-1.20.7-consolidated-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+patch -Np1 -i ../gpm-1.20.7-consolidated-1.patch &&
+./autogen.sh                                     &&
+./configure --prefix=/usr --sysconfdir=/etc      &&
+
+
+make -j16
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+rm -fv /pkgs/$PACKAGE/usr/lib/libgpm.a                              &&
+ln -sfv libgpm.so.2.1.0 /pkgs/$PACKAGE/usr/lib/libgpm.so            &&
+install -v -m644 conf/gpm-root.conf /pkgs/$PACKAGE/etc              &&
+
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
