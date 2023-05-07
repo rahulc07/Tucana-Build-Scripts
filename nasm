@@ -1,5 +1,8 @@
 #!/bin/bash
-URL=https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.xz
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/nasm-2.16.01.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

@@ -1,4 +1,10 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 URL=https://github.com/pkgconf/pkgconf/archive/refs/tags/pkgconf-1.9.3.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=pkgconf-$(echo $TAR | sed 's|.tar.*||g')

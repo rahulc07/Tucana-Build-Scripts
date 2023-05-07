@@ -1,4 +1,10 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 URL=https://download.sourceforge.net/gnu-efi/gnu-efi-3.0.15.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

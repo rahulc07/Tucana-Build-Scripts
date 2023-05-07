@@ -1,4 +1,10 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 URL=https://ftp.gnu.org/gnu/groff/groff-1.22.4.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

@@ -1,6 +1,9 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 set -e
-PKG_VER=16.0.1
+PKG_VER=16.0.3
 LLVM_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/llvm-$PKG_VER.src.tar.xz
 CLANG_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/clang-$PKG_VER.src.tar.xz
 COMPILER_RT_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/compiler-rt-$PKG_VER.src.tar.xz
@@ -22,7 +25,8 @@ PACKAGE2=clang
 PACKAGE3=compiler-rt
 
 # Get Package
-
+export CFLAGS="-O2"
+export CXXFLAGS="-O2"
 cd /blfs/builds
 wget $LLVM_URL
 wget $COMPILER_RT_URL

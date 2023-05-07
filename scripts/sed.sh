@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 cp $1 bak/$1.bak
 sed -i 's#/pkgs/gnome42#/pkgs#g' $1
 sed -i 's#/blfs/day18/gnome#/blfs/builds#g' $1

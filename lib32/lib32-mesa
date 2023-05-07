@@ -1,5 +1,8 @@
 #!/bin/bash
-URL=https://archive.mesa3d.org/mesa-23.0.2.tar.xz
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://archive.mesa3d.org/mesa-23.0.3.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')

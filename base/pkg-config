@@ -1,4 +1,10 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 # Depreceated for pkgconf, mercury-update will soon reroute this to a meta package once all packages are confirmed to be buildable with pkgconf
 URL=https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

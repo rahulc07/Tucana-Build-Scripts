@@ -1,5 +1,8 @@
 #!/bin/bash
-URL=https://github.com/unicode-org/icu/releases/download/release-72-1/icu4c-72_1-src.tgz
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://github.com/unicode-org/icu/releases/download/release-73-1/icu4c-73_1-src.tgz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=icu
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')

@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 # Uncomment Glibc 2.36 below
 URL=https://github.com/libarchive/libarchive/releases/download/v3.6.2/libarchive-3.6.2.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

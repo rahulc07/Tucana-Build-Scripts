@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 URL=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.0.9.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

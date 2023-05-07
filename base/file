@@ -1,4 +1,10 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 URL=https://astron.com/pub/file/file-5.44.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 URL=https://www.docbook.org/xml/4.5/docbook-xml-4.5.zip
 ZIP=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $ZIP | sed 's|.zip||g')

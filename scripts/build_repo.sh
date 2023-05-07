@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 # Specify Location of Build Scripts
 SCRIPTS_LOCATION=/mnt/
 

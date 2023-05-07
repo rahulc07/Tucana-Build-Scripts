@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 URL=https://github.com/KhronosGroup/glslang/archive/refs/tags/11.11.0.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=glslang-11.11.0

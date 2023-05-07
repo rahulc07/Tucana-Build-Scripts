@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 set -e
 PKG_VER=3.89
 URL=https://archive.mozilla.org/pub/security/nss/releases/NSS_$(sed 's/\./\_/g' <<< $PKG_VER)_RTM/src/nss-$PKG_VER.tar.gz

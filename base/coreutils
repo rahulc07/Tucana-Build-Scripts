@@ -1,5 +1,12 @@
 #!/bin/bash
-URL=https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+PKG_VER=9.3
+URL=https://ftp.gnu.org/gnu/coreutils/coreutils-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -8,13 +15,13 @@ set -e
 # Get Package
 
 cd /blfs/builds
-wget https://www.linuxfromscratch.org/patches/lfs/11.2/coreutils-9.1-i18n-1.patch
+wget https://www.linuxfromscratch.org/patches/downloads/coreutils/coreutils-$PKG_VER-i18n-1.patch
 wget $URL
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 -i ../coreutils-9.1-i18n-1.patch
+patch -Np1 -i ../coreutils-$PKG_VER-i18n-1.patch
 autoreconf -fiv
 export FORCE_UNSAFE_CONFIGURE=1
 ./configure --prefix=/usr                     \

@@ -1,5 +1,8 @@
 #!/bin/bash
-URL=https://download.gnome.org/sources/NetworkManager/1.42/NetworkManager-1.42.2.tar.xz
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://download.gnome.org/sources/NetworkManager/1.42/NetworkManager-1.42.6.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=network-manager

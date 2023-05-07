@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 PKG_VER=1.31
 URL=https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/$PKG_VER/downloads/wayland-protocols-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

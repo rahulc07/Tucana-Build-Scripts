@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 # Do the build in the right order
 bash lib32-xtrans
 bash lib32-libX11

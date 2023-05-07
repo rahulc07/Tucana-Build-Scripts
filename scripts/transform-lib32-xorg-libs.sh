@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 set -e
 sed -i "s|doc/\$PACKAGE|doc/\$PACKAGE\ --libdir=/usr/lib32|" *
 # Vars

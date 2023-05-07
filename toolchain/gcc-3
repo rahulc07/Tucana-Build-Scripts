@@ -1,7 +1,10 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 
 set -e
-PKG_VER=12.2.0
+PKG_VER=13.1.0
 TARGET=$(gcc -dumpmachine)
 URL=https://ftp.gnu.org/gnu/gcc/gcc-$PKG_VER/gcc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -17,7 +20,6 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
 
 
 sed -e '/m64=/s/lib64/lib/' \
@@ -152,7 +154,7 @@ tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 cp $PACKAGE.tar.xz /finished
 
 
-echo "glibc" > /pkgs/$ALT_PACKAGE/depends
+echo "glibc isl" > /pkgs/$ALT_PACKAGE/depends
 tar -cvzpf $ALT_PACKAGE.tar.xz $ALT_PACKAGE
 cp $ALT_PACKAGE.tar.xz /finished
 

@@ -1,4 +1,7 @@
 #!/bin/bash
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
 PKG_VER="3.26.3"
 MAJOR_VER=3.26
 URL=https://cmake.org/files/v$MAJOR_VER/cmake-$PKG_VER.tar.gz

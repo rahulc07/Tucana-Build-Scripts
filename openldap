@@ -1,5 +1,8 @@
 #!/bin/bash
-URL=https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.3.tgz
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.4.tgz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tgz||g')
 PACKAGE=openldap
