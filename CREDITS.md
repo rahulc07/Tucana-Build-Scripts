@@ -3,3 +3,5 @@ A lot of the scripts and patches in this repo are based of the Linux From Scratc
 Another chunk is based on the archlinux PKGBUILD's  
 
 And another big chunk, including packaging and a lot of the update fixes and patches come from me.
+
+And obviosuly credit to everyone who made these programs in the first place, Linux on the desktop would not be possible without you!
