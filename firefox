@@ -1,10 +1,9 @@
 #!/bin/bash
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
+
 
 set -e
 # Last Validated Version 111.0
-VER=112.0
+VER=113.0.1
 URL=https://archive.mozilla.org/pub/firefox/releases/$VER/source/firefox-$VER.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=firefox-$VER
@@ -61,8 +60,8 @@ ac_add_options --enable-official-branding
 
 # Stripping is now enabled by default.
 # Uncomment these lines if you need to run a debugger:
-#ac_add_options --disable-strip
-#ac_add_options --disable-install-strip
+ac_add_options --disable-strip
+ac_add_options --disable-install-strip
 
 # Disabling debug symbols makes the build much smaller and a little
 # faster. Comment this if you need to run a debugger. Note: This is

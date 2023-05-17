@@ -1,8 +1,9 @@
 #!/bin/bash
+
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/harfbuzz/harfbuzz/releases/download/5.3.1/harfbuzz-5.3.1.tar.xz
+URL=https://github.com/harfbuzz/harfbuzz/releases/download/7.2.0/harfbuzz-7.2.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -36,7 +37,7 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "glib graphite2" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

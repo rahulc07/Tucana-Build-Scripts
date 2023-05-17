@@ -1,11 +1,12 @@
 #!/bin/bash
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://download.kde.org/stable/release-service/22.08.3/src/falkon-22.08.3.tar.xz
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://download.kde.org/stable/release-service/23.04.0/src/falkon-23.04.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

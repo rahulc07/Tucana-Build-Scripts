@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -e
 URL=https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
