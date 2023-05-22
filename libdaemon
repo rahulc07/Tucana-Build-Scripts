@@ -1,10 +1,9 @@
 #!/bin/bash
 
-
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://download.sourceforge.net/gnu-efi/gnu-efi-3.0.15.tar.bz2
+URL=https://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -18,18 +17,15 @@ cd $DIR
 
 # Build
 
+./configure --prefix=/usr --disable-static
 
-  make -j20
-  make -C lib -j20
-  make -C gnuefi -j20
-  make -C inc -j20
 
 make -j16
 
 
 # Install
-sudo make INSTALLROOT=/pkgs/$PACKAGE PREFIX=/usr install
-sudo make PREFIX=/usr install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
 cd /pkgs
 
 
