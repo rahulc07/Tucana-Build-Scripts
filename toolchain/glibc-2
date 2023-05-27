@@ -35,7 +35,7 @@ echo "rootsbindir=/usr/sbin" > configparms
       --with-headers=/usr/include  libc_cv_slibdir=/usr/lib
 
 
-make -j16  --jobserver-style=pipe
+make -j16  
 
 
 # Install

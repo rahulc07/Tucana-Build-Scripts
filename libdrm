@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://dri.freedesktop.org/libdrm/libdrm-2.4.114.tar.xz
+URL=https://dri.freedesktop.org/libdrm/libdrm-2.4.115.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

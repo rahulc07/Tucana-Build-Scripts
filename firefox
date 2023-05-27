@@ -13,9 +13,11 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
+wget https://www.linuxfromscratch.org/patches/downloads/firefox/firefox-113.0-llvm16-1.patch
 tar -xvf $TAR
 cd $DIR
 # Build
+patch -Np1 < ../firefox-113.0-llvm16-1.patch
 cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
 
@@ -39,12 +41,12 @@ ac_add_options --disable-necko-wifi
 
 # Comment out following options if you have not installed
 # recommended dependencies:
-#ac_add_options --with-system-icu
+ac_add_options --with-system-icu
 ac_add_options --with-system-libevent
-#ac_add_options --with-system-libvpx
+ac_add_options --with-system-libvpx
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
-#ac_add_options --with-system-webp
+ac_add_options --with-system-webp
 
 # Unlike with thunderbird, although using the gold linker can
 # save four megabytes in the installed file it does not make
@@ -60,8 +62,8 @@ ac_add_options --enable-official-branding
 
 # Stripping is now enabled by default.
 # Uncomment these lines if you need to run a debugger:
-ac_add_options --disable-strip
-ac_add_options --disable-install-strip
+#ac_add_options --disable-strip
+#ac_add_options --disable-install-strip
 
 # Disabling debug symbols makes the build much smaller and a little
 # faster. Comment this if you need to run a debugger. Note: This is
@@ -157,7 +159,7 @@ ln -sfv /usr/lib/firefox/browser/chrome/icons/default/default128.png /pkgs/firef
 mkdir -p /pkgs/$PACKAGE/usr/lib/firefox/distribution/
 echo "[Global]
 id=Tucana
-version=2.2
+version=2.3
 about=Mozilla Firefox built for Tucana Linux
 [Preferences]
 app.distributor=tucana
