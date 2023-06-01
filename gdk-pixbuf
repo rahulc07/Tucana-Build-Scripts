@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
+set -e
 URL=https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.10.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -20,7 +20,7 @@ cd $DIR
 mkdir build
 cd build
 
-meson --prefix=/usr ..
+meson --prefix=/usr -Dgtk_doc=false --buildtype=release -Ddocs=false ..
 
 ninja
 

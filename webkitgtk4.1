@@ -4,7 +4,8 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 set -e
-URL=https://webkitgtk.org/releases/webkitgtk-2.40.1.tar.xz
+PKG_VER=2.40.2
+URL=https://webkitgtk.org/releases/webkitgtk-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=webkitgtk4.1
@@ -19,7 +20,8 @@ cd $DIR
 # Build
 export CFLAGS+=' -g1'
 export CXXFLAGS+=' -g1'
-
+sed '/m_brush =/s/{/Brush {/' \
+    -i Source/WebCore/platform/graphics/SourceBrush.cpp
 mkdir build &&
 cd    build &&
 
@@ -28,6 +30,7 @@ cmake -DCMAKE_BUILD_TYPE=Release  \
       -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_SKIP_RPATH=ON       \
       -DPORT=GTK                  \
+      -DUSE_AVIF=OFF \
       -DLIB_INSTALL_DIR=/usr/lib  \
       -DUSE_LIBHYPHEN=OFF         \
       -DENABLE_GAMEPAD=OFF        \

@@ -5,8 +5,8 @@ export CXXFLAGS="-O2"
 
 set -e
 # Last Validated Version 102.4
-VER=102.10.0
-URL=https://archive.mozilla.org/pub/firefox/releases/102.9.0esr/source/firefox-102.9.0esr.source.tar.xz
+VER=102.11.0
+URL=https://archive.mozilla.org/pub/firefox/releases/${VER}esr/source/firefox-${VER}esr.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=firefox-$VER
 PACKAGE=js102
@@ -15,13 +15,11 @@ PACKAGE=js102
 
 cd /blfs/builds
 wget $URL
-wget https://src.fedoraproject.org/rpms/mozjs102/raw/rawhide/f/0001-Python-Build-Use-r-instead-of-rU-file-read-modes.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 # This patch allows the build to work with Python 3.11
-patch -Np1 < ../0001-Python-Build-Use-r-instead-of-rU-file-read-modes.patch
 mkdir obj &&
 cd    obj &&
 

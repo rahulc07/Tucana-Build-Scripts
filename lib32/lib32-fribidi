@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
+export CXXFLAGS="-O2 "
 
 URL=https://github.com/fribidi/fribidi/releases/download/v1.0.12/fribidi-1.0.12.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

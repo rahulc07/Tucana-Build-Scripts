@@ -23,7 +23,7 @@ mkdir build &&
 cd    build &&
 
 
-meson --prefix=/usr --buildtype=release -Dbroadway-backend=true ..
+meson --prefix=/usr --buildtype=release -Dbroadway-backend=true -Dintrospection=enabled ..
 
 
 ninja 
