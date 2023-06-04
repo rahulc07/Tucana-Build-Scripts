@@ -18,7 +18,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
+sed 's@/bin/sh@/bin/sh -l@' -i gnome-session/gnome-session.in
 mkdir build &&
 cd    build &&
 

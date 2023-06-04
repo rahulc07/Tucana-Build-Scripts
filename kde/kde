@@ -15,7 +15,7 @@ export CXXFLAGS="-O2"
 set -e
 
 
-PKG_VER=5.27.4
+PKG_VER=5.27.5
 URL=https://download.kde.org/stable/plasma/$PKG_VER/
 
 # Get Package(s)
@@ -27,7 +27,7 @@ mkdir -p /pkgs/kde
 mkdir -p /finished/kde
 
 cd /blfs/builds/kde
-wget -r -nH -nd -A '*.xz' -np $URL
+#wget -r -nH -nd -A '*.xz' -np $URL
 # Build
 
 

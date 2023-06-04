@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=5.15.13
+PKG_VER=5.15.14
 URL=https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -26,6 +26,7 @@ cd $DIR
 patch -Np1 -i ../qtwebengine-$PKG_VER-build_fixes-1.patch
 patch -Np1 -i ../qtwebengine-$PKG_VER-ffmpeg5_fixes-1.patch
 patch -Np1 -i ../qtwebengine-python3.patch
+patch -Np1 < ../qtwebengine-5.15.14-icu_73-1.patch
 mkdir -pv .git src/3rdparty/chromium/.git
 
 sed -e '/^MODULE_VERSION/s/5.*/5.15.9/' -i .qmake.conf

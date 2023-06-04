@@ -7,7 +7,7 @@ URL=https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.3p1.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-
+set -e
 # Get Package
 
 cd /blfs/builds
@@ -30,7 +30,12 @@ make -j20
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
-
+# Thanks to LFS Again
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20220720.tar.xz
+tar -xvf blfs-systemd-units-20220720.tar.xz
+cd blfs-systemd-units-20220720
+make DESTDIR=/pkgs/$PACKAGE install-sshd
+cd ..
 # Place doc and extra files in
 mkdir -p /pkgs/$PACKAGE/usr/bin
 mkdir -p /pkgs/$PACKAGE/usr/share/doc

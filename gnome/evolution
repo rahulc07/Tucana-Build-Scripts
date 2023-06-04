@@ -2,8 +2,9 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://download.gnome.org/sources/evolution/3.46/evolution-3.48.0.tar.xz
+PKG_VER=3.48.3
+MINOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://download.gnome.org/sources/evolution/$MINOR/evolution-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

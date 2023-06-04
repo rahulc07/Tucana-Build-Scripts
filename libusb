@@ -2,8 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2
+PKG_VER=1.0.26
+URL=https://github.com/libusb/libusb/releases/download/v$PKG_VER/libusb-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
