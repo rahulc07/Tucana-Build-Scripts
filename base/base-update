@@ -1,0 +1,30 @@
+#!/bin/bash
+PACKAGE=base-update
+
+
+
+
+
+cd /pkgs
+mkdir -p base-update/etc
+cd base-update/etc
+
+cat > lsb-release << "EOF"
+DISTRIB_ID="Tucana Linux"
+DISTRIB_RELEASE="2.3"
+DISTRIB_CODENAME="Rahul Chandra"
+DISTRIB_DESCRIPTION="Tucana GNU/Linux"
+EOF
+
+cat > os-release << "EOF"
+NAME="Tucana Linux"
+VERSION="2.3"
+ID=tucana
+PRETTY_NAME="Tucana GNU/Linux 2.3"
+VERSION_CODENAME="Rahul Chandra"
+EOF
+
+cd /pkgs
+echo "" > /pkgs/$PACKAGE/depends
+tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+cp $PACKAGE.tar.xz /finished

@@ -68,7 +68,6 @@ echo " kdecoration-$PKG_VER.tar.xz
  discover-$PKG_VER.tar.xz
  kactivitymanagerd-$PKG_VER.tar.xz
  plasma-integration-$PKG_VER.tar.xz
- plasma-tests-$PKG_VER.tar.xz
  xdg-desktop-portal-kde-$PKG_VER.tar.xz
  drkonqi-$PKG_VER.tar.xz
  plasma-vault-$PKG_VER.tar.xz
