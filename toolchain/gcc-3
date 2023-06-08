@@ -150,7 +150,6 @@ mv /pkgs/$PACKAGE/usr/lib32/libssp.so.* /pkgs/$ALT_PACKAGE2/usr/lib32
 cd /pkgs
 
 echo "libgcc glibc zstd mpc mpfr gmp flex isl" > /pkgs/$PACKAGE/depends
-echo "libgcc glibc lib32-glibc libisl mpc mpfr lib32-glibc" > /pkgs/$PACKAGE/depends
 tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 cp $PACKAGE.tar.xz /finished
 

@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://www.rarlab.com/rar/unrarsrc-6.2.7.tar.gz
+URL=https://www.rarlab.com/rar/unrarsrc-6.2.8.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=unrar
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

@@ -2,8 +2,8 @@
 
 
 set -e
-# Last Validated Version 111.0
-VER=113.0.1
+# Last Validated Version 114.0
+VER=114.0
 URL=https://archive.mozilla.org/pub/firefox/releases/$VER/source/firefox-$VER.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=firefox-$VER
@@ -13,11 +13,9 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/downloads/firefox/firefox-113.0-llvm16-1.patch
 tar -xvf $TAR
 cd $DIR
 # Build
-patch -Np1 < ../firefox-113.0-llvm16-1.patch
 cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
 

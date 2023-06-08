@@ -2,8 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://download.videolan.org/vlc/3.0.18/vlc-3.0.18.tar.xz
+PKG_VER=3.0.18
+URL=https://download.videolan.org/vlc/$PKG_VER/vlc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -22,15 +22,15 @@ export LUAC=/usr/bin/luac5.2                   &&
 export LUA_LIBS="$(pkg-config --libs lua52)"   &&
 export CPPFLAGS="$(pkg-config --cflags lua52)" &&
 
-BUILDCC=gcc ./configure --prefix=/usr    \
+BUILDCC=gcc ./configure --prefix=/usr --disable-libva   \
 
 
 make -j16
 
 
 # Install
-sudo make  docdir=/usr/share/doc/vlc-3.0.17.4 DESTDIR=/pkgs/$PACKAGE install
-sudo make docdir=/usr/share/doc/vlc-3.0.17.4  install
+sudo make  docdir=/usr/share/doc/vlc DESTDIR=/pkgs/$PACKAGE install
+sudo make docdir=/usr/share/doc/vlc  install
 cd /pkgs
 
 

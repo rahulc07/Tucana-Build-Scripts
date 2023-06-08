@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://www.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz
+URL=https://www.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

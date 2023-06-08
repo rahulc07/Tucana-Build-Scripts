@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-URL=https://archive.mesa3d.org/mesa-23.1.1.tar.xz
+URL=https://archive.mesa3d.org/mesa-23.1.2.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
@@ -29,12 +29,14 @@ cd build
 llvm-config = '/usr/bin/llvm-config32'
 END
 
-meson --prefix=/usr    --native-file crossfile.ini \
+meson setup --prefix=/usr    --native-file crossfile.ini \
       --buildtype=release     \
       -Dplatforms=x11,wayland \
       -Dgallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,iris,crocus,zink,d3d12,i915  \
       -Dglx=dri               \
+      -Degl=enabled \
       -Dglvnd=true \
+      -Db_ndebug=true \
       -Ddri3=enabled \
       -Dllvm=true \
       -Dlibunwind=disabled  \
