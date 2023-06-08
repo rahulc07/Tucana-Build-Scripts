@@ -1,0 +1,35 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+PKG_VER=0.9.9.8
+URL=https://github.com/g-truc/glm/archive/$PKG_VER/glm-$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+mkdir -p /pkgs/$PACKAGE/usr/include
+mkdir -p /pkgs/$PACKAGE/usr/share/doc/glm-0.9.9.8
+cp -r glm /pkgs/$PACKAGE/usr/include/ &&
+cp -r doc /pkgs/$PACKAGE/usr/share/doc/glm-0.9.9.8
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

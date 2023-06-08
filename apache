@@ -1,0 +1,80 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+set -e
+URL=https://archive.apache.org/dist/httpd/httpd-2.4.57.tar.bz2
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=apache
+# Thanks LFS for systemd units
+BLFS_SYSTEMD_VER=20220720
+# User check
+getent passwd apache  > /dev/null
+
+if [ $? -eq 0 ]; then
+    :
+else
+   groupadd -g 25 apache &&
+   useradd -c "Apache Server" -d /srv/www -g apache \
+        -s /bin/false -u 25 apache
+fi
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget  https://www.linuxfromscratch.org/patches/blfs/svn/httpd-2.4.57-blfs_layout-1.patch
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+patch -Np1 -i ../httpd-2.4.57-blfs_layout-1.patch             &&
+
+sed '/dir.*CFG_PREFIX/s@^@#@' -i support/apxs.in              &&
+
+sed -e '/HTTPD_ROOT/s:${ap_prefix}:/etc/httpd:'       \
+    -e '/SERVER_CONFIG_FILE/s:${rel_sysconfdir}/::'   \
+    -e '/AP_TYPES_CONFIG_FILE/s:${rel_sysconfdir}/::' \
+    -i configure  &&
+
+./configure --enable-authnz-fcgi                              \
+            --enable-layout=BLFS                              \
+            --enable-mods-shared="all cgi"                    \
+            --enable-mpms-shared=all                          \
+            --enable-suexec=shared                            \
+            --with-apr=/usr/bin/apr-1-config                  \
+            --with-apr-util=/usr/bin/apu-1-config             \
+            --with-suexec-bin=/usr/lib/httpd/suexec           \
+            --with-suexec-caller=apache                       \
+            --with-suexec-docroot=/srv/www                    \
+            --with-suexec-logfile=/var/log/httpd/suexec.log   \
+            --with-suexec-uidmin=100                          \
+            --with-suexec-userdir=public_html   
+
+make -j22
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+mv -v /pkgs/$PACKAGE/usr/sbin/suexec /pkgs/$PACKAGE/usr/lib/httpd/suexec &&
+chgrp apache           /pkgs/$PACKAGE/usr/lib/httpd/suexec &&
+chmod 4754             /pkgs/$PACKAGE/usr/lib/httpd/suexec 
+
+echo "groupadd -g 25 apache &&
+useradd -c "Apache Server" -d /srv/www -g apache \
+        -s /bin/false -u 25 apache" > /pkgs/$PACKAGE/postinst
+cd /pkgs
+
+
+
+sudo echo "apr-util nghttp2 openssl pcre2 zlib" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
