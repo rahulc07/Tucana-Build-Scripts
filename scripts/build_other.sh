@@ -1,0 +1,15 @@
+bash apache
+bash apr
+bash apr-util
+bash archive-zip
+bash glm
+bash gpgme
+bash intel-gmmlib
+bash intel-media-driver
+bash libassuan
+bash libatasmart
+bash libburn
+bash libisoburn
+bash libisofs
+bash php
+bash picom

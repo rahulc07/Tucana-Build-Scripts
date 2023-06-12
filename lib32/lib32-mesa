@@ -30,7 +30,7 @@ llvm-config = '/usr/bin/llvm-config32'
 END
 
 meson setup --prefix=/usr    --native-file crossfile.ini \
-      --buildtype=release     \
+      --buildtype=plain     \
       -Dplatforms=x11,wayland \
       -Dgallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,iris,crocus,zink,d3d12,i915  \
       -Dglx=dri               \

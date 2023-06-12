@@ -16,8 +16,6 @@ bash base/util-linux
 bash base/xz
 bash base/zlib
 bash base/zstd
-bash build_kernel.sh
-bash firefox
 bash gnome/gdm
 bash gnome/gnome-software
 bash gnome/vte4
@@ -39,9 +37,7 @@ bash llvm
 bash mesa
 bash nss
 bash python-modules/wheel
-bash toolchain/gcc-3
 bash unrar
-bash vkd3d
 bash vlc
 bash wine
 bash xfce4/libxfce4ui

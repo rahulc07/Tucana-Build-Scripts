@@ -5,25 +5,23 @@ export CXXFLAGS="-O2"
 
 GNOME_MAJOR=44
 GNOME_MINOR=2
-URL=https://download.gnome.org/sources/gnome-software/$GNOME_MAJOR/gnome-software-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
-TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+URL=https://gitlab.gnome.org/GNOME/gnome-software.git
+COMMIT=a4715568eb2e1c01f95b021c4552d887de3ae911 
+DIR=$(echo $TAR | sed 's|.git||g')
+PACKAGE=gnome-software
 
 # Get Package
 
 cd /blfs/builds
-wget $URL
-tar -xvf $TAR
-cd $DIR
-
+git clone https://gitlab.gnome.org/GNOME/gnome-software.git
+cd gnome-software
+git submodule update --init --recursive
 # Build
 
 mkdir build &&
 cd    build &&
 # For some reason this app has to be compiled with Soup 2, otherwise it throws an error about the app being compiled with both soup2 & soup3 (might just be after upgrading)
-meson --prefix=/usr --buildtype=release .. -Dsoup2=true
-
+meson setup --prefix=/usr --buildtype=release -Dpackagekit=false .. 
 
 ninja 
 
@@ -42,6 +40,5 @@ sudo cp $PACKAGE.tar.xz /finished
 
 
 cd /blfs/builds
-sudo rm -r $DIR
 
 

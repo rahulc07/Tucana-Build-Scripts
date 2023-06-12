@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CFLAGS=-"O2"
+export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 URL=https://download.gnome.org/sources/pango/1.50/pango-1.50.12.tar.xz

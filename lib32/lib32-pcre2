@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CFLAGS=-"O2"
+export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 URL=https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.41/pcre2-10.41.tar.bz2

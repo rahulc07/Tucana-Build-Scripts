@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CFLAGS=-"O2"
+export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 URL=https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-driver-2.4.1.tar.bz2

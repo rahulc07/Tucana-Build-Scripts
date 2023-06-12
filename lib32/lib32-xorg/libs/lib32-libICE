@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CFLAGS=-"O2"
+export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 URL=https://www.x.org/pub/individual/lib/libICE-1.1.1.tar.xz

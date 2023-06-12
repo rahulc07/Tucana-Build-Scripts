@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CFLAGS=-"O2"
+export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 URL=https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.8.tar.bz2

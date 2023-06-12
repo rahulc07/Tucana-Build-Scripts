@@ -8,22 +8,34 @@ TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=accounts-service
 
-# Get Package
 
-cd /blfs/builds
+# Inital setup as this is the only package in the repo that cannot be built as r
+useradd -m builder42737
+
+
+
+# Get Package
+cd /home/builder42737
 wget $URL
 tar -xvf $TAR
 cd $DIR
-
+chown -R builder42737:builder42737 .
 # Build
+
+mv tests/dbusmock{,-tests}
+
+
+sed -e '/accounts_service\.py/s/dbusmock/dbusmock-tests/' \
+   -i tests/test-libaccountsservice.py
+sed -i '/^SIMULATED_SYSTEM_LOCALE/s/en_IE.UTF-8/en_HK.iso88591/' tests/test-daemon.py
 
 mkdir build
 cd build
-
-meson --prefix=/usr       \
+chown -R builder42737:builder42737 .
+su builder42737 -c "meson --prefix=/usr       \
       --buildtype=release \
-      -Dadmin_group=adm   \
-      ..
+      -Dadmin_group=wheel   \
+      .."
 
 ninja
 
@@ -40,8 +52,8 @@ sudo echo "polkit systemd gobject-introspection meson ninja" > /pkgs/$PACKAGE/ma
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
-
-cd /blfs/builds
+cd /home/builder42737
 sudo rm -r $DIR
+userdel builder42737
 
 

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+PKG_VER=20230512
+URL=https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/archive/refs/tags/microcode-$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=Intel-Linux-Processor-Microcode-Data-Files-microcode-$PKG_VER
+PACKAGE=intel-ucode
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+mkdir -p /pkgs/$PACKAGE/usr/lib/firmware/intel-ucode
+cp -rpv intel-ucode/* /pkgs/$PACKAGE/usr/lib/firmware/intel-ucode
+cd /pkgs
+
+
+
+sudo echo "linux-tucana linux-firmware" > /pkgs/$PACKAGE/depends
+echo "cd /boot
+mkinitramfs $(uname -r)"
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

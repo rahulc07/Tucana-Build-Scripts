@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CFLAGS=-"O2"
+export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 URL=https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.3.tgz
