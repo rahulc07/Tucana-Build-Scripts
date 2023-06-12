@@ -5,23 +5,24 @@ export CXXFLAGS="-O2"
 
 GNOME_MAJOR=44
 GNOME_MINOR=2
-URL=https://gitlab.gnome.org/GNOME/gnome-software.git
-COMMIT=a4715568eb2e1c01f95b021c4552d887de3ae911 
-DIR=$(echo $TAR | sed 's|.git||g')
+URL=https://download.gnome.org/sources/gnome-software/$GNOME_MAJOR/gnome-software-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=gnome-software
 
 # Get Package
 
 cd /blfs/builds
-git clone https://gitlab.gnome.org/GNOME/gnome-software.git
-cd gnome-software
-git submodule update --init --recursive
+wget $URL
+tar -xvf $TAR
+cd $DIR
 # Build
 
 mkdir build &&
 cd    build &&
 # For some reason this app has to be compiled with Soup 2, otherwise it throws an error about the app being compiled with both soup2 & soup3 (might just be after upgrading)
-meson setup --prefix=/usr --buildtype=release -Dpackagekit=false .. 
+meson setup --prefix=/usr --buildtype=release -Dpackagekit=false -Dsoup2=true .. 
+
 
 ninja 
 
@@ -32,7 +33,7 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "packagekit appstream gnome-online-accounts gsettings-desktop-schemas gtk4 libadwaita libsoup3 libsoup flatpak fwupd xmlb"  > /pkgs/$PACKAGE/depends
+sudo echo "packagekit appstream gnome-online-accounts gsettings-desktop-schemas gtk4 libadwaita libsoup3 libsoup flatpak fwupd xmlb libunwind"  > /pkgs/$PACKAGE/depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
@@ -40,5 +41,5 @@ sudo cp $PACKAGE.tar.xz /finished
 
 
 cd /blfs/builds
-
+rm -rf $DIR
 
