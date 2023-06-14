@@ -1,8 +1,9 @@
 #!/bin/bash
-export CFLAGS="-O2"
+
+export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=1.5.4
-URL=https://files.libburnia-project.org/releases/libisofs-$PKG_VER.tar.gz
+PKG_VER=0.30
+URL=https://0pointer.de/lennart/projects/libcanberra/libcanberra-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -11,14 +12,15 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
+wget  https://www.linuxfromscratch.org/patches/blfs/11.3/libcanberra-0.30-wayland-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
+patch -Np1 -i ../libcanberra-0.30-wayland-1.patch
+./configure --prefix=/usr --disable-oss
 
-./configure --prefix=/usr              \
-            --disable-static           \
 
 make -j22
 
@@ -30,15 +32,13 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "libvorbis alsa-lib gstreamer gtk3 gtk2 pulseaudio libtool" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
 
-
 cd /blfs/builds
-du -sh $DIR
 sudo rm -r $DIR
 
 

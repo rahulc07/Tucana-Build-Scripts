@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=8.2.6
+PKG_VER=8.2.7
 set -e
 BLFS_SYSTEMD_VER=20220720
 URL=https://www.php.net/distributions/php-$PKG_VER.tar.xz

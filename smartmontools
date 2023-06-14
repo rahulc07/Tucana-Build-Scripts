@@ -2,11 +2,11 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=22.3.7
-URL=https://github.com/intel/gmmlib/archive/refs/tags/intel-gmmlib-$PKG_VER.tar.gz
+PKG_VER=7.3
+URL=https://downloads.sourceforge.net/smartmontools/smartmontools-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=gmmlib-$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=intel-gmmlib
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
@@ -17,13 +17,11 @@ cd $DIR
 
 # Build
 
+./configure --prefix=/usr           \
+            --sysconfdir=/etc       \
+            --with-initscriptdir=no \
+            --with-libsystemd=no    \
 
-mkdir build &&
-cd    build &&
-
-cmake -DCMAKE_INSTALL_PREFIX=/usr   \
-      -DBUILD_TYPE=Release          \
-      -Wno-dev ..    
 
 make -j16
 

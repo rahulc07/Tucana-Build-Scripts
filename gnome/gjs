@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 GNOME_MAJOR=43
 GNOME_MINOR=0
-PKG_VER=1.76.0
+PKG_VER=1.76.1
 MINOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/gjs/$MINOR/gjs-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

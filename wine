@@ -2,8 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://dl.winehq.org/wine/source/8.x/wine-8.9.tar.xz
+PKG_VER=8.10
+URL=https://dl.winehq.org/wine/source/8.x/wine-8.10.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=wine
