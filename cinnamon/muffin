@@ -18,8 +18,8 @@ cd $DIR
 
 # Build
 
-mkdir build
-cd build
+mkdir cbuild
+cd cbuild
 
 meson setup --prefix=/usr --buildtype=release
 

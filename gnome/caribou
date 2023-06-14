@@ -1,0 +1,57 @@
+#!/bin/bash
+
+PKG_VER=0.4.21
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://download.gnome.org/sources/caribou/$MAJOR/caribou-$PKG_VER.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+set -e
+# Get Package
+
+cd /blfs/builds
+wget $URL
+wget https://gitlab.archlinux.org/archlinux/packaging/packages/caribou/-/raw/main/unicode_to_keyval-symbol-check.patch
+wget https://gitlab.archlinux.org/archlinux/packaging/packages/caribou/-/raw/main/3.patch
+wget https://salsa.debian.org/gnome-team/caribou/-/raw/82ce29b47e5908e52046e19145b55d6d9009ff2c/debian/patches/stop-patching-generated-gir.patch
+tar -xvf $TAR
+cd $DIR
+# Build
+patch -Np1 < ../3.patch
+patch -Np1 < ../stop-patching-generated-gir.patch
+patch -Np1 < ../unicode_to_keyval-symbol-check.patch
+export PYTHON=python3
+autoreconf -fiv
+ ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-shared \
+    --libexecdir=/usr/lib \
+    --disable-gtk2-module \
+    --disable-static \
+    --disable-schemas-compile \
+
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+
+make -j22
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "at-spi2-core gtk3 clutter dconf libxklavier" > /pkgs/$PACKAGE/depends
+sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

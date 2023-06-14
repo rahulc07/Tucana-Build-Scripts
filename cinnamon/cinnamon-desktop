@@ -18,9 +18,9 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
-mkdir build
-cd build
+patch -Np1 < ../config.patch
+mkdir cbuild
+cd cbuild
 
 meson setup --prefix=/usr --buildtype=release
 
@@ -41,5 +41,5 @@ sudo cp $PACKAGE.tar.xz /finished
 
 cd /blfs/builds
 sudo rm -r $DIR
-
+rm -r *
 

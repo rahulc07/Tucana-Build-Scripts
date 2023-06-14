@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
-URL=https://github.com/unicode-org/icu/releases/download/release-73-1/icu4c-73_1-src.tgz
+PKG_VER=73.2
+MAJOR=$(sed 's/\./-/g')
+REFORMAT=$(sed 's/\./_/g')
+URL=https://github.com/unicode-org/icu/releases/download/release-$MAJUOR/icu4c-73_1-src.tgz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=icu
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -19,7 +21,7 @@ cd source
 ./configure --prefix=/usr
 
 
-make -j16
+make -j22
 
 
 # Install

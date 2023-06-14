@@ -2,8 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=
+PKG_VER=3.20211022.1
+URL=https://github.com/jordansissel/xdotool/releases/download/v$PKG_VER/xdotool-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -17,15 +17,14 @@ cd $DIR
 
 # Build
 
+  make WITHOUT_RPATH_FIX=1 -j22
 
 
-
-make -j22
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo make PREFIX=/usr INSTALLMAN=/usr/share/man  DESTDIR=/pkgs/$PACKAGE install
+sudo make prefix=/usr install
 cd /pkgs
 
 
