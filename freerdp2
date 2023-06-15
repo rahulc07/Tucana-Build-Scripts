@@ -1,9 +1,9 @@
 #!/bin/bash
-
+#NLFS
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://github.com/FreeRDP/FreeRDP/releases/download/2.8.0/freerdp-2.8.0.tar.gz
+PKG_VER=2.10.0
+URL=https://github.com/FreeRDP/FreeRDP/releases/download/$PKG_VER/freerdp-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -12,14 +12,16 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
+wget https://github.com/FreeRDP/FreeRDP/commit/aa2cb9aa.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
+patch -Np1 < ../aa2cb9aa.patch
 mkdir build
 cd build
 
-cmake -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -DWITH_DSP_FFMPEG=ON -DWITH_FFMPEG=ON -DWITH_JPEG=ON ..
 
 
 

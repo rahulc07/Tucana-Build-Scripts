@@ -8,15 +8,23 @@ PKG_VER=5.8.1
 URL=https://github.com/linuxmint/$PACKAGE/archive/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$PACKAGE-$PKG_VER
-
+set -e
 # Get Package
 
 cd /blfs/builds
+wget https://gitlab.archlinux.org/archlinux/packaging/packages/cinnamon/-/raw/main/default-theme.patch
 wget $URL
 tar -xvf $TAR
 cd $DIR
 
 # Build
+patch -Np1 < ../default-theme.patch
+  sed -i 's/mintinstall.desktop/org.gnome.Software.desktop/' data/org.cinnamon.gschema.xml
+  sed -i 's/RequiredComponents=\(.*\)$/RequiredComponents=\1polkit-gnome-authentication-agent-1;/' \
+      cinnamon*.session.in
+
+ sed -i 's|/usr/share/cinnamon-background-properties|/usr/share/gnome-background-properties|' \
+      files/usr/share/cinnamon/cinnamon-settings/modules/cs_backgrounds.py
 
 mkdir cbuild
 cd cbuild
@@ -33,7 +41,8 @@ cd /pkgs
 
 
 
-sudo echo "nm-applet caribou" > /pkgs/$PACKAGE/depends
+sudo echo "gnome-backgrounds webp-pixbuf-loader adwaita nm-applet caribou python-requests python-pillow python3-xapp xapp pygobject3 pycairo python-six python-pam python-pexpect python-setproctitle python-pytz python-psutil python-ptyprocess python-distro timezonemap libgnomekbd cinnamon-control-center nemo cinnamon-menus cinnamon-settings-daemon cjs muffin nemo cinnamon-desktop libunwind cinnamon-session cinnamon-screensaver polkit-gnome" > /pkgs/$PACKAGE/depends
+echo "glib-compile-schemas /usr/share/glib-2.0/schemas && gdk-pixbuf-query-loaders --update-cache" > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

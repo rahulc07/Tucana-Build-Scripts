@@ -2,10 +2,10 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://github.com/takluyver/flit/archive/3.8.0.tar.gz
+PKG_VER=3.9.0
+URL=https://pypi.org/packages/source/f/flit_core/flit_core-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=flit-$(echo $TAR | sed 's|.tar.*||g')
+DIR=flit_core-$PKG_VER
 PACKAGE=python-flit-core
 
 # Get Package
@@ -20,7 +20,7 @@ cd $DIR
 
 
 
-python3 -m flit build --format wheel
+python3 -m build  --wheel
 
 
 # Install

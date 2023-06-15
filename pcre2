@@ -2,8 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.41/pcre2-10.41.tar.bz2
+PKG_VER=10.42
+URL=https://github.com/PCRE2Project/pcre2/releases/download/pcre2-$PKG_VER/pcre2-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=pcre2
@@ -18,7 +18,6 @@ cd $DIR
 # Build
 
 ./configure --prefix=/usr                       \
-            --docdir=/usr/share/doc/pcre2-10.41 \
             --enable-unicode                    \
             --enable-jit                        \
             --enable-pcre2-16                   \

@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 URL=https://github.com/psf/requests/releases/download/v2.28.1/requests-2.28.1.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=python-$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
