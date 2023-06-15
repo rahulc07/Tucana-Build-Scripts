@@ -1,0 +1,41 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+PKG_VER=3.9.0
+URL=https://github.com/takluyver/flit/archive/$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=flit-$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=python-flit
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+
+
+python3 -m flit build --format wheel
+
+
+# Install
+PIP_CONFIG_FILE=/dev/null pip install --isolated  --root="/pkgs/$PACKAGE" --ignore-installed --no-deps dist/*.whl
+cd /pkgs
+
+sudo cp -rpv /pkgs/$PACKAGE/* /
+
+sudo echo "python python-build python-requests python-urllib3 python-chardet python-idna python-certifi python-docutils" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

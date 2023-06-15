@@ -3,10 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
-PKG_VER=7.16.0
-URL=https://github.com/mltframework/mlt/releases/download/v$PKG_VER/mlt-$PKG_VER.tar.gz
+URL=https://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.13.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -20,19 +17,10 @@ cd $DIR
 
 # Build
 
-cmake -DCMAKE_INSTALL_PREFIX=/usr \
-      -DCMAKE_BUILD_TYPE=Release  \
-      -Wno-dev .. 
-
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+./configure --prefix=/usr
 
 
-
-
-
-make -j16
+make -j22
 
 
 # Install
@@ -43,6 +31,7 @@ cd /pkgs
 
 
 sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

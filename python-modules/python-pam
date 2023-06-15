@@ -1,9 +1,9 @@
 #!/bin/bash
-
+set -e
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=1.21.4
-URL=https://ftp.gnu.org/gnu/wget/wget-$PKG_VER.tar.gz
+PKG_VER=2.0.2
+URL=https://pypi.org/packages/source/p/python-pam/python-pam-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -16,28 +16,24 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
+ln -sf /usr/bin/python3 /usr/bin/python
+export PYTHON=python3
+ python -m build --wheel --no-isolation
 
-./configure --prefix=/usr      \
-            --sysconfdir=/etc  \
-            --with-ssl=openssl
-
-
-make -j16
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo python3 -m installer --destdir="/pkgs/$PACKAGE" dist/*.whl
 cd /pkgs
 
 
 
-sudo echo "ca-certificates glibc libidn2 pcre2 zlib python nettle libpsl gnutls" > /pkgs/$PACKAGE/depends
+sudo echo "python python-six" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
-
+rm /usr/bin/python
 cd /blfs/builds
 sudo rm -r $DIR
 
