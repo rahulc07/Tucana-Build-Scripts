@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz
+
+PKG_VER=6.0
+URL=https://ffmpeg.org/releases/ffmpeg-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -12,12 +14,12 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/ffmpeg-6.0-chromium_method-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/ffmpeg-$PKG_VER-chromium_method-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 -i ../ffmpeg-6.0-chromium_method-1.patch
+patch -Np1 -i ../ffmpeg-$PKG_VER-chromium_method-1.patch
 
 sed -i 's/-lflite"/-lflite -lasound"/' configure 
 ./configure --prefix=/usr        \

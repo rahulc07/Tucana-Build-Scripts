@@ -3,9 +3,11 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://ftp.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.13.0.orig.tar.xz
+
+PKG_VER=4.15.0
+URL=https://ftp.debian.org/debian/pool/main/i/iso-codes/iso-codes_$PKG_VER.orig.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=iso-codes-4.13.0
+DIR=iso-codes-$PKG_VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package

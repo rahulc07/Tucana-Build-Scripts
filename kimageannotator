@@ -2,8 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://github.com/ksnip/kImageAnnotator/archive/refs/tags/v0.6.0.tar.gz
+PKG_VER=0.6.1
+URL=https://github.com/ksnip/kImageAnnotator/archive/refs/tags/v$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=kImageAnnotator-0.6.0
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g'  |  tr '[:upper:]' '[:lower:]')

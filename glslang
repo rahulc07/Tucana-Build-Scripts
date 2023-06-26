@@ -3,9 +3,11 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/KhronosGroup/glslang/archive/refs/tags/12.2.0.tar.gz
+
+PKG_VER=12.2.0
+URL=https://github.com/KhronosGroup/glslang/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=glslang-12.2.0
+DIR=glslang-$PKG_VER
 PACKAGE=glslang
 
 # Get Package

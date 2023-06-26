@@ -18,6 +18,7 @@ cd $DIR
 # Build
 
 
+sed -i 's/-l ar/-l ara/' pc-bios/keymaps/meson.build
 
 
 mkdir build &&

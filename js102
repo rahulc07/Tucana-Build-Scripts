@@ -6,6 +6,8 @@ export CXXFLAGS="-O2"
 set -e
 # Last Validated Version 102.4
 VER=102.11.0
+
+PKG_VER=102.12.0esr
 URL=https://archive.mozilla.org/pub/firefox/releases/${VER}esr/source/firefox-${VER}esr.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=firefox-$VER

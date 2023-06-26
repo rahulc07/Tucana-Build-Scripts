@@ -4,7 +4,9 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 # Uncomment Glibc 2.36 below
-URL=https://github.com/libarchive/libarchive/releases/download/v3.6.2/libarchive-3.6.2.tar.xz
+
+PKG_VER=3.6.2
+URL=https://github.com/libarchive/libarchive/releases/download/v$PKG_VER/libarchive-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

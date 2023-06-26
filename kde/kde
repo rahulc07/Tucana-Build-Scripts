@@ -27,7 +27,7 @@ mkdir -p /pkgs/kde
 mkdir -p /finished/kde
 
 cd /blfs/builds/kde
-#wget -r -nH -nd -A '*.xz' -np $URL
+wget -r -nH -nd -A '*.xz' -np $URL
 # Build
 
 

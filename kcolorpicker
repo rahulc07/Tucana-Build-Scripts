@@ -4,9 +4,11 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 set -e
-URL=https://github.com/ksnip/kColorPicker/archive/refs/tags/v0.2.0/kColorPicker-0.2.0.tar.gz
+
+PKG_VER=0.2.0
+URL=https://github.com/ksnip/kColorPicker/archive/refs/tags/v$PKG_VER/kColorPicker-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=kColorPicker-0.2.0
+DIR=kColorPicker-$PKG_VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g'  |  tr '[:upper:]' '[:lower:]')
 
 # Get Package

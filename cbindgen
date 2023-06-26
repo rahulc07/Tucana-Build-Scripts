@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/eqrion/cbindgen/archive/v0.24.3/cbindgen-0.24.3.tar.gz
+
+PKG_VER=0.24.3
+URL=https://github.com/eqrion/cbindgen/archive/v$PKG_VER/cbindgen-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

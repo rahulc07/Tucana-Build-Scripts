@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://ftp.gnu.org/gnu/emacs/emacs-28.2.tar.xz
+
+PKG_VER=28.2
+URL=https://ftp.gnu.org/gnu/emacs/emacs-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

@@ -3,7 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://cabextract.org.uk/cabextract-1.9.1.tar.gz
+#ARCH_PKG=cabextract
+#ARCH_VAR=pkgver
+PKG_VER=1.11
+URL=https://cabextract.org.uk/cabextract-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

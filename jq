@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/stedolan/jq/releases/download/jq-1.6/jq-1.6.tar.gz
+
+PKG_VER=1.6
+URL=https://github.com/stedolan/jq/releases/download/jq-$PKG_VER/jq-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

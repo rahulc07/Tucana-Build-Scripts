@@ -3,15 +3,17 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/ddccontrol/ddccontrol-db.git
+PKG_VER=20230424
+URL=https://github.com/ddccontrol/ddccontrol-db/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=$(echo $TAR | sed 's|.git||g')
+DIR=ddccontrol-db-$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=ddccontrol-db
 set -e
 # Get Package
 
 cd /blfs/builds
-git clone $URL
+wget $URL
+tar -xvf $TAR
 cd $DIR
 
 # Build

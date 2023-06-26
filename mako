@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.4.tar.gz
+
+PKG_VER=1.2.4
+URL=https://files.pythonhosted.org/packages/source/M/Mako/Mako-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=mako

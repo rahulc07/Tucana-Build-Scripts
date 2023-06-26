@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=1.22.3
+PKG_VER=1.22.4
 URL=https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

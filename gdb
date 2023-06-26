@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://ftp.gnu.org/gnu/gdb/gdb-12.1.tar.xz
+
+PKG_VER=13.2
+URL=https://ftp.gnu.org/gnu/gdb/gdb-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

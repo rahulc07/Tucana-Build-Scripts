@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/martinpitt/python-dbusmock/releases/download/0.28.6/python-dbusmock-0.28.6.tar.gz
+
+PKG_VER=0.29.0
+URL=https://github.com/martinpitt/python-dbusmock/releases/download/$PKG_VER/python-dbusmock-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=dbusmock

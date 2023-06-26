@@ -1,19 +1,7 @@
-bash c-ares
-bash qemu
-bash base/dbus
-bash base/python
-bash gnome/gjs
-bash gnome/gnome-weather
-bash gnome/libadwaita
-bash gnome/libgnomekbd
-bash intel-gmmlib
-bash libcanberra
-bash libisofs
-bash php
-bash python-modules/markupsafe
-bash qt5
 bash kde/kf5
+bash qtwebengine
 bash smartmontools
 bash tidy
 bash wine
 bash xorg/xkeyboard-config
+

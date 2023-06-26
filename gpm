@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://anduin.linuxfromscratch.org/BLFS/gpm/gpm-1.20.7.tar.bz2
+
+PKG_VER=1.20.7
+URL=https://anduin.linuxfromscratch.org/BLFS/gpm/gpm-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -12,13 +14,13 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/gpm-1.20.7-consolidated-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/gpm-$PKG_VER-consolidated-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-patch -Np1 -i ../gpm-1.20.7-consolidated-1.patch &&
+patch -Np1 -i ../gpm-$PKG_VER-consolidated-1.patch &&
 ./autogen.sh                                     &&
 ./configure --prefix=/usr --sysconfdir=/etc      &&
 

@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz
+
+PKG_VER=0.8
+URL=https://github.com/lathiat/avahi/releases/download/v$PKG_VER/avahi-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -11,14 +13,14 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 # Get Package
 
 cd /blfs/builds
-wget https://www.linuxfromscratch.org/patches/blfs/svn/avahi-0.8-ipv6_race_condition_fix-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/avahi-$PKG_VER-ipv6_race_condition_fix-1.patch
 wget $URL
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-patch -Np1 -i ../avahi-0.8-ipv6_race_condition_fix-1.patch
+patch -Np1 -i ../avahi-$PKG_VER-ipv6_race_condition_fix-1.patch
 sed -i '426a if (events & AVAHI_WATCH_HUP) { \
 client_free(c); \
 return; \

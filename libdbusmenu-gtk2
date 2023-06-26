@@ -3,7 +3,11 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz
+#ARCH_PKG=libdbusmenu
+#ARCH_VAR=_bzrtag
+PKG_VER=16.04.0
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://launchpad.net/libdbusmenu/$MAJOR/$PKG_VER/+download/libdbusmenu-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

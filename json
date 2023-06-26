@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://www.cpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz
+
+PKG_VER=4.16
+URL=https://www.cpan.org/authors/id/I/IS/ISHIGAKI/JSON-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=json

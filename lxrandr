@@ -3,7 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://downloads.sourceforge.net/lxde/lxrandr-0.3.1.tar.xz
+#ARCH_PKG=lxrandr
+#ARCH_VAR=pkgver
+PKG_VER=0.3.2
+URL=https://downloads.sourceforge.net/lxde/lxrandr-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

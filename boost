@@ -2,8 +2,9 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.bz2
+PKG_VER=1_82_0
+PKG_VER_REFORMAT=1.82.0
+URL=https://boostorg.jfrog.io/artifactory/main/release/$PKG_VER_REFORMAT/source/boost_$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=boost

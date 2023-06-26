@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/ibus/ibus/releases/download/1.5.28/ibus-1.5.28.tar.gz
+
+PKG_VER=1.5.28
+URL=https://github.com/ibus/ibus/releases/download/$PKG_VER/ibus-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

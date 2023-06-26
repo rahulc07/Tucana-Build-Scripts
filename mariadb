@@ -3,7 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://rsync.osuosl.org/pub/mariadb/mariadb-10.9.3/source/mariadb-10.9.3.tar.gz
+#ARCH_PKG=mariadb
+#ARCH_VAR=pkgver
+PKG_VER=11.0.2
+URL=https://rsync.osuosl.org/pub/mariadb/mariadb-$PKG_VER/source/mariadb-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

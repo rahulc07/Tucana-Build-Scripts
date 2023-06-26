@@ -24,13 +24,15 @@ cd $DIR
 
 # Build
 patch -Np1 -i ../glibc-2.37-fhs-1.patch
+sed '/width -=/s/workend - string/number_length/' \
+    -i stdio-common/vfprintf-process-arg.c
 mkdir -v build
 cd       build
 echo "rootsbindir=/usr/sbin" > configparms
 ../configure                             \
       --prefix=/usr                      \
       --build=$(../scripts/config.guess) \
-      --enable-kernel=3.2                \
+      --enable-kernel=4.14                \
       --enable-multi-arch                \
       --with-headers=/usr/include  libc_cv_slibdir=/usr/lib
 

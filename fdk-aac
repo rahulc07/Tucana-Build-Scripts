@@ -3,9 +3,11 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.2.tar.gz
+
+PKG_VER=2.0.2
+URL=https://github.com/mstorsjo/fdk-aac/archive/refs/tags/v$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=$(echo $TAR | sed 's|.tar.*||g')
+DIR=fdk-aac-$PKG_VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package

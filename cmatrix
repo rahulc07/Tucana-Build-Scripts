@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
+
+PKG_VER=2.0
+URL=https://github.com/abishekvashok/cmatrix/releases/download/v$PKG_VER/cmatrix-v$PKG_VER-Butterscotch.tar
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=cmatrix
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://downloads.sourceforge.net/lame/lame-3.100.tar.gz
+
+PKG_VER=3.100
+URL=https://downloads.sourceforge.net/lame/lame-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -24,8 +26,8 @@ make -j16
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE pkghtmldir=/usr/share/doc/lame-3.100 install
-sudo make pkghtmldir=/usr/share/doc/lame-3.100 install
+sudo make DESTDIR=/pkgs/$PACKAGE pkghtmldir=/usr/share/doc/lame-$PKG_VER install
+sudo make pkghtmldir=/usr/share/doc/lame-$PKG_VER install
 cd /pkgs
 
 

@@ -2,6 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
+#ARCH_PKG=libdaemon
+#ARCH_VAR=pkgver
 PKG_VER=0.14
 URL=https://0pointer.de/lennart/projects/libdaemon/libdaemon-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

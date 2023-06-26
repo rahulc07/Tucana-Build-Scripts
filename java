@@ -3,9 +3,11 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/openjdk/jdk17u/archive/jdk-17.0.2-ga.tar.gz
+
+PKG_VER=17.0.2
+URL=https://github.com/openjdk/jdk17u/archive/jdk-$PKG_VER-ga.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=jdk17u-jdk-17.0.2-ga
+DIR=jdk17u-jdk-$PKG_VER-ga
 PACKAGE=openjdk-17
 
 # Get Package
