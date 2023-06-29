@@ -6,7 +6,10 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://ftp.gnu.org/gnu/gperf/gperf-3.1.tar.gz
+
+
+PKG_VER=3.1
+URL=https://ftp.gnu.org/gnu/gperf/gperf-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -20,7 +23,7 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr --docdir=/usr/share/doc/gperf-3.1
+./configure --prefix=/usr --docdir=/usr/share/doc/gperf-$PKG_VER
 
 
 make -j16

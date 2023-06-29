@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://xcb.freedesktop.org/dist/xcb-util-cursor-0.1.4.tar.xz
+
+PKG_VER=0.1.4
+URL=https://xcb.freedesktop.org/dist/xcb-util-cursor-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

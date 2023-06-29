@@ -5,7 +5,8 @@ export CXXFLAGS="-O2"
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
+#ARCH_PKG=elfutils
+#ARCH_VAR=pkgver
 PKG_VER=0.189
 URL=https://sourceware.org/ftp/elfutils/$PKG_VER/elfutils-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')

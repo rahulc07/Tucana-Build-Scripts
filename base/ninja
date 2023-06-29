@@ -6,7 +6,9 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/ninja-build/ninja/archive/v1.11.1/ninja-1.11.1.tar.gz
+
+PKG_VER=1.11.1
+URL=https://github.com/ninja-build/ninja/archive/v$PKG_VER/ninja-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

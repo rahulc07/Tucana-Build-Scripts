@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://downloads.xiph.org/releases/speex/speexdsp-1.2.1.tar.gz
+
+PKG_VER=1.2.1
+URL=https://downloads.xiph.org/releases/speex/speexdsp-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=speex
@@ -21,7 +23,7 @@ cd $DIR
 
 ./configure --prefix=/usr    \
             --disable-static \
-            --docdir=/usr/share/doc/speex-1.2.1
+            --docdir=/usr/share/doc/speex-$PKG_VER
 
 
 make -j16

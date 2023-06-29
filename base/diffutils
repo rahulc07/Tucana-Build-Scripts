@@ -6,7 +6,9 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://ftp.gnu.org/gnu/diffutils/diffutils-3.10.tar.xz
+
+PKG_VER=3.10
+URL=https://ftp.gnu.org/gnu/diffutils/diffutils-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

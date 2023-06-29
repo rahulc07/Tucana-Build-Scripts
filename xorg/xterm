@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://invisible-mirror.net/archives/xterm/xterm-379.tgz
+
+PKG_VER=383
+URL=https://invisible-mirror.net/archives/xterm/xterm-$PKG_VER.tgz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tgz||g')
 PACKAGE=xterm

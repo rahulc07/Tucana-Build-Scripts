@@ -6,7 +6,9 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
+
+PKG_VER=1.0.8
+URL=https://www.sourceware.org/pub/bzip2/bzip2-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -15,14 +17,14 @@ set -e
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/lfs/development/bzip2-1.0.8-install_docs-1.patch
+wget https://www.linuxfromscratch.org/patches/lfs/development/bzip2-$PKG_VER-install_docs-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
 
-patch -Np1 -i ../bzip2-1.0.8-install_docs-1.patch
+patch -Np1 -i ../bzip2-$PKG_VER-install_docs-1.patch
 sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
 sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
 make -f Makefile-libbz2_so
@@ -41,7 +43,7 @@ sudo make PREFIX=/pkgs/$PACKAGE/usr  install
 mkdir -p /pkgs/$PACKAGE/usr/bin
 mkdir -p /pkgs/$PACKAGE/usr/lib
 cp -av libbz2.so.* /pkgs/$PACKAGE/usr/lib
-ln -sfv libbz2.so.1.0.8 /pkgs/$PACKAGE/usr/lib/libbz2.so
+ln -sfv libbz2.so.$PKG_VER /pkgs/$PACKAGE/usr/lib/libbz2.so
 
 
 cp -v bzip2-shared /pkgs/$PACKAGE/usr/bin/bzip2

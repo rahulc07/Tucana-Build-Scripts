@@ -6,7 +6,10 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz
+
+
+PKG_VER=4.9.0
+URL=https://ftp.gnu.org/gnu/findutils/findutils-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

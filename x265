@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.5.tar.gz
+
+PKG_VER=3.5
+URL=https://bitbucket.org/multicoreware/x265_git/downloads/x265_$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=x265

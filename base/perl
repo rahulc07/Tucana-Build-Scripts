@@ -5,8 +5,11 @@ export CXXFLAGS="-O2"
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
+#ARCH_PKG=perl
+#ARCH_VAR=pkgver
 
-URL=https://www.cpan.org/src/5.0/perl-5.36.1.tar.xz
+PKG_VER=5.36.1
+URL=https://www.cpan.org/src/5.0/perl-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

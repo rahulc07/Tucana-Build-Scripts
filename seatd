@@ -3,7 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://git.sr.ht/~kennylevinsen/seatd/archive/0.7.0.tar.gz
+#ARCH_PKG=seatd
+#ARCH_VAR=pkgver
+PKG_VER=0.7.0
+URL=https://git.sr.ht/~kennylevinsen/seatd/archive/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=seatd-$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

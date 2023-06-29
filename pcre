@@ -2,7 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
+#ARCH_PKG=pcre
+#ARCH_VAR=pkgver
 
 PKG_VER=8.45
 URL=https://sourceforge.net/projects/pcre/files/pcre/$PKG_VER/pcre-$PKG_VER.tar.bz2

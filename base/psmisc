@@ -6,7 +6,9 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://sourceforge.net/projects/psmisc/files/psmisc/psmisc-23.5.tar.xz
+
+PKG_VER=23.6
+URL=https://sourceforge.net/projects/psmisc/files/psmisc/psmisc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

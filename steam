@@ -3,7 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://repo.steampowered.com/steam/pool/steam/s/steam/steam_1.0.0.75.tar.gz
+#ARCH_PKG=steam
+#ARCH_VAR=pkgver
+PKG_VER=1.0.0.78
+URL=https://repo.steampowered.com/steam/pool/steam/s/steam/steam_$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=steam-launcher
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

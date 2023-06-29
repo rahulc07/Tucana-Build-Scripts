@@ -6,7 +6,9 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://invisible-mirror.net/archives/ncurses/ncurses-6.4.tar.gz
+
+PKG_VER=6.4
+URL=https://invisible-mirror.net/archives/ncurses/ncurses-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -42,13 +44,13 @@ make DESTDIR=$PWD/dest install
 # Install
 
 
-cp -pv  dest/usr/lib/libncursesw.so.6.4 /
-mv -v /libncursesw.so.6.4 /usr/lib
+cp -pv  dest/usr/lib/libncursesw.so.$PKG_VER /
+mv -v /libncursesw.so.$PKG_VER /usr/lib
 cp -av dest/* /
 
 mkdir -p /pkgs/ncurses/usr/lib
-install -vm755 dest/usr/lib/libncursesw.so.6.4 /pkgs/ncurses/usr/lib
-rm -v  dest/usr/lib/libncursesw.so.6.4
+install -vm755 dest/usr/lib/libncursesw.so.$PKG_VER /pkgs/ncurses/usr/lib
+rm -v  dest/usr/lib/libncursesw.so.$PKG_VER
 cp -av dest/* /pkgs/ncurses
 
 

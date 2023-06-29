@@ -2,11 +2,10 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
-
-URL=https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
+#ARCH_PKG=intltool
+#ARCH_VAR=pkgver
+PKG_VER=0.51.0
+URL=https://launchpad.net/intltool/trunk/$PKG_VER/+download/intltool-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

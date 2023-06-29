@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://sourceware.org/ftp/docbook-tools/new-trials/SOURCES/sgml-common-0.6.3.tgz
+
+PKG_VER=0.6.3
+URL=https://sourceware.org/ftp/docbook-tools/new-trials/SOURCES/sgml-common-$PKG_VER.tgz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tgz||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -12,12 +14,12 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/sgml-common-0.6.3-manpage-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/sgml-common-$PKG_VER-manpage-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 -i ../sgml-common-0.6.3-manpage-1.patch
+patch -Np1 -i ../sgml-common-$PKG_VER-manpage-1.patch
 autoreconf -i
 ./configure --prefix=/usr --sysconfdir=/etc
 

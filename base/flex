@@ -6,7 +6,9 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+
+PKG_VER=2.6.4
+URL=https://github.com/westes/flex/releases/download/v$PKG_VER/flex-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -21,7 +23,7 @@ cd $DIR
 # Build
 
 ./configure --prefix=/usr \
-            --docdir=/usr/share/doc/flex-2.6.4 \
+            --docdir=/usr/share/doc/flex-$PKG_VER \
             --disable-static
 
 

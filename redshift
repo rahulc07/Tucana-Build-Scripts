@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/jonls/redshift/releases/download/v1.12/redshift-1.12.tar.xz
+
+PKG_VER=1.12
+URL=https://github.com/jonls/redshift/releases/download/v$PKG_VER/redshift-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

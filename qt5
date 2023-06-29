@@ -2,7 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
+#ARCH_PKG=qt5-base
+#ARCH_VAR=_basever
 PKG_VER=5.15.10
 URL=https://download.qt.io/archive/qt/5.15/$PKG_VER/single/qt-everywhere-opensource-src-$PKG_VER.tar.xz
 TAR=qt-everywhere-opensource-src-$PKG_VER.tar.xz

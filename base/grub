@@ -1,7 +1,9 @@
 #!/bin/bash
 
 set -e
-URL=https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz
+
+PKG_VER=2.06
+URL=https://ftp.gnu.org/gnu/grub/grub-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

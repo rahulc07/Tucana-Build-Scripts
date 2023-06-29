@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://www.x.org/pub/individual/driver/xf86-input-synaptics-1.9.2.tar.xz
+
+PKG_VER=1.9.2
+URL=https://www.x.org/pub/individual/driver/xf86-input-synaptics-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

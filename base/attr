@@ -6,7 +6,10 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://download.savannah.gnu.org/releases/attr/attr-2.5.1.tar.gz
+
+
+PKG_VER=2.5.1
+URL=https://download.savannah.gnu.org/releases/attr/attr-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -23,7 +26,7 @@ cd $DIR
 ./configure --prefix=/usr     \
             --disable-static  \
             --sysconfdir=/etc \
-            --docdir=/usr/share/doc/attr-2.5.1
+            --docdir=/usr/share/doc/attr-$PKG_VER
 
 
 make -j16
