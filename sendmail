@@ -1,0 +1,127 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+
+PKG_VER=8.17.2
+URL=https://ftp.sendmail.org/sendmail.$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=sendmail-$PKG_VER
+PACKAGE=sendmail
+set -e
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+export MAXDAEMONS=64
+export HAS_GETHOSTBYNAME2=1
+export HASFLOCK=1
+getent passwd smmsp > /dev/null
+
+if [ $? -eq 0 ]; then
+    :
+else
+    groupadd -g 26 smmsp                               
+    useradd -c "Sendmail Daemon" -g smmsp -d /dev/null \
+        -s /bin/false -u 26 smmsp
+    chmod -v 1777 /var/mail
+    install -v -m700 -d /var/spool/mqueue
+fi
+
+mkdir -p /pkgs/$PACKAGE/usr/bin
+mkdir -p /pkgs/$PACKAGE/usr/sbin
+mkdir -p /pkgs/$PACKAGE/usr/share/doc
+mkdir -p /pkgs/$PACKAGE/etc
+mkdir -p /pkgs/sendmail/usr/share/man/man8
+mkdir -p /pkgs/sendmail/usr/share/man/man5
+mkdir -p /pkgs/sendmail/usr/share/man/man1
+
+
+cat >> devtools/Site/site.config.m4 << "EOF"
+APPENDDEF(`confENVDEF',`-DSTARTTLS -DSASL -DLDAPMAP -DHASFLOCK')
+APPENDDEF(`confLIBS', `-lssl -lcrypto -lsasl2 -lldap -llber -ldb')
+APPENDDEF(`confINCDIRS', `-I/usr/include/sasl')
+EOF
+cat >> devtools/Site/site.config.m4 << "EOF"
+define(`confMANGRP',`root')
+define(`confMANOWN',`root')
+define(`confSBINGRP',`root')
+define(`confUBINGRP',`root')
+define(`confUBINOWN',`root')
+EOF
+
+sed -i 's|/usr/man/man|/usr/share/man/man|' \
+    devtools/OS/Linux           
+
+cd sendmail                     
+sh Build                        
+cd ../cf/cf                     
+cp generic-linux.mc sendmail.mc 
+DESTDIR=/pkgs/$PACKAGE sh Build sendmail.cf
+install -v -d -m755 /pkgs/$PACKAGE/etc/mail 
+DESTDIR=/pkgs/$PACKAGE sh Build install-cf 
+
+cd ../..            
+DESTDIR=/pkgs/$PACKAGE sh Build install    
+
+install -v -m644 cf/cf/{submit,sendmail}.mc /pkgs/$PACKAGE/etc/mail 
+cp -v -R cf/* /pkgs/$PACKAGE/etc/mail                               
+
+install -v -m755 -d /pkgs/$PACKAGE/usr/share/doc/sendmail-$PKG_VER/{cf,sendmail} 
+
+install -v -m644 CACerts FAQ KNOWNBUGS LICENSE PGPKEYS README RELEASE_NOTES \
+        /pkgs/$PACKAGE/usr/share/doc/sendmail-$PKG_VER 
+
+install -v -m644 sendmail/{README,SECURITY,TRACEFLAGS,TUNING} \
+        /pkgs/$PACKAGE/usr/share/doc/sendmail-$PKG_VER/sendmail 
+
+install -v -m644 cf/README /pkgs/$PACKAGE/usr/share/doc/sendmail-$PKG_VER/cf 
+
+for manpage in sendmail editmap mailstats makemap praliases smrsh
+do
+    install -v -m644 $manpage/$manpage.8 /pkgs/$PACKAGE/usr/share/man/man8
+done 
+make DESTDIR=/pkgs/$PACKAGE install
+
+
+
+cd doc/op                                       
+sed -i 's/groff/GROFF_NO_SGR=1 groff/' Makefile 
+make op.txt op.pdf
+install -v -d -m755 /pkgs/$PACKAGE/usr/share/doc/sendmail-$PKG_VER 
+install -v -m644 op.ps op.txt op.pdf /pkgs/$PACKAGE/usr/share/doc/sendmail-$PKG_VER 
+cd ../..
+
+
+
+
+# Install
+# Systemd units
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20230627.tar.xz
+tar -xvf blfs-systemd-units-20230627.tar.xz
+cd blfs-systemd-units-20230627
+make DESTDIR=/pkgs/$PACKAGE install-sendmail
+cd /pkgs
+
+
+
+sudo echo "openldap-client cyrus-sasl" > /pkgs/$PACKAGE/depends
+sudo echo "ghostscript" > /pkgs/$PACKAGE/make-depends
+sudo echo "groupadd -g 26 smmsp                               
+useradd -c "Sendmail Daemon" -g smmsp -d /dev/null \
+        -s /bin/false -u 26 smmsp                  
+chmod -v 1777 /var/mail                            
+install -v -m700 -d /var/spool/mqueue" > /pkgs/$PACKAGE/postinst
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
