@@ -2,9 +2,6 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-#ARCH_PKG=networkmanager
-#ARCH_VAR=pkgver
-
 
 PKG_VER=1.42.8
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')

@@ -69,7 +69,7 @@ ln -sfv /usr/sbin /pkgs/$PACKAGE/sbin
 # Create /etc/hosts
 
 cat > /pkgs/$PACKAGE/etc/hosts << EOF
-127.0.0.1  localhost HOSTNAME
+127.0.0.1  localhost.localdomain localhost
 ::1        localhost
 EOF
 
