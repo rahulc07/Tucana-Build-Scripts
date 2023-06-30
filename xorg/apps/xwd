@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://www.x.org/pub/individual/app/xwd-1.0.8.tar.bz2
+URL=https://www.x.org/pub/individual/app/xwd-1.0.8.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

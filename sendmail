@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-
+set -e
 PKG_VER=8.17.2
 URL=https://ftp.sendmail.org/sendmail.$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -21,17 +21,7 @@ cd $DIR
 export MAXDAEMONS=64
 export HAS_GETHOSTBYNAME2=1
 export HASFLOCK=1
-getent passwd smmsp > /dev/null
 
-if [ $? -eq 0 ]; then
-    :
-else
-    groupadd -g 26 smmsp                               
-    useradd -c "Sendmail Daemon" -g smmsp -d /dev/null \
-        -s /bin/false -u 26 smmsp
-    chmod -v 1777 /var/mail
-    install -v -m700 -d /var/spool/mqueue
-fi
 
 mkdir -p /pkgs/$PACKAGE/usr/bin
 mkdir -p /pkgs/$PACKAGE/usr/sbin

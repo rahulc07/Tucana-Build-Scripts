@@ -19,9 +19,9 @@ cd $DIR
 
 # Build
 
-./autogen.sh
-./configure --prefix=/usr --enable-static=no
-
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 
 make -j16
 

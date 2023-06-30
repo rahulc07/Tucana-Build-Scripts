@@ -14,13 +14,13 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/libssh2-1.10.0-upstream_fix-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/libssh2-$PKG_VER-upstream_fix-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-patch -Np1 -i ../libssh2-1.10.0-upstream_fix-1.patch
+patch -Np1 -i ../libssh2-$PKG_VER-upstream_fix-1.patch
 
 ./configure --prefix=/usr --disable-static
 

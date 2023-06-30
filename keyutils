@@ -6,8 +6,8 @@ export CXXFLAGS="-O2"
 
 PKG_VER=1.6.3
 URL=http://deb.debian.org/debian/pool/main/k/keyutils/keyutils_$PKG_VER.orig.tar.gz
-TAR=keyutils-$PKG_VER
-DIR=$(echo $TAR | sed 's|.tar.*||g')
+TAR=keyutils_$PKG_VER.orig.tar.gz
+DIR=keyutils-$PKG_VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package

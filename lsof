@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 PKG_VER=4.98.0
-URL=https://github.com/lsof-org/lsof/releases/download/$PKG_VER/lsof_$PKG_VER.linux.tar.bz2
+URL=https://github.com/lsof-org/lsof/releases/download/$PKG_VER/lsof-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lsof
@@ -19,8 +19,8 @@ cd $DIR
 
 # Build
 
-./Configure -n linux
-
+autoreconf -fiv
+./configure --prefix=/usr
 
 make -j16
 
@@ -29,7 +29,6 @@ make -j16
 mkdir -p /pkgs/$PACKAGE/usr/share/man/man8
 mkdir -p /pkgs/$PACKAGE/usr/bin
 install -vD -m4755 -o root -g root lsof /pkgs/$PACKAGE/usr/bin &&
-install -vD lsof.8 /pkgs/$PACKAGE/usr/share/man/man8
 
 cd /pkgs
 

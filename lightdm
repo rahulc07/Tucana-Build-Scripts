@@ -17,7 +17,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 cd /blfs/builds
 wget $URL
 wget https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20220720.tar.xz
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20230627.tar.xz
 tar -xvf $TAR
 cd $DIR
 
@@ -70,8 +70,8 @@ make
 
 make DESTDIR=/pkgs/$PACKAGE install
 
-tar -xf /blfs/builds/blfs-systemd-units-20220720.tar.xz
-cd blfs-systemd-units-20220720
+tar -xf /blfs/builds/blfs-systemd-units-20230627.tar.xz
+cd blfs-systemd-units-20230627
 make DESTDIR=/pkgs/$PACKAGE install-lightdm
 
 

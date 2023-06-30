@@ -29,7 +29,7 @@ make -j16
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
 # Tucana uses mercury not apt
-sudo rm -r /pkgs/$PACKAGE/etc
+sudo rm -rf /pkgs/$PACKAGE/etc
 sudo make install
 cd /pkgs
 

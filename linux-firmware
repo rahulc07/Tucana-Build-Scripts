@@ -12,19 +12,16 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://src.fedoraproject.org/rpms/linux-firmware/raw/rawhide/f/0001-Add-support-for-compressing-firmware-in-copy-firmwar.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 < ../0001-Add-support-for-compressing-firmware-in-copy-firmwar.patch
 
 # no building required
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE FIRMWAREDIR=/usr/lib/firmware installcompress
-sudo make install
+sudo make DESTDIR=/pkgs/$PACKAGE FIRMWAREDIR=/usr/lib/firmware install-xz
 cd /pkgs
 
 

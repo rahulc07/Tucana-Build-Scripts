@@ -33,10 +33,10 @@ ninja
 # Install
 sudo  DESTDIR=/pkgs/$PACKAGE ninja install
 sudo ninja install
-cd /pkgs
-
 mkdir -p /pkgs/glib/usr/share/doc/glib &&
 cp -r ../docs/reference/{gio,glib,gobject} /pkgs/glib/usr/share/doc/glib
+cd /pkgs
+
 
 
 sudo echo "pcre base" > /pkgs/$PACKAGE/depends

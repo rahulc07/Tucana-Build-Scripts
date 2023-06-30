@@ -3,9 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 PKG_VER=0.371
-URL=https://github.com/vcrhonek/hwdata/archive/refs/tags/v0.$PKG_VER.tar.gz
+URL=https://github.com/vcrhonek/hwdata/archive/refs/tags/v$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=hwdata-0.367
+DIR=hwdata-$PKG_VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package

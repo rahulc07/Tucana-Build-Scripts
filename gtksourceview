@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
+set -e
 
 PKG_VER=5.8.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
@@ -36,7 +36,6 @@ cd /pkgs
 
 
 sudo echo "gtk4 pcre2 libxml2 vala" > /pkgs/$PACKAGE/depends
-sudo rm -r /pkgs/$PACKAGE/blfs
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

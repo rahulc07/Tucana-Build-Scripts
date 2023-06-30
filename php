@@ -4,7 +4,6 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 PKG_VER=8.2.7
 set -e
-BLFS_SYSTEMD_VER=20220720
 URL=https://www.php.net/distributions/php-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -58,11 +57,8 @@ echo "if [ -f /etc/php-fpm.conf.default ]; then
   mv -v /etc/php-fpm.conf{.default,} &&
   mv -v /etc/php-fpm.d/www.conf{.default,}
 fi" > /pkgs/$PACKAGE/postinst
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
-tar -xvf blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
-cd blfs-systemd-units-$BLFS_SYSTEMD_VER
-make DESTDIR=/pkgs/$PACKAGE install-php-fpm
 
+install -D -m644 sapi/fpm/php-fpm.service "/pkgs/$PACKAGE/usr/lib/systemd/system/php-fpm.service"
 cd /pkgs
 
 

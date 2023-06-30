@@ -78,7 +78,6 @@ update-desktop-database -q
 
 cd /pkgs
 
-cp -rpv $PACKAGE/* /
 
 sudo echo "libnl desktop-file-utils libxml2" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends

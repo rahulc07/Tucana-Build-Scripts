@@ -33,7 +33,8 @@ make -j16
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
-strip /pkgs/$PACKAGE/usr/bin/*
+strip /pkgs/$PACKAGE/usr/bin/gdb
+strip /pkgs/$PACKAGE/usr/bin/gdbserver
 cd /pkgs
 
 

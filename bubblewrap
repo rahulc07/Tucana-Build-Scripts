@@ -31,11 +31,10 @@ ninja -j16
 # Install
 ninja install && DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
-sudo  $PACKAGE
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
-sudo rm -r /pkgs/$PACKAGE/blfs
+sudo echo "glibc libcap" > /pkgs/$PACKAGE/depends
+sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

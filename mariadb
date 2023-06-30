@@ -13,16 +13,6 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 # DO NOT SET -E THIS 
 # Get Package
 
-getent passwd mysql  > /dev/null
-
-if [ $? -eq 0 ]; then
-    :
-else
-    groupadd -g 40 mysql
-    useradd -c "MySQL Server" -d /srv/mysql -g mysql -s /bin/false -u 40 mysql
-fi
-
-
 
 cd /blfs/builds
 wget $URL
@@ -36,8 +26,8 @@ cd    build &&
 
 cmake -DCMAKE_BUILD_TYPE=Release                      \
       -DCMAKE_INSTALL_PREFIX=/usr                     \
-      -DINSTALL_DOCDIR=share/doc/mariadb-10.6.9       \
-      -DINSTALL_DOCREADMEDIR=share/doc/mariadb-10.6.9 \
+      -DINSTALL_DOCDIR=share/doc/mariadb-$PKG_VER       \
+      -DINSTALL_DOCREADMEDIR=share/doc/mariadb-$PKG_VER \
       -DINSTALL_MANDIR=share/man                      \
       -DINSTALL_MYSQLSHAREDIR=share/mysql             \
       -DINSTALL_MYSQLTESTDIR=share/mysql/test         \
@@ -136,9 +126,9 @@ EOF
 
 # Install systemd unit
 cd /blfs/builds
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20220720.tar.xz
-tar -xvf blfs-systemd-units-20220720.tar.xz
-cd blfs-systemd-units-20220720
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20230627.tar.xz
+tar -xvf blfs-systemd-units-20230627.tar.xz
+cd blfs-systemd-units-20230627
 make DESTDIR=/pkgs/mariadb install-mysqld
 # Done
 cd /pkgs
@@ -146,7 +136,7 @@ cd /pkgs
 sudo rm -r /pkgs/mariadb/usr/share/mysql/test
 rm /pkgs/mariadb/usr/lib/*.a
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "bzip2 libxml2 lz4 systemd" > /pkgs/$PACKAGE/depends
 sudo echo 'groupadd -g 40 mysql &&
 useradd -c "MySQL Server" -d /srv/mysql -g mysql -s /bin/false -u 40 mysql' > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE

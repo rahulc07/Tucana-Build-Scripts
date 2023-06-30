@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 PKG_VER=0.6.1
 URL=https://github.com/ksnip/kImageAnnotator/archive/refs/tags/v$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=kImageAnnotator-0.6.0
+DIR=kImageAnnotator-$PKG_VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g'  |  tr '[:upper:]' '[:lower:]')
 
 # Get Package

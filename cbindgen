@@ -25,6 +25,7 @@ cargo build --release
 
 
 # Installinstall -Dm755 target/release/cbindgen /usr/bin/
+mkdir -p /pkgs/$PACKAGE/usr/bin
 install -Dm755 target/release/cbindgen /pkgs/$PACKAGE/usr/bin/
 install -Dm755 target/release/cbindgen /usr/bin/
 cd /pkgs

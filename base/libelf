@@ -32,7 +32,7 @@ make -j16
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE -C libelf  install
-install -vm644 config/libelf.pc /pkgs/libelfi/usr/lib/pkgconfig
+install -vm644 config/libelf.pc /pkgs/libelf/usr/lib/pkgconfig
 rm /pkgs/libelf/usr/lib/libelf.a
 cd /pkgs
 

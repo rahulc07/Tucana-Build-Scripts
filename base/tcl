@@ -9,18 +9,20 @@ URL=https://downloads.sourceforge.net/tcl/tcl$PKG_VER-src.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=tcl$PKG_VER
 PACKAGE=tcl
+OTHER_VER=1.1.5
+OTHER_VER2=4.2.3
 
 # Get Package
 
 cd /blfs/builds
 wget $URL
-wget https://downloads.sourceforge.net/tcl/tcl8.6.12-html.tar.gz
+wget https://downloads.sourceforge.net/tcl/tcl$PKG_VER-html.tar.gz
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-tar -xf ../tcl8.6.12-html.tar.gz --strip-components=1
+tar -xf ../tcl$PKG_VER-html.tar.gz --strip-components=1
 SRCDIR=$(pwd)
 cd unix
 ./configure --prefix=/usr           \
@@ -33,16 +35,16 @@ sed -e "s|$SRCDIR/unix|/usr/lib|" \
     -e "s|$SRCDIR|/usr/include|"  \
     -i tclConfig.sh
 
-sed -e "s|$SRCDIR/unix/pkgs/tdbc1.1.3|/usr/lib/tdbc1.1.3|" \
-    -e "s|$SRCDIR/pkgs/tdbc1.1.3/generic|/usr/include|"    \
-    -e "s|$SRCDIR/pkgs/tdbc1.1.3/library|/usr/lib/tcl8.6|" \
-    -e "s|$SRCDIR/pkgs/tdbc1.1.3|/usr/include|"            \
-    -i pkgs/tdbc1.1.3/tdbcConfig.sh
+sed -e "s|$SRCDIR/unix/pkgs/tdbc$OTHER_VER|/usr/lib/tdbc$OTHER_VER|" \
+    -e "s|$SRCDIR/pkgs/tdbc$OTHER_VER/generic|/usr/include|"    \
+    -e "s|$SRCDIR/pkgs/tdbc$OTHER_VER/library|/usr/lib/tcl8.6|" \
+    -e "s|$SRCDIR/pkgs/tdbc$OTHER_VER|/usr/include|"            \
+    -i pkgs/tdbc$OTHER_VER/tdbcConfig.sh
 
-sed -e "s|$SRCDIR/unix/pkgs/itcl4.2.2|/usr/lib/itcl4.2.2|" \
-    -e "s|$SRCDIR/pkgs/itcl4.2.2/generic|/usr/include|"    \
-    -e "s|$SRCDIR/pkgs/itcl4.2.2|/usr/include|"            \
-    -i pkgs/itcl4.2.2/itclConfig.sh
+sed -e "s|$SRCDIR/unix/pkgs/itcl$OTHER_VER2|/usr/lib/itcl$OTHER_VER2|" \
+    -e "s|$SRCDIR/pkgs/itcl$OTHER_VER2/generic|/usr/include|"    \
+    -e "s|$SRCDIR/pkgs/itcl$OTHER_VER2|/usr/include|"            \
+    -i pkgs/itcl$OTHER_VER2/itclConfig.sh
 
 unset SRCDIR
 
@@ -50,7 +52,6 @@ unset SRCDIR
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
 sudo make install
-cd /pkgs
 
 chmod -v u+w /pkgs/tcl/usr/lib/libtcl8.6.so
 chmod -v u+w /usr/lib/libtcl8.6.so
@@ -62,6 +63,7 @@ ln -sfv tclsh8.6 /pkgs/tcl/usr/bin/tclsh
 mv /usr/share/man/man3/{Thread,Tcl_Thread}.3
 mv /pkgs/tcl/usr/share/man/man3/{Thread,Tcl_Thread}.3
 
+cd /pkgs
 sudo echo "glibc zlib" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

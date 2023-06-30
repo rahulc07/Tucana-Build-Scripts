@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 PKG_VER=1.2.4
-URL=https://www.x.org/pub/individual/lib/libSM-$PKG_VER.tar.bz2
+URL=https://www.x.org/pub/individual/lib/libSM-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

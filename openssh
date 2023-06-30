@@ -33,9 +33,9 @@ make -j20
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
 # Thanks to LFS Again
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20220720.tar.xz
-tar -xvf blfs-systemd-units-20220720.tar.xz
-cd blfs-systemd-units-20220720
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20230627.tar.xz
+tar -xvf blfs-systemd-units-20230627.tar.xz
+cd blfs-systemd-units-20230627
 make DESTDIR=/pkgs/$PACKAGE install-sshd
 cd ..
 # Place doc and extra files in

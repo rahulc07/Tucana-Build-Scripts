@@ -22,8 +22,8 @@ mkdir build
 cd build
 meson --prefix=/usr       \
       --buildtype=release \
-      -Dgtk_doc=true     \
-      -Dman=true ..
+      -Dgtk_doc=false     \
+      -Dman=false ..
 
 
 ninja

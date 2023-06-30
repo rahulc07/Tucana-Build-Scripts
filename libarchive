@@ -20,7 +20,6 @@ cd $DIR
 
 # Build
 # Glibc 2.36
-sed '/linux\/fs\.h/d' -i libarchive/archive_read_disk_posix.c
 ./configure --prefix=/usr --disable-static
 
 
@@ -29,7 +28,8 @@ make -j16
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sed -i "s/iconv //" /pkgs/$PACKAGE/usr/lib/pkgconfig/libarchive.pc
+cp -rpv /pkgs/$PACKAGE/* /
 cd /pkgs
 
 

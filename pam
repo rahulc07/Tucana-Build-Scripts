@@ -21,13 +21,12 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-tar -xf ../Linux-PAM-1.5.2-docs.tar.xz --strip-components=1
+tar -xf ../Linux-PAM-$PKG_VER-docs.tar.xz --strip-components=1
 ./configure --prefix=/usr                        \
             --sbindir=/usr/sbin                  \
             --sysconfdir=/etc                    \
             --libdir=/usr/lib                    \
             --enable-securedir=/usr/lib/security \
-            --docdir=/usr/share/doc/Linux-PAM-1.5.2 \
 	    --disable-db
 
 

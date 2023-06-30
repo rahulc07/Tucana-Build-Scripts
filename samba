@@ -63,9 +63,9 @@ install -v -m755    examples/LDAP/{get*,ol*} \
 install -dvm 755 /pkgs/$PACKAGE/usr/lib/cups/backend &&
 ln -v -sf /usr/bin/smbspool /pkgs/$PACKAGE/usr/lib/cups/backend/smb
 
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20220720.tar.xz
-tar -xvf blfs-systemd-units-20220720.tar.xz
-cd blfs-systemd-units-20220720
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20230627.tar.xz
+tar -xvf blfs-systemd-units-20230627.tar.xz
+cd blfs-systemd-units-20230627
 sudo make install-samba
 sudo make install-winbindd
 make DESTDIR=/pkgs/$PACKAGE install-samba

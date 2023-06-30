@@ -36,13 +36,12 @@ make -j16
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
 sudo make install
-cd /pkgs
 
 install -v -dm755  /usr/share/doc/dejagnu-$PKG_VER
 install -v -m644   doc/dejagnu.{html,txt} /usr/share/doc/dejagnu-$PKG_VER
 install -v -dm755  /pkgs/dejagnu//usr/share/doc/dejagnu-$PKG_VER
 install -v -m644   doc/dejagnu.{html,txt} /pkgs/dejagnu/usr/share/doc/dejagnu-$PKG_VER
-
+cd /pkgs
 
 sudo echo "expect bash" > /pkgs/$PACKAGE/depends
 sudo echo "glibc texinfo  coreutils diffutils expect gcc grep make sed texinfo" > /pkgs/$PACKAGE/make-depends

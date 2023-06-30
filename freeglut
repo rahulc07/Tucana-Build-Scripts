@@ -26,8 +26,8 @@ make -j16
 
 
 # Install
-DESTDIR=/pkgs/$PACKAGE ninja install
-ninja install
+make DESTDIR=/pkgs/$PACKAGE install
+make install
 cd /pkgs
 
 

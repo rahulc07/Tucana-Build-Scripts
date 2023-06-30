@@ -8,7 +8,7 @@ TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=accounts-service
 
-
+set -e
 # Inital setup as this is the only package in the repo that cannot be built as r
 useradd -m builder42737
 

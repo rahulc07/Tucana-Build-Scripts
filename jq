@@ -18,8 +18,8 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-export CFLAGS+="-fPIE"
-autoreconv -fiv
+export CFLAGS+=" -fPIE"
+autoreconf -fiv 
 ./configure --prefix=/usr --disable-mantainer-mode
 
 

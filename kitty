@@ -10,7 +10,7 @@ DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
-
+go env -w GO111MODULE=1
 cd /blfs/builds
 wget $URL
 tar -xvf $TAR

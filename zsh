@@ -31,7 +31,7 @@ make -j16
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
-udo make install
+sudo make install
 cd /pkgs
 
 
