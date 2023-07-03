@@ -15,7 +15,6 @@ cd /blfs/builds
 wget  https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$PKG_VER-build_fixes-1.patch
 wget https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$PKG_VER-ffmpeg5_fixes-1.patch
 wget https://raw.githubusercontent.com/xXTeraXx/Tucana/master/mercury/patches/qtwebengine-python3.patch
-wget https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$PKG_VER-icu_73-1.patch
 wget $URL
 												
 tar -xvf $TAR
@@ -26,7 +25,6 @@ cd $DIR
 patch -Np1 -i ../qtwebengine-$PKG_VER-build_fixes-1.patch
 patch -Np1 -i ../qtwebengine-$PKG_VER-ffmpeg5_fixes-1.patch
 patch -Np1 -i ../qtwebengine-python3.patch
-patch -Np1 < ../qtwebengine-5.15.14-icu_73-1.patch
 mkdir -pv .git src/3rdparty/chromium/.git
 
 sed -e '/^MODULE_VERSION/s/5.*/5.15.10/' -i .qmake.conf

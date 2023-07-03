@@ -34,7 +34,7 @@ cd /pkgs
 
 
 
-sudo echo "dconf gnome-shell gsettings-desktop-schemas itstool vte pcre2" > /pkgs/$PACKAGE/depends
+sudo echo "dconf gsettings-desktop-schemas itstool vte pcre2" > /pkgs/$PACKAGE/depends
 sudo rm -r /pkgs/$PACKAGE/blfs
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

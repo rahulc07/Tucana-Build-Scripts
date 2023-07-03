@@ -3,12 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
-
-
 # Taken straight from LFS (with a couple modifications)
 # Added firmware detection - Rahul Chandra Feburary 9th 2023
+# Added ability to load kernel modules in the initrd
 
 URL=https://www.linuxfromscratch.org/blfs/view/svn/postlfs/initramfs.html
 PACKAGE=mkinitramfs
@@ -24,11 +21,6 @@ mkdir -p /pkgs/$PACKAGE/usr/sbin
 cat > /pkgs/mkinitramfs/usr/sbin/mkinitramfs << "EOF"
 #!/bin/bash
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
-
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
 
 # This file based in part on the mkinitramfs script for the LFS LiveCD (And later Tucana :))
 # written by Alexander E. Patrakov and Jeremy Huntwork.

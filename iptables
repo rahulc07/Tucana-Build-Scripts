@@ -2,9 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=3.8.0
-MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://www.gnupg.org/ftp/gcrypt/gnutls/v$MAJOR/gnutls-$PKG_VER.tar.xz
+
+URL=https://www.netfilter.org/projects/iptables/files/iptables-1.8.9.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -18,12 +17,12 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr \
-            --disable-rpath \
-            --with-default-trust-store-pkcs11="pkcs11:"
+./configure --prefix=/usr      \
+            --disable-nftables \
+            --enable-libipq 
 
 
-make -j16
+make -j22
 
 
 # Install
@@ -33,7 +32,7 @@ cd /pkgs
 
 
 
-sudo echo "nettle libunistring libtasn1" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
