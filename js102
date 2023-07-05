@@ -9,7 +9,7 @@ set -e
 PKG_VER=102.13.0esr
 URL=https://archive.mozilla.org/pub/firefox/releases/${PKG_VER}/source/firefox-${PKG_VER}.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=firefox-$VER
+DIR=firefox-$PKG_VER
 PACKAGE=js102
 
 # Get Package
