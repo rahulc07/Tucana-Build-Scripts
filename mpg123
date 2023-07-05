@@ -3,9 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-
-PKG_VER=1.2.0
-URL=https://github.com/libsndfile/libsndfile/releases/download/$PKG_VER/libsndfile-$PKG_VER.tar.xz
+URL=https://downloads.sourceforge.net/mpg123/mpg123-1.31.3.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -19,14 +17,10 @@ cd $DIR
 
 # Build
 
+./configure --prefix=/usr
 
 
-./configure --prefix=/usr    \
-            --disable-static \
-            --docdir=/usr/share/doc/libsndfile-$PKG_VER 
-
-
-make -j16
+make -j22
 
 
 # Install
@@ -36,7 +30,7 @@ cd /pkgs
 
 
 
-sudo echo "flac opus libvorbis sqlite mpg123" > /pkgs/$PACKAGE/depends
+sudo echo "alsa-lib pulseaudio sdl libtool" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

@@ -41,7 +41,7 @@ cd /pkgs
 
 
 
-sudo echo "gnome-backgrounds webp-pixbuf-loader adwaita nm-applet caribou python-requests python-pillow python3-xapp xapp pygobject3 pycairo python-six python-pam python-pexpect python-setproctitle python-pytz python-psutil python-ptyprocess python-distro timezonemap libgnomekbd cinnamon-control-center nemo cinnamon-menus cinnamon-settings-daemon cjs muffin nemo cinnamon-desktop libunwind cinnamon-session cinnamon-screensaver polkit-gnome" > /pkgs/$PACKAGE/depends
+sudo echo "gnome-backgrounds webp-pixbuf-loader adwaita nm-applet caribou python-requests python-pillow python3-xapp xapp pygobject3 pycairo python-six python-pam python-pexpect python-setproctitle python-pytz python-psutil python-ptyprocess python-distro timezonemap libgnomekbd cinnamon-control-center nemo cinnamon-menus cinnamon-settings-daemon cjs muffin nemo cinnamon-desktop libunwind cinnamon-session cinnamon-screensaver polkit-gnome gsound" > /pkgs/$PACKAGE/depends
 echo "glib-compile-schemas /usr/share/glib-2.0/schemas && gdk-pixbuf-query-loaders --update-cache" > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

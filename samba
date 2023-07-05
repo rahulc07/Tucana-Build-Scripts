@@ -21,11 +21,9 @@ cd $DIR
 
 python3 -m venv pyvenv &&
 ./pyvenv/bin/pip3 install cryptography pyasn1 iso8601
-
 PYTHON=$PWD/pyvenv/bin/python3             \
 CPPFLAGS="-I/usr/include/tirpc"            \
 LDFLAGS="-ltirpc"                          \
-PATH=$PWD/pyvenv/bin:$PATH                 \
 ./configure                                \
     --prefix=/usr                          \
     --sysconfdir=/etc                      \
@@ -37,7 +35,7 @@ PATH=$PWD/pyvenv/bin:$PATH                 \
     --enable-selftest
 
 
-make -j20
+make -j22
 
 
 # Install
