@@ -14,7 +14,6 @@ PACKAGE=intel-media-driver
 
 cd /blfs/builds
 wget $URL
-wget  https://www.linuxfromscratch.org/patches/blfs/svn/intel-media-driver-$PKG_VER-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
