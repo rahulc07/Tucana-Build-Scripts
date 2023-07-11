@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=0.3.72
+PKG_VER=0.3.73
 URL=https://github.com/PipeWire/pipewire/archive/$PKG_VER/pipewire-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 # Pipewire didn't change the version number in the directory?
