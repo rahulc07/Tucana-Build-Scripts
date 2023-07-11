@@ -2,8 +2,11 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
+#ARCH_PKG=mpg123
+#ARCH_VAR=pkgver
 
-URL=https://downloads.sourceforge.net/mpg123/mpg123-1.31.3.tar.bz2
+PKG_VER=1.31.3
+URL=https://downloads.sourceforge.net/mpg123/mpg123-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
