@@ -9,6 +9,8 @@ TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=Vulkan-Loader-$PKG_VER
 PACKAGE=libvulkan
 set -e 
+# Kind of dangerous but install and build vulkan headers before running this
+sudo bash vulkan-headers
 # Get Package
 cd /blfs/builds
 wget $URL

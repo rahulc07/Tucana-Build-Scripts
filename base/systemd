@@ -3,8 +3,6 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
 
 set -e
 
@@ -25,6 +23,14 @@ cd $DIR
 sed -i -e 's/GROUP="render"/GROUP="video"/' \
        -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 
+
+sed '/bus_message_type_from_string/s/_pure_//' \
+    -i src/libsystemd/sd-bus/bus-internal.h    &&
+sed '/devt_hash_func/s/_pure_//'               \
+    -i src/basic/hash-funcs.h                  &&
+sed '/job_get_timeout/s/_pure_//'              \
+    -i src/core/job.h
+
 mkdir build
 cd build
 
@@ -42,7 +48,6 @@ meson --prefix=/usr                 \
       -Dmode=release                \
       -Dpam=true                    \
       -Dpamconfdir=/etc/pam.d       \
-      -Ddocdir=/usr/share/doc/systemd-251 \
       -Dsbat-distro-url=https://github.com/xXTeraXx/Tucana \
       ..      
       
