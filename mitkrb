@@ -2,8 +2,9 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 PKG_VER=1.21.1
-URL=https://kerberos.org/dist/krb5/$PKG_VER/krb5-$PKG_VER.tar.gz
+URL=https://kerberos.org/dist/krb5/$MAJOR/krb5-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=mitkrb
