@@ -1,4 +1,3 @@
-This repo is now on an autoupdate & build system.
+The build scripts used for Tucana.  See https://github.com/xXTeraXx/Tucana for details
 
-If you find any problems with the scripts file a pull or issue
-
+Package freeze until further notice
