@@ -24,7 +24,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 -i ../glibc-2.37-fhs-1.patch
+patch -Np1 -i ../glibc-$PKG_VER-fhs-1.patch
 sed '/width -=/s/workend - string/number_length/' \
     -i stdio-common/vfprintf-process-arg.c
 mkdir -v build
