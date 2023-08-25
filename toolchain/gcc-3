@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 set -e
-PKG_VER=13.1.0
+PKG_VER=13.2.0
 TARGET=$(gcc -dumpmachine)
 URL=https://ftp.gnu.org/gnu/gcc/gcc-$PKG_VER/gcc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

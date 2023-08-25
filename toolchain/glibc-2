@@ -5,9 +5,10 @@ export CXXFLAGS="-O2"
 
 
 set -e
-URL=https://ftp.gnu.org/gnu/glibc/glibc-2.37.tar.xz
+PKG_VER=2.38
+URL=https://ftp.gnu.org/gnu/glibc/glibc-$PKG_VER.tar.xz
 # Not actually a seperate package just the time zone info
-ALT_URL=https://data.iana.org/time-zones/releases/tzdata2022g.tar.gz
+ALT_URL=https://data.iana.org/time-zones/releases/tzdata2023c.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -18,7 +19,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 cd /blfs/builds
 wget $URL
 wget $ALT_URL
-wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.37-fhs-1.patch
+wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-$PKG_VER-fhs-1.patch
 tar -xvf $TAR
 cd $DIR
 
