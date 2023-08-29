@@ -20,7 +20,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 -i ../glibc-2.37-$PKG_VER-1.patch
+patch -Np1 -i ../glibc-$PKG_VER-fhs-1.patch
 mkdir -v build
 cd       build
 echo "rootsbindir=/usr/sbin" > configparms
