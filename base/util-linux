@@ -48,7 +48,7 @@ sudo make install
 cd /pkgs
 
 
-sudo echo "glibc libcap ncurses readline zlib" > /pkgs/$PACKAGE/depends
+sudo echo "libxcrypt glibc libcap ncurses readline zlib" > /pkgs/$PACKAGE/depends
 sudo echo "bash binutils coreutils diffutils eudev findutils gawk libgcc gettext glibc grep libcap make ncurses sed zlib" > /pkgs/$PACKAGE/make-depends
 
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE

@@ -54,7 +54,7 @@ unset BUILD_ZLIB BUILD_BZIP2
 
 
 
-sudo echo "gdbm glibc" > /pkgs/$PACKAGE/depends
+sudo echo "gdbm glibc libxcrypt" > /pkgs/$PACKAGE/depends
 sudo echo "bash binutils coreutils gawk gcc gdbm glibc grep groff make sed zlib" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
