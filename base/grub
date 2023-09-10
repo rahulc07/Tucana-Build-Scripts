@@ -12,7 +12,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://unifoundry.com/pub/unifont/unifont-14.0.04/font-builds/unifont-14.0.04.pcf.gz
+wget https://unifoundry.com/pub/unifont/unifont-15.0.06/font-builds/unifont-15.0.06.pcf.gz
 wget https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
@@ -20,9 +20,8 @@ cd $DIR
 # Build EFI
 
 mkdir -pv /pkgs/grub/usr/share/fonts/unifont &&
-gunzip -c ../unifont-14.0.04.pcf.gz > /pkgs/grub/usr/share/fonts/unifont/unifont.pcf
-mkdir -pv /usr/share/fonts/unifont &&
-gunzip -c ../unifont-14.0.04.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+gunzip -c ../unifont-15.0.06.pcf.gz > /pkgs/$PACKAGE/usr/share/fonts/unifont/unifont.pcf
+
 patch -Np1 < ../grub-2.06-upstream_fixes-1.patch
 ./configure --prefix=/usr        \
             --sysconfdir=/etc    \
@@ -44,10 +43,9 @@ tar -xvf $TAR
 cd $DIR
 
 # Build BIOS 
+patch -Np1 < ../grub-2.06-upstream_fixes-1.patch
 mkdir -pv /pkgs/grub/usr/share/fonts/unifont &&
-gunzip -c ../unifont-14.0.04.pcf.gz > /pkgs/grub/usr/share/fonts/unifont/unifont.pcf
-mkdir -pv /usr/share/fonts/unifont &&
-gunzip -c ../unifont-14.0.04.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+gunzip -c ../unifont-15.0.06.pcf.gz > /pkgs/$PACKAGE/usr/share/fonts/unifont/unifont.pcf
 
 ./configure --prefix=/usr        \
             --sysconfdir=/etc    \
