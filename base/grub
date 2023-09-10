@@ -13,6 +13,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 cd /blfs/builds
 wget $URL
 wget https://unifoundry.com/pub/unifont/unifont-14.0.04/font-builds/unifont-14.0.04.pcf.gz
+wget https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
@@ -22,7 +23,7 @@ mkdir -pv /pkgs/grub/usr/share/fonts/unifont &&
 gunzip -c ../unifont-14.0.04.pcf.gz > /pkgs/grub/usr/share/fonts/unifont/unifont.pcf
 mkdir -pv /usr/share/fonts/unifont &&
 gunzip -c ../unifont-14.0.04.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
-
+patch -Np1 < ../grub-2.06-upstream_fixes-1.patch
 ./configure --prefix=/usr        \
             --sysconfdir=/etc    \
             --disable-efiemu     \
