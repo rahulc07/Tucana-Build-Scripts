@@ -11,15 +11,13 @@ DIR=$(echo $TAR | sed 's|.tar.*||g')
 KERNEL_VERSION=$(echo $DIR | sed 's/linux-//')
 set -e
 
-cd /home/rahul/builds
+cd /usr/src
 
 wget $URL
+
 tar -xvf $TAR
 
 cd $DIR
-patch -Np1 < ../drm-i915-Enable-atomics-in-L3-for-gen9.patch
-patch -Np1 < ../0005-drm-i915-gvt-enter-failsafe-on-hypervisor-read-failu.patch.txt
-sleep 10
 
 cp /boot/config-tucana .config
 
@@ -45,7 +43,7 @@ cd ..
 sudo cp -rpv $DIR linux-tucana-headers/usr/src
 
 # Package
-cd /home/rahul/builds
+cd /usr/src
 mv linux-tucana /pkgs
 mv linux-tucana-headers /pkgs
 echo "" > /pkgs/linux-tucana/depend
@@ -56,3 +54,4 @@ tar -cvzpf linux-tucana-headers.tar.xz linux-tucana-headers
 
 cp linux-tucana.tar.xz /finished
 cp linux-tucana-headers.tar.xz /finished
+

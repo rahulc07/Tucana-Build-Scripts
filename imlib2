@@ -20,7 +20,7 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr --disable-static
+./configure --prefix=/usr 
 
 
 make -j16

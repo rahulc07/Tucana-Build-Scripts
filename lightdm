@@ -5,6 +5,7 @@ export CXXFLAGS="-O2"
 
 set -e
 PKG_VER=1.32.0
+BLFS_SYSTEMD_VER=20230816
 URL=https://github.com/CanonicalLtd/lightdm/releases/download/$PKG_VER/lightdm-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -17,7 +18,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 cd /blfs/builds
 wget $URL
 wget https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20230627.tar.xz
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
 tar -xvf $TAR
 cd $DIR
 
@@ -31,7 +32,7 @@ cd $DIR
             --disable-tests               \
             --with-greeter-user=lightdm   \
             --with-greeter-session=lightdm-gtk-greeter \
-            --docdir=/usr/share/doc/lightdm-1.32.0
+            --docdir=/usr/share/doc/lightdm-$PKG_VER
 
 
 
@@ -70,8 +71,8 @@ make
 
 make DESTDIR=/pkgs/$PACKAGE install
 
-tar -xf /blfs/builds/blfs-systemd-units-20230627.tar.xz
-cd blfs-systemd-units-20230627
+tar -xf /blfs/builds/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+cd blfs-systemd-units-$BLFS_SYSTEMD_VER
 make DESTDIR=/pkgs/$PACKAGE install-lightdm
 
 
