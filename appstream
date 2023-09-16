@@ -23,7 +23,7 @@ cd $DIR
 mkdir build
 cd build
 
-meson setup --prefix=/usr -Dqt=true
+meson setup --prefix=/usr
 
 ninja
 
@@ -35,7 +35,7 @@ cd /pkgs
 
 
 
-sudo echo "qt5 xmlb" > /pkgs/$PACKAGE/depends
+sudo echo "xmlb glib librsvg libyaml" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
