@@ -115,7 +115,7 @@ ln -s /usr/lib/libudev.so.1 /pkgs/$PACKAGE/usr/lib/libudev.so.0
 
 
 sudo echo "cryptsetup pam glibc util-linux libcap acl attr libidn2 libseccomp iptables dbus libgcrypt p11-kit libxcrypt" > /pkgs/$PACKAGE/depends
-sudo echo "pam glibc util-linux libcap acl attr gnu-efi" > /pkgs/$PACKAGE/make-depends
+sudo echo "pam glibc util-linux libcap acl attr gnu-efi jinja2" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

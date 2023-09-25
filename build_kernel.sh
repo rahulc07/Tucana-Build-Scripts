@@ -47,11 +47,11 @@ cd /usr/src
 mv linux-tucana /pkgs
 mv linux-tucana-headers /pkgs
 echo "" > /pkgs/linux-tucana/depend
+echo "bc check gcc make bison openssl gawk autoconf" > /pkgs/linux-tucana/make-depends
 echo "linux-tucana rsync" > /pkgs/linux-tucana-headers/depend
 cd /pkgs
 tar -cvzpf linux-tucana.tar.xz linux-tucana
 tar -cvzpf linux-tucana-headers.tar.xz linux-tucana-headers
-
 cp linux-tucana.tar.xz /finished
 cp linux-tucana-headers.tar.xz /finished
 

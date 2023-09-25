@@ -164,7 +164,7 @@ app.distributor=tucana
 app.distributor.channel=firefox" > /pkgs/$PACKAGE/usr/lib/firefox/distribution/distribution.ini
 
 sudo echo "dbus-glib gtk3 gtk2 libnotify pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu" > /pkgs/$PACKAGE/depends
-sudo echo "autoconf dbus-glib gtk3 gtk2 libnotify nodejs pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu cbindgen wireless-tools" > /pkgs/$PACKAGE/depends
+sudo echo "autoconf dbus-glib gtk3 gtk2 libnotify nodejs pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu cbindgen wireless-tools rustc" > /pkgs/$PACKAGE/make-depends
 cd /pkgs/$PACKAGE
 sudo rm -rf root blfs
 cd ..
