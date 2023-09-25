@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 PKG_VER=0.16.2
-URL=https://www.freedesktop.org/software/appstream/releases/AppStream-0.16.2.tar.xz
+URL=https://www.freedesktop.org/software/appstream/releases/AppStream-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=appstream
@@ -20,8 +20,8 @@ cd $DIR
 
 # Build
 
-mkdir build
-cd build
+mkdir abuild
+cd abuild
 
 meson setup --prefix=/usr
 
