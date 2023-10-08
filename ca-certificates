@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=1.12
+PKG_VER=1.13
 URL=https://github.com/lfs-book/make-ca/releases/download/v$PKG_VER/make-ca-$PKG_VER.tar.xz
 URL2=https://src.fedoraproject.org/rpms/ca-certificates/raw/rawhide/f/update-ca-trust
 TAR=$(echo $URL | sed -r 's|(.*)/||')

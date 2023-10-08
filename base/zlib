@@ -2,7 +2,6 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-# HOLD_TUCANA
 PKG_VER=1.2.13
 URL=https://zlib.net/zlib-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
