@@ -115,7 +115,7 @@ cd /pkgs
 
 
 
-sudo echo "glibc gcc gcc llvm" > /pkgs/$PACKAGE2/depends
+sudo echo "glibc gcc llvm" > /pkgs/$PACKAGE2/depends
 sudo tar -cvzpf $PACKAGE2.tar.xz $PACKAGE2
 sudo cp $PACKAGE2.tar.xz /finished
 

@@ -16,8 +16,9 @@ cd $DIR
 # Credit to Pierre Schmitz and Jan Alexander Steffens for the build process for this (From ArchLinux)
  a2x -v -f manpage update-ca-trust.8.txt
    rm update-ca-trust
-   # Custom version of update-ca-trust
-   wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/ca-certificates/trunk/update-ca-trust
+    # Custom version of update-ca-trust
+    wget https://gitlab.archlinux.org/archlinux/packaging/packages/ca-certificates/-/raw/main/update-ca-trust   
+ 
   install -Dt "/pkgs/$PACKAGE/usr/bin" update-ca-trust
   install -Dt "/pkgs/$PACKAGE/usr/share/man/man8" -m644 update-ca-trust.8
 

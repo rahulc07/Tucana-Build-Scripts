@@ -3,8 +3,6 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
 
 
 
