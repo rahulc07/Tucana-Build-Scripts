@@ -2,7 +2,7 @@
 #NLFS
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=34.0.1
+PKG_VER=34.0.4
 URL=https://github.com/nmeum/android-tools/releases/download/$PKG_VER/android-tools-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -18,21 +18,21 @@ cd $DIR
 # Build
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_FIND_PACKAGE_PREFER_CONFIG=ON  -DCMAKE_BUILD_TYPE=Release  -G Ninja ..
 
 
-make -j16
+ninja
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo ninja install 
+sudo DESTDIR=/pkgs/$PACKAGE ninja install 
 cd /pkgs
 
 
 
 sudo echo "zlib libusb ncurses google-test" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "protobuf" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

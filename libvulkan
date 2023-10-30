@@ -3,14 +3,12 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=1.3.257
+PKG_VER=1.3.269
 URL=https://github.com/KhronosGroup/Vulkan-Loader/archive/v$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=Vulkan-Loader-$PKG_VER
 PACKAGE=libvulkan
 set -e 
-# Kind of dangerous but install and build vulkan headers before running this
-sudo bash vulkan-headers
 # Get Package
 cd /blfs/builds
 wget $URL

@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=3.0.18
+PKG_VER=3.0.19
 URL=https://download.videolan.org/vlc/$PKG_VER/vlc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -36,6 +36,7 @@ cd /pkgs
 
 
 sudo echo "qt5 alsa-lib dbus libssh2 v4l-utils libpng libtheora libva libvorbis opus x264 ffmpeg pulseaudio" > /pkgs/$PACKAGE/depends
+sudo echo "lua5.2 lua" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

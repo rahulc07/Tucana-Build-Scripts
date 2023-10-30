@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 
 set -e
 
-PKG_VER=253
+PKG_VER=254
 URL=https://github.com/systemd/systemd/archive/v$PKG_VER/systemd-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -115,7 +115,7 @@ ln -s /usr/lib/libudev.so.1 /pkgs/$PACKAGE/usr/lib/libudev.so.0
 
 
 sudo echo "cryptsetup pam glibc util-linux libcap acl attr libidn2 libseccomp iptables dbus libgcrypt p11-kit libxcrypt" > /pkgs/$PACKAGE/depends
-sudo echo "pam glibc util-linux libcap acl attr gnu-efi jinja2" > /pkgs/$PACKAGE/make-depends
+sudo echo "pam glibc util-linux libcap acl attr gnu-efi jinja" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

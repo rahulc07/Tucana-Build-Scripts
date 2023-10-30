@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 set -e
-PKG_VER=2.41.6
+PKG_VER=2.42.1
 URL=https://webkitgtk.org/releases/webkitgtk-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -21,8 +21,8 @@ cd $DIR
 export CFLAGS+=' -g1'
 export CXXFLAGS+=' -g1'
 
-mkdir build &&
-cd    build &&
+mkdir build1 &&
+cd    build1 &&
 
 cmake -DCMAKE_BUILD_TYPE=Release  \
       -DCMAKE_INSTALL_PREFIX=/usr \

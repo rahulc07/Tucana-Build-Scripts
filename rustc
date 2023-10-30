@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=1.71.0
+PKG_VER=1.73.0
 URL=https://static.rust-lang.org/dist/rustc-$PKG_VER-src.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -40,6 +40,15 @@ docs = false
 # install cargo as well as rust
 extended = true
 
+
+# Do not query new versions of dependencies online.
+locked-deps = true
+
+tools = ["cargo", "clippy", "rustdoc", "rustfmt"]
+
+vendor = true
+
+
 [install]
 prefix = "/usr"
 docdir = "share/doc/rustc"
@@ -47,9 +56,6 @@ docdir = "share/doc/rustc"
 [rust]
 channel = "stable"
 rpath = false
-
-# BLFS does not install the FileCheck executable from llvm,
-# so disable codegen tests
 codegen-tests = false
 
 [target.x86_64-unknown-linux-gnu]

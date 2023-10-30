@@ -2,22 +2,20 @@
 #NLFS
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=2.10.0
-URL=https://github.com/FreeRDP/FreeRDP/releases/download/$PKG_VER/freerdp-$PKG_VER.tar.gz
+PKG_VER=2.11.2
+URL=https://github.com/freerdp/freerdp/archive/$PKG_VER/freerdp-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+DIR=FreeRDP-$PKG_VER
+PACKAGE=freerdp
 
 # Get Package
 
 cd /blfs/builds
 wget $URL
-wget https://github.com/FreeRDP/FreeRDP/commit/aa2cb9aa.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 < ../aa2cb9aa.patch
 mkdir build
 cd build
 

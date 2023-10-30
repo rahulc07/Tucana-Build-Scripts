@@ -2,11 +2,12 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=4.18.4
+PKG_VER=4.19.2
 URL=https://download.samba.org/pub/samba/stable/samba-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+BLFS_SYSTEMD_VER=20230816
 set -e
 
 # Credits: Systemd units come from LFS
@@ -61,9 +62,9 @@ install -v -m755    examples/LDAP/{get*,ol*} \
 install -dvm 755 /pkgs/$PACKAGE/usr/lib/cups/backend &&
 ln -v -sf /usr/bin/smbspool /pkgs/$PACKAGE/usr/lib/cups/backend/smb
 
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20230627.tar.xz
-tar -xvf blfs-systemd-units-20230627.tar.xz
-cd blfs-systemd-units-20230627
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+tar -xvf blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+cd blfs-systemd-units-$BLFS_SYSTEMD_VER
 sudo make install-samba
 sudo make install-winbindd
 make DESTDIR=/pkgs/$PACKAGE install-samba

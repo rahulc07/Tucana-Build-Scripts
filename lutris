@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=0.5.13
+PKG_VER=0.5.14
 URL=https://github.com/lutris/lutris/archive/refs/tags/v$PKG_VER/lutris-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

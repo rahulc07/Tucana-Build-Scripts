@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=0.16.2
+PKG_VER=0.16.3
 URL=https://www.freedesktop.org/software/appstream/releases/AppStream-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -23,7 +23,7 @@ cd $DIR
 mkdir abuild
 cd abuild
 
-meson setup --prefix=/usr
+meson setup --prefix=/usr --buildtype=release -Dapidocs=false
 
 ninja
 
@@ -36,6 +36,7 @@ cd /pkgs
 
 
 sudo echo "xmlb glib librsvg libyaml" > /pkgs/$PACKAGE/depends
+sudo echo "libstemmer"> /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

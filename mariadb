@@ -5,11 +5,12 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=mariadb
 #ARCH_VAR=pkgver
-PKG_VER=11.0.2
+PKG_VER=11.1.2
 URL=https://rsync.osuosl.org/pub/mariadb/mariadb-$PKG_VER/source/mariadb-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+BLFS_SYSTEMD_VER=20230816
 # DO NOT SET -E THIS 
 # Get Package
 
@@ -126,9 +127,9 @@ EOF
 
 # Install systemd unit
 cd /blfs/builds
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20230627.tar.xz
-tar -xvf blfs-systemd-units-20230627.tar.xz
-cd blfs-systemd-units-20230627
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+tar -xvf blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+cd blfs-systemd-units-$BLFS_SYSTEMD_VER
 make DESTDIR=/pkgs/mariadb install-mysqld
 # Done
 cd /pkgs

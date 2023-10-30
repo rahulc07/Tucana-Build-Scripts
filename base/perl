@@ -8,7 +8,7 @@ export CXXFLAGS="-O2"
 #ARCH_PKG=perl
 #ARCH_VAR=pkgver
 
-PKG_VER=5.36.1
+PKG_VER=5.38.0
 URL=https://www.cpan.org/src/5.0/perl-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
