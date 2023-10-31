@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=44
+GNOME_MAJOR=45
 GNOME_MINOR=0
 URL=https://download.gnome.org/sources/baobab/$GNOME_MAJOR/baobab-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

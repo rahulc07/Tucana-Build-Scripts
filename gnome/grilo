@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 GNOME_MAJOR=43
 GNOME_MINOR=0
-URL=https://download.gnome.org/sources/grilo/0.3/grilo-0.3.15.tar.xz
+URL=https://download.gnome.org/sources/grilo/0.3/grilo-0.3.16.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

@@ -3,7 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://download.gnome.org/sources/libgee/0.20/libgee-0.20.6.tar.xz
+
+PKG_VER=3.2.2
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://cache.ruby-lang.org/pub/ruby/$MAJOR/ruby-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -17,10 +20,14 @@ cd $DIR
 
 # Build
 
+./configure --prefix=/usr      \
+            --enable-shared    \
+            --without-valgrind \
+            --without-baseruby \
+            --docdir=/usr/share/doc/ruby
 
-./configure --prefix=/usr
 
-make -j16
+make -j22
 
 
 # Install
@@ -30,8 +37,8 @@ cd /pkgs
 
 
 
-sudo echo "gobject-introspection vala glib" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "libyaml graphviz" > /pkgs/$PACKAGE/depends
+sudo echo "rustc" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

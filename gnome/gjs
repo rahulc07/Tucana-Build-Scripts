@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=1.76.2
+PKG_VER=1.78.0
 MINOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/gjs/$MINOR/gjs-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

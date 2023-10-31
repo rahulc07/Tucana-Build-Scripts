@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://download.gnome.org/sources/yelp-xsl/42/yelp-xsl-42.0.tar.xz
+URL=https://download.gnome.org/sources/yelp-xsl/42/yelp-xsl-42.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

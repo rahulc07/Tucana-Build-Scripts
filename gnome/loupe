@@ -2,12 +2,10 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-GNOME_MAJOR=43
+set -e
+GNOME_MAJOR=45
 GNOME_MINOR=0
-PKG_VER=0.74.1
-MINOR=$(echo $PKG_VER | sed  's/.[^.]*$//g')
-URL=https://download.gnome.org/sources/vte/$MINOR/vte-$PKG_VER.tar.xz
+URL=https://download.gnome.org/sources/loupe/$GNOME_MAJOR/loupe-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -23,8 +21,9 @@ cd $DIR
 
 mkdir build &&
 cd    build &&
+meson setup --prefix=/usr --buildtype=release
 
-meson --prefix=/usr --buildtype=release -Dfribidi=false ..
+
 
 ninja 
 
@@ -35,9 +34,10 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "icu gtk3 libxml2 pcre2 gnutls gobject-introspection vala" > /pkgs/$PACKAGE/depends
+sudo echo "cairo glib2 graphene gtk4 adwaita libadwaita libgweather" > /pkgs/$PACKAGE/depends
+sudo echo "rustc" > /pkgs/$PACKAGE/make-depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
-sudo rm -r /pkgs/$PACKAGE/blfs
+sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

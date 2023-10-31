@@ -1,0 +1,58 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+set -e
+# Last Validated Version 102.4
+
+PKG_VER=115.4.0
+REFORMAT=$(echo $PKG_VER | sed 's/esr//g')
+URL=https://archive.mozilla.org/pub/firefox/releases/${PKG_VER}esr/source/firefox-${PKG_VER}esr.source.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=firefox-$REFORMAT
+PACKAGE=js115
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+mkdir obj &&
+cd    obj &&
+
+
+../js/src/configure --prefix=/usr            \
+                    --with-intl-api          \
+                    --with-system-zlib       \
+                    --with-system-icu        \
+                    --disable-jemalloc       \
+                    --disable-debug-symbols  \
+                    --enable-readline    
+
+
+make -j20
+
+
+# Install
+
+make DESTDIR=/pkgs/$PACKAGE install
+rm /pkgs/$PACKAGE/usr/lib/*.ajs
+sed -i '/@NSPR_CFLAGS@/d' /pkgs/$PACKAGE/usr/bin/js115-config
+sudo echo "libgcc readline bash zlib icu" > /pkgs/$PACKAGE/depends
+sudo echo "libgcc readline bash zlib autoconf213 clang llvm python3 rust zip git" > /pkgs/$PACKAGE/depends
+cd /pkgs/$PACKAGE
+sudo rm -rf root blfs
+cd ..
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+sudo cp -rpv /pkgs/$PACKAGE/* /
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

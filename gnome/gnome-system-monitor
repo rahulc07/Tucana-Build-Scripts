@@ -2,8 +2,9 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://download.gnome.org/sources/gnome-system-monitor/42/gnome-system-monitor-42.0.tar.xz
+GNOME_MAJOR=45
+GNOME_MINOR=0.2
+URL=https://download.gnome.org/sources/gnome-system-monitor/$GNOME_MAJOR/gnome-system-monitor-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 CAT=gnome
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
