@@ -8,8 +8,8 @@ DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=chrome-gnome-shell
 set -e
 # Get Package
-bash pkg-tar/chrome-gnome-shell
 cd /blfs/builds
+wget $URL
 tar -xvf $TAR
 cd $DIR
 
