@@ -5,10 +5,13 @@ export CXXFLAGS="-O2"
 
 GNOME_MAJOR=43
 GNOME_MINOR=0
-URL=https://download.gnome.org/sources/gtk/4.12/gtk-4.12.3.tar.xz
+
+PKG_VER=3.26.4
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://download.gnome.org/sources/geocode-glib/$MAJOR/geocode-glib-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=gtk4
+PACKAGE=geocode-glib-2
 
 # Get Package
 
@@ -22,9 +25,7 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-
-meson --prefix=/usr --buildtype=release -Dbroadway-backend=true -Dintrospection=enabled ..
-
+meson --prefix /usr --buildtype=release -Denable-gtk-doc=false -Dsoup2=false .. 
 
 ninja 
 
@@ -35,9 +36,9 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "fribidi gdk-pixbuf graphene iso-codes libepoxy libxkbcommon pango pygobject3 wayland-protocols adwaita  gst-plugins-bad gst-plugins-good libvpx hicolor-icons librsvg ffmpeg sassc" > /pkgs/$PACKAGE/depends
+sudo echo "geocode-glib libsoup3" > /pkgs/$PACKAGE/depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
-sudo rm -rf /pkgs/$PACKAGE/blfs
+sudo rm -r /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

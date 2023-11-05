@@ -3,7 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://download.gnome.org/sources/gfbgraph/0.2/gfbgraph-0.2.5.tar.xz
+
+PKG_VER=0.2.5
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://download.gnome.org/sources/gfbgraph/$MAJOR/gfbgraph-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -24,8 +27,8 @@ make -j16
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE libgfbgraphdocdir=/usr/share/doc/gfbgraph-0.2.5 install
-sudo make libgfbgraphdocdir=/usr/share/doc/gfbgraph-0.2.5 install
+sudo make DESTDIR=/pkgs/$PACKAGE libgfbgraphdocdir=/usr/share/doc/gfbgraph-$PKG_VER install
+sudo make libgfbgraphdocdir=/usr/share/doc/gfbgraph-$PKG_VER install
 cd /pkgs
 
 

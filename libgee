@@ -3,7 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://download.gnome.org/sources/libgtop/2.40/libgtop-2.40.0.tar.xz
+
+PKG_VER=0.20.6
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://download.gnome.org/sources/libgee/$MAJOR/libgee-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -17,8 +20,8 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr --disable-static
 
+./configure --prefix=/usr
 
 make -j16
 
@@ -30,7 +33,7 @@ cd /pkgs
 
 
 
-sudo echo "glib xorg-libs gobject-introspection" > /pkgs/$PACKAGE/depends
+sudo echo "gobject-introspection vala glib" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
