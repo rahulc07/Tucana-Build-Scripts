@@ -24,6 +24,7 @@ cd $DIR
 	--sysconfdir=/etc/ssh                    \
         --with-privsep-path=/var/lib/sshd        \
 	--with-default-path=/usr/bin             \
+        --without-zlib-version-check             \
 	--with-superuser-path=/usr/sbin:/usr/bin \
 	--with-pid-dir=/run    
 
