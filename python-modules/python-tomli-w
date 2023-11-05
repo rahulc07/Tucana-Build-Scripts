@@ -3,7 +3,8 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 set -e
-URL=https://files.pythonhosted.org/packages/49/05/6bf21838623186b91aedbda06248ad18f03487dc56fbc20e4db384abde6c/tomli_w-1.0.0.tar.gz
+PKG_VER=0.2
+URL=https://files.pythonhosted.org/packages/source/t/tomli-w/tomli_w-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=tomli-w

@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/certifi/python-certifi/archive/refs/tags/2022.09.24.tar.gz
+
+PKG_VER=2022.09.24
+URL=https://files.pythonhosted.org/packages/source/c/certifi/certifi-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=python-certifi-$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

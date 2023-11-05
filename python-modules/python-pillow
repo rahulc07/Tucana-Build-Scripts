@@ -3,9 +3,11 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/python-pillow/Pillow/archive/refs/tags/9.3.0.tar.gz
+
+PKG_VER=9.3.0
+URL=https://github.com/python-pillow/Pillow/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=Pillow-9.3.0
+DIR=Pillow-$PKG_VER
 PACKAGE=python-pillow
 
 # Get Package
