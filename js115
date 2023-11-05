@@ -21,6 +21,11 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
+# Python 3.12 fix 
+for i in $(find -name six.py); do
+  ln -sfv /usr/lib/python3.12/site-packages/six.py $i;
+done
+
 mkdir obj &&
 cd    obj &&
 

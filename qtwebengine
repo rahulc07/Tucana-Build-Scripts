@@ -27,6 +27,14 @@ patch -Np1 -i ../qtwebengine-$PKG_VER-ffmpeg5_fixes-1.patch
 patch -Np1 -i ../qtwebengine-python3.patch
 mkdir -pv .git src/3rdparty/chromium/.git
 
+# Fix icu 74 (not tested)
+sed 's/^#define BA_LB_COUNT.*$/#define BA_LB_COUNT 40/' \
+    -i src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc
+
+# Fix internal FFMPEG 
+sed 's/(uint8_t)\(([^)]*)\|shift\)/\1 \& 0x1F/' \
+    -i src/3rdparty/chromium/third_party/ffmpeg/libavcodec/x86/mathops.h
+
 sed -e '/^MODULE_VERSION/s/5.*/5.15.10/' -i .qmake.conf
 
 find -type f -name "*.pr[io]" |
