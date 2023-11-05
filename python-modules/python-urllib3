@@ -19,14 +19,15 @@ cd $DIR
 
 # Build
 
+python3 -m build -wn --skip-dependency-check
 
-python3 setup.py build
 
 
 
 
 # Install
-sudo python3 setup.py install --root="/pkgs/$PACKAGE" --optimize=1
+sudo python3 -m installer --destdir="/pkgs/$PACKAGE" dist/*.whl
+
 cd /pkgs
 
 sudo cp -rpv /pkgs/$PACKAGE/* /
