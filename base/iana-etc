@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=20231019
+PKG_VER=20231026
 URL=https://github.com/Mic92/iana-etc/releases/download/$PKG_VER/iana-etc-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

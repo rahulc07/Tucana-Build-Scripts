@@ -6,9 +6,9 @@ export CXXFLAGS="-O2"
 set -e
 # Last Validated Version 102.4
 
-PKG_VER=115.4.0
+PKG_VER=115.4.0esr
 REFORMAT=$(echo $PKG_VER | sed 's/esr//g')
-URL=https://archive.mozilla.org/pub/firefox/releases/${PKG_VER}esr/source/firefox-${PKG_VER}esr.source.tar.xz
+URL=https://archive.mozilla.org/pub/firefox/releases/${PKG_VER}/source/firefox-${PKG_VER}.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=firefox-$REFORMAT
 PACKAGE=js115
