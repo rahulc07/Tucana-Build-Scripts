@@ -13,7 +13,7 @@ export CXXFLAGS="-O2"
 set -e
 
 
-PKG_VER=5.107.0
+PKG_VER=5.111.0
 URL=https://download.kde.org/stable/frameworks/5.107/
 
 # Get Package(s)
