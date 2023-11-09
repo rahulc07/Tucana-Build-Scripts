@@ -149,7 +149,7 @@ echo "613364a7-9418-4c86-bcee-57e32fd70c23" > mozilla-key
 
 
 
-export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=system
+export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
 export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 
 
