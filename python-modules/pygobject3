@@ -7,7 +7,7 @@ MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/pygobject/$MAJOR/pygobject-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')3
+PACKAGE="pygobject3"
 
 # Get Package
 
@@ -30,7 +30,7 @@ cd /pkgs
 
 sudo cp -rpv /pkgs/$PACKAGE/* /
 
-sudo echo "python3 gtk3 pycairo" > /pkgs/$PACKAGE/depends
+sudo echo "python gtk3 pycairo" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
