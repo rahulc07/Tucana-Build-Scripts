@@ -54,6 +54,7 @@ strip $(file * | grep ELF | sed 's/:.*//')
 popd
 
 sudo echo "cairo  gst-plugins-base woff2 gst-plugins-bad gtk3 libsoup3 icu lcms libgudev libsecret libsoup libwebp mesa openjpeg ruby sqlite which wpebackend-foo enchant geoclue gobject-introspection hicolor-icons libnotify wayland xdg-dbus-proxy" > /pkgs/$PACKAGE/depends
+sudo echo "unifdef" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
