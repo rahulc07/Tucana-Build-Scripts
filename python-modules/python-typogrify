@@ -3,11 +3,12 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=3.5.1
-URL=https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-$PKG_VER.tar.gz
+
+PKG_VER=2.0.7
+URL=https://files.pythonhosted.org/packages/source/t/typogrify/typogrify-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=python-markdown
+PACKAGE=python-$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
@@ -29,7 +30,7 @@ cd /pkgs
 sudo cp -rpv /pkgs/$PACKAGE/* /
 
 sudo echo "python" > /pkgs/$PACKAGE/depends
-sudo echo "python-build python-installer pyproject-hooks" > /pkgs/$PACKAGE/make-depends
+sudo echo "python-build python-installer" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
