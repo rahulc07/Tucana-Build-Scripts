@@ -158,7 +158,7 @@ export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 
 
 # Install
-MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=system DESTDIR=/pkgs/$PACKAGE ./mach install
+MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none DESTDIR=/pkgs/$PACKAGE ./mach install
 cd /pkgs
 
 mkdir -pv /usr/share/applications &&
@@ -189,7 +189,7 @@ ln -sfv /usr/lib/firefox/browser/chrome/icons/default/default128.png /pkgs/firef
 mkdir -p /pkgs/$PACKAGE/usr/lib/firefox/distribution/
 echo "[Global]
 id=Tucana
-version=2.3
+version=3.0
 about=Mozilla Firefox built for Tucana Linux
 [Preferences]
 app.distributor=tucana
