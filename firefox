@@ -41,7 +41,7 @@ sed -e '/^import/s/imp$/importlib.util/'             \
     -e "s/imp.load_source\(.*\)/spec =               \
         importlib.util.spec_from_file_location\1;    \
         mod = importlib.util.module_from_spec(spec); \
-        spec.loader.exec_module(mod)/" -i python/mach/mach/main.py &&
+        spec.loader.exec_module(mod)/" -i python/mach/mach/main.py python/mach/mach/command_util.py &&
 sed '/import imp/d' -i netwerk/dns/prepare_tlds.py
 
 (for i in {43..47}; do
