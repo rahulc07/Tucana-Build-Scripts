@@ -23,7 +23,7 @@ cd $DIR
 mkdir abuild
 cd abuild
 
-meson setup --prefix=/usr --buildtype=release -Dapidocs=false
+meson setup --prefix=/usr --buildtype=release -Dapidocs=false -Dqt=true ..
 
 ninja
 
