@@ -17,10 +17,11 @@ EOF
 
 cat > /pkgs/$PACKAGE/etc/os-release << "EOF"
 NAME="Tucana Linux"
-VERSION="3.0-p1"
+VERSION="3.0"
 ID=tucana
 PRETTY_NAME="Tucana GNU/Linux 3.0"
 VENDOR_NAME="Rahul Chandra"
+
 
 EOF
 
