@@ -23,6 +23,12 @@ cd $DIR
 
 # Build
 
+
+(for i in $(find -name six.py); do
+   ln -sfv /usr/lib/python3.12/site-packages/six.py $i
+   [ $? = 0 ] || exit $?
+ done)
+
 patch -Np1 < ../Replace-distutils.LooseVersion-with-looseversion.LooseVersion.patch
 # Thanks to fedora for the python 3.12 patches
 	
