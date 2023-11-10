@@ -115,7 +115,7 @@ EOF
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
-cp -rpv /pkgs/$PACKAGE /
+cp -rpv /pkgs/$PACKAGE/* /
 
 cd /blfs/builds
 sudo rm -r $DIR
