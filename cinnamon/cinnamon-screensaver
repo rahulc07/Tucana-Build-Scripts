@@ -34,6 +34,7 @@ cd /pkgs
 
 
 sudo echo "accounts-service cinnamon-desktop libgnomekbd pycairo pygobject3" > /pkgs/$PACKAGE/depends
+sudo echo "xdotool"> /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
