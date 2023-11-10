@@ -17,10 +17,21 @@ PACKAGE=js102
 
 cd /blfs/builds
 wget $URL
+wget https://src.fedoraproject.org/rpms/mozjs102/raw/rawhide/f/Replace-distutils.LooseVersion-with-looseversion.LooseVersion.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
+
+patch -Np1 < ../Replace-distutils.LooseVersion-with-looseversion.LooseVersion.patch
+# Thanks to fedora for the python 3.12 patches
+	
+mkdir third_party/python/looseversion
+	
+ln -s /usr/lib/python3.12/site-packages/looseversion/__init__.py third_party/python/looseversion/looseversion.py
+	
+echo "vendored:third_party/python/looseversion" >>  python/sites/mach.txt
+
 mkdir obj &&
 cd    obj &&
 
