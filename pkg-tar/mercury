@@ -8,7 +8,7 @@ URL=https://github.com/xXTeraXx/Tucana.git
 # If it's a frequently updated git repo without a set version, title it with the tucana version in the for t[version] no minor versions, just append to the major eg 1.1=t11
 TAR_FINAL=mercury.tar.xz
 # master?
-COMMIT=47560f00217c1e84f076c834c96d313b2516ed24
+COMMIT=52965ab03d7bd4651f51df1b7e9cf9f1c26893a8
 # Don't touch
 DIR=$(echo $URL | sed -r 's|(.*)/||' | sed 's/.git//')
 FINAL_DIR=mercury

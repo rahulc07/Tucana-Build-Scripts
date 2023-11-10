@@ -19,12 +19,19 @@ cd $DIR
 
 # Build
 patch -Np1 < ../default-theme.patch
-  sed -i 's/mintinstall.desktop/org.gnome.Software.desktop/' data/org.cinnamon.gschema.xml
-  sed -i 's/RequiredComponents=\(.*\)$/RequiredComponents=\1polkit-gnome-authentication-agent-1;/' \
+sed -i 's/mintinstall.desktop/org.gnome.Software.desktop/' data/org.cinnamon.gschema.xml
+sed -i 's/RequiredComponents=\(.*\)$/RequiredComponents=\1polkit-gnome-authentication-agent-1;/' \
       cinnamon*.session.in
 
- sed -i 's|/usr/share/cinnamon-background-properties|/usr/share/gnome-background-properties|' \
+sed -i 's|/usr/share/cinnamon-background-properties|/usr/share/gnome-background-properties|' \
       files/usr/share/cinnamon/cinnamon-settings/modules/cs_backgrounds.py
+sed -i 's|ANTIALIAS|LANCZOS|g' \
+   files/usr/share/cinnamon/cinnamon-settings-users/cinnamon-settings-users.py \
+   files/usr/share/cinnamon/cinnamon-settings/bin/imtools.py \
+   files/usr/share/cinnamon/cinnamon-settings/modules/cs_backgrounds.py \
+   files/usr/share/cinnamon/cinnamon-settings/modules/cs_user.py \
+
+
 
 mkdir cbuild
 cd cbuild

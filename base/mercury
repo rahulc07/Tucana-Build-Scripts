@@ -26,7 +26,7 @@ cd $DIR
 
 # Allow postinstalls to be run
 echo "postinst"
-sed -i 's|#\ bash|bash|g' *
+sed -i 's|#postinst|postinst|g' *
 
 #Change install location
 sed -i 's|INSTALL_PATH=.*|INSTALL_PATH=/|' *
