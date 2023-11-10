@@ -9,19 +9,19 @@ cd /pkgs
 mkdir -p base-update/etc
 cd base-update/etc
 
-cat > lsb-release << "EOF"
+cat > /pkgs/$PACKAGE/etc/lsb-release << "EOF"
 DISTRIB_ID="Tucana Linux"
-DISTRIB_RELEASE="2.3"
-DISTRIB_CODENAME="Rahul Chandra"
+DISTRIB_RELEASE="3.0"
 DISTRIB_DESCRIPTION="Tucana GNU/Linux"
 EOF
 
-cat > os-release << "EOF"
+cat > /pkgs/$PACKAGE/etc/os-release << "EOF"
 NAME="Tucana Linux"
-VERSION="2.3"
+VERSION="3.0-p1"
 ID=tucana
-PRETTY_NAME="Tucana GNU/Linux 2.3"
-VERSION_CODENAME="Rahul Chandra"
+PRETTY_NAME="Tucana GNU/Linux 3.0"
+VENDOR_NAME="Rahul Chandra"
+
 EOF
 
 cd /pkgs
