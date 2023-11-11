@@ -3,7 +3,7 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-URL=https://github.com/unicode-org/icu/releases/download/release-73-1/icu4c-73_1-src.tgz
+URL=https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-src.tgz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=icu
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
