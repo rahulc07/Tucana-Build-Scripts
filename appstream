@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=0.16.3
+PKG_VER=0.16.4
 URL=https://www.freedesktop.org/software/appstream/releases/AppStream-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
