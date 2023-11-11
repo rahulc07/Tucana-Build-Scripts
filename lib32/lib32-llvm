@@ -4,7 +4,7 @@ export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 set -e
-PKG_VER=16.0.6
+PKG_VER=17.0.4
 LLVM_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/llvm-$PKG_VER.src.tar.xz
 CMAKE_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/cmake-$PKG_VER.src.tar.xz
 THIRDPARTY_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/third-party-$PKG_VER.src.tar.xz

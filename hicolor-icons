@@ -3,9 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-
-PKG_VER=0.17
-URL=https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-$PKG_VER.tar.xz
+URL=https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=hicolor-icons
@@ -22,7 +20,7 @@ cd $DIR
 
 ./configure --prefix=/usr
 
-make -j16
+make -j22
 
 
 # Install
@@ -33,6 +31,7 @@ cd /pkgs
 
 
 sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "sudo gtk-update-icon-cache --force /usr/share/icons/hicolor" > /pkgs/$PACKAGE/postinst
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

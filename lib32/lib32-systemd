@@ -4,7 +4,7 @@ export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 set -e
-URL=https://github.com/systemd/systemd/archive/v253/systemd-253.tar.gz
+URL=https://github.com/systemd/systemd/archive/v254/systemd-254.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
