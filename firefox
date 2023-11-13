@@ -2,7 +2,7 @@
 
 
 set -e
-# Last Validated Version 119.0
+# Last Validated Version 119.0.1
 PKG_VER=119.0.1
 URL=https://archive.mozilla.org/pub/firefox/releases/$PKG_VER/source/firefox-$PKG_VER.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

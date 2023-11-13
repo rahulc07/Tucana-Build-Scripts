@@ -22,7 +22,7 @@ cd $DIR
 # Build
 
 
-# Change install path in Git version, repo is handeled by the install script
+# Change install path in Git version, repo is handled by the install script
 
 # Allow postinstalls to be run
 echo "postinst"
