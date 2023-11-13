@@ -2,8 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=20231030
-URL=https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-$PKG_VER.tar.xz
+
+URL=https://rdfind.pauldreik.se/rdfind-1.6.0.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -17,17 +17,19 @@ cd $DIR
 
 # Build
 
-# no building required
+./configure --prefix=/usr
 
+make -j22
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE FIRMWAREDIR=/usr/lib/firmware install-xz
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
 cd /pkgs
 
 
 
-sudo echo "linux-tucana" > /pkgs/$PACKAGE/depends
-sudo echo "rdfind" > /pkgs/$PACKAGE/make-depends
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
