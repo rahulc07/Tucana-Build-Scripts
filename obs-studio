@@ -28,6 +28,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
     -DENABLE_NEW_MPEGTS_OUTPUT=OFF \
     -DENABLE_AJA=OFF \
     -DCALM_DEPRECATION=on \
+    -DQT_VERSION=5 \
     -Wno-dev ..
 
 
