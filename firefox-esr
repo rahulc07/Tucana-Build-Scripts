@@ -34,7 +34,7 @@ sed '/ConfigParser/s/Safe//'                          \
    [ $? = 0 ] || exit $?
  done) &&
 
-sed 's/distutils/setuptools._&/'           \
+sed 's/distutils/setuptools._&/'            \
     -i python/mozbuild/mozbuild/nodeutil.py &&
 
 sed -e '/^import/s/imp$/importlib.util/'             \
@@ -42,7 +42,7 @@ sed -e '/^import/s/imp$/importlib.util/'             \
     -e "s/imp.load_source\(.*\)/spec =               \
         importlib.util.spec_from_file_location\1;    \
         mod = importlib.util.module_from_spec(spec); \
-        spec.loader.exec_module(mod)/" -i python/mach/mach/main.py python/mach/mach/command_util.py &&
+        spec.loader.exec_module(mod)/" -i python/mach/mach/main.py &&
 sed '/import imp/d' -i netwerk/dns/prepare_tlds.py
 
 (for i in {43..47}; do
@@ -197,7 +197,7 @@ app.distributor=tucana
 app.distributor.channel=firefox" > /pkgs/$PACKAGE/usr/lib/firefox/distribution/distribution.ini
 
 sudo echo "dbus-glib gtk3 gtk2 libnotify pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu" > /pkgs/$PACKAGE/depends
-sudo echo "autoconf dbus-glib gtk3 gtk2 libnotify nodejs pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu cbindgen wireless-tools rustc" > /pkgs/$PACKAGE/make-depends
+sudo echo "python-six autoconf dbus-glib gtk3 gtk2 libnotify nodejs pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu cbindgen wireless-tools rustc" > /pkgs/$PACKAGE/make-depends
 cd /pkgs/$PACKAGE
 sudo rm -rf root blfs
 cd ..
