@@ -1,0 +1,74 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://ghostarchive.org/postfix/postfix-release/official/postfix-3.8.3.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+CCARGS="-DNO_NIS -DNO_DB \
+        -DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/include/sasl "
+AUXLIBS='-lsasl2'
+CCARGS=+'-DNO_NIS -DNO_DB -DHAS_LMDB'
+AUXLIBS_LMDB='-llmdb'
+CCARGS=+' -DNO_NIS -DNO_DB -DHAS_LDAP'
+AUXLIBS_LDAP='-lldap -llber'
+CCARGS=+' -DNO_NIS -DNO_DB -DHAS_SQLITE'
+AUXLIBS_SQLITE='-lsqlite3 -lpthread'
+CCARGS=+' -DNO_NIS -DNO_DB -DHAS_MYSQL -I/usr/include/mysql'
+AUXLIBS_MYSQL='-lmysqlclient -lz -lm'
+CCARGS=+' -DNO_NIS -DNO_DB -DUSE_TLS -I/usr/include/openssl/'
+AUXLIBS='-lssl -lcrypto'
+
+make CCARGS="-DNO_NIS -DNO_DB -DUSE_TLS -I/usr/include/openssl/    \
+             -DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/include/sasl  \
+             -DHAS_LMDB"                                           \
+     AUXLIBS="-lssl -lcrypto -lsasl2"                              \
+     AUXLIBS_LMDB="-llmdb"                                         \
+     makefiles &&
+make -j32
+
+
+sed -i 's/.\x08//g' README_FILES/*
+
+
+
+sh postfix-install -non-interactive \
+   daemon_directory=/usr/lib/postfix \
+   manpage_directory=/usr/share/man \
+   html_directory=/usr/share/doc/postfix-3.8.3/html \
+   readme_directory=/usr/share/doc/postfix-3.8.3/readme \
+   install_root=/pkgs/$PACKAGE/
+
+
+
+# Install
+cd /pkgs
+
+
+
+sudo echo "lmdb cyrus-sasl sqlite openldap pcre2 icu" > /pkgs/$PACKAGE/depends
+sudo echo "groupadd -g 32 postfix &&
+groupadd -g 33 postdrop &&
+useradd -c "Postfix Daemon User" -d /var/spool/postfix -g postfix \
+        -s /bin/false -u 32 postfix &&
+chown -v postfix:postfix /var/mail" > /pkgs/$PACKAGE/postinst
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
