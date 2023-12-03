@@ -27,7 +27,7 @@ cd /pkgs
 
 sudo cp -rpv /pkgs/$PACKAGE/* /
 
-sudo echo "python python-packaging python-setuptools tomli-w" > /pkgs/$PACKAGE/depends
+sudo echo "python python-packaging setuptools tomli-w" > /pkgs/$PACKAGE/depends
 sudo echo "python-build python-installer python-packaging python-setuptools tomli-w" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
