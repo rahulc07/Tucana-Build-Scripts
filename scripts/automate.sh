@@ -41,7 +41,7 @@ CURRENCY_CHECK_TEXT() {
   9) Other
   : " currency
   echo "Attempting to find latest version"
-  SCRIPTS_PATH=/home/rahul/2023-11-23/currency-scrapers/
+  SCRIPTS_PATH=/home/rahul/lfs/build-scripts
  NEW_PKG_VER=$(  if [[ $currency == "1" ]]; then
     $SCRIPTS_PATH/classic-parse.sh $PACKAGE
   fi
