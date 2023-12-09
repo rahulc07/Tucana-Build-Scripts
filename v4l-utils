@@ -16,18 +16,14 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
+mkdir build
+cd build
 
-
-./configure --prefix=/usr     \
-            --sysconfdir=/etc \
-            --disable-static 
-
-make -j16
-
+meson setup --prefix=/usr --buildtype=release -Ddoxygen-doc=disabled -Dgconv=disabled ..
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
 cd /pkgs
 
 
