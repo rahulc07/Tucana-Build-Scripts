@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=3.27.7
+PKG_VER=3.28.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://cmake.org/files/v$MAJOR/cmake-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

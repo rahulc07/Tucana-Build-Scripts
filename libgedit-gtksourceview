@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=299.0.4
+PKG_VER=299.0.5
 URL=https://github.com/gedit-technology/libgedit-gtksourceview/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=libgedit-gtksourceview-$(echo $TAR | sed 's|.tar.*||g')
