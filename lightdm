@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 set -e
 PKG_VER=1.32.0
-BLFS_SYSTEMD_VER=20230816
+BLFS_SYSTEMD_VER=20231205
 URL=https://github.com/CanonicalLtd/lightdm/releases/download/$PKG_VER/lightdm-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
