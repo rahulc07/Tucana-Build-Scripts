@@ -2,8 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-URL=https://files.pythonhosted.org/packages/source/P/PyQt5/PyQt5-5.15.10.tar.gz
+PKG_VER=5.15.10
+URL=https://files.pythonhosted.org/packages/source/P/PyQt5/PyQt5-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=python-pyqt5
@@ -38,7 +38,7 @@ cd /pkgs
 sudo cp -rpv /pkgs/$PACKAGE/* /
 
 sudo echo "python qt5 python-pyqt5-sip" > /pkgs/$PACKAGE/depends
-sudo echo "python-build python-installer" > /pkgs/$PACKAGE/make-depends
+sudo echo "python-build python-installer python-pyqt-builder" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
