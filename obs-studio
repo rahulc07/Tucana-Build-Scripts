@@ -27,8 +27,10 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
     -DENABLE_VLC=OFF \
     -DENABLE_NEW_MPEGTS_OUTPUT=OFF \
     -DENABLE_AJA=OFF \
+    -DENABLE_VST=OFF \
+    -DENABLE_QSV11=OFF \
+    -DENABLE_WEBRTC=OFF \
     -DCALM_DEPRECATION=on \
-    -DQT_VERSION=5 \
     -Wno-dev ..
 
 
@@ -42,7 +44,7 @@ cd /pkgs
 
 
 
-sudo echo "qt5 ffmpeg luajit llvm xorg" > /pkgs/$PACKAGE/depends
+sudo echo "qt6 ffmpeg luajit llvm xorg" > /pkgs/$PACKAGE/depends
 sudo echo "swig" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
