@@ -1,0 +1,127 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://download.qt.io/archive/qt/6.6/6.6.1/single/qt-everywhere-src-6.6.1.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure -prefix /usr \
+            -sysconfdir /etc/xdg    \
+            -bindir lib/qt6/bin     \
+            -header include/qt6     \
+            -datadir share/qt6      \
+            -dbus-linked            \
+            -openssl-linked         \
+            -system-sqlite          \
+            -nomake examples        \
+            -no-rpath               \
+            -syslog                 \
+            -skip qt3d              \
+            -skip qtquick3dphysics  \
+            -skip qtwebengine       \
+            -Wno-dev   
+
+ninja
+
+
+# Install
+
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+find /pkgs/$PACKAGE/ -name \*.prl \
+   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+pushd qttools/src &&
+
+install -v -Dm644 assistant/assistant/images/assistant-128.png       \
+                  /usr/share/pixmaps/assistant-qt6.png               &&
+
+install -v -Dm644 designer/src/designer/images/designer.png          \
+                  /usr/share/pixmaps/designer-qt6.png                &&
+
+install -v -Dm644 linguist/linguist/images/icons/linguist-128-32.png \
+                  /usr/share/pixmaps/linguist-qt6.png                &&
+
+install -v -Dm644 qdbus/qdbusviewer/images/qdbusviewer-128.png       \
+                  /usr/share/pixmaps/qdbusviewer-qt6.png             &&
+popd &&
+
+
+cat > /pkgs/$PACKAGE/usr/share/applications/assistant-qt6.desktop << EOF
+[Desktop Entry]
+Name=Qt6 Assistant
+Comment=Shows Qt6 documentation and examples
+Exec=/usr/bin/assistant
+Icon=assistant-qt6.png
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Documentation;
+EOF
+
+cat > /pkgs/$PACKAGE/usr/share/applications/designer-qt6.desktop << EOF
+[Desktop Entry]
+Name=Qt6 Designer
+GenericName=Interface Designer
+Comment=Design GUIs for Qt6 applications
+Exec=/usr/bin/designer
+Icon=designer-qt6.png
+MimeType=application/x-designer;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;
+EOF
+
+cat > /pkgs/$PACKAGE/usr/share/applications/linguist-qt6.desktop << EOF
+[Desktop Entry]
+Name=Qt6 Linguist
+Comment=Add translations to Qt6 applications
+Exec=/usr/bin/linguist
+Icon=linguist-qt6.png
+MimeType=text/vnd.trolltech.linguist;application/x-linguist;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;
+EOF
+
+cat > /pkgs/$PACKAGE/usr/share/applications/qdbusviewer-qt6.desktop << EOF
+[Desktop Entry]
+Name=Qt6 QDbusViewer
+GenericName=D-Bus Debugger
+Comment=Debug D-Bus applications
+Exec=/usr/bin/qdbusviewer
+Icon=qdbusviewer-qt6.png
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Debugger;
+EOF
+
+
+cd /pkgs
+
+
+
+
+sudo echo "sqlite xorg brotli dbus fontconfig libgcc glibc glib harfguzz icu mitkrb bzip2 mesa xorg-libs libjpeg-turbo libinput libdrm libpng mtdev pcre openssl systemd libvulkan vulkan-headers xorg zlib zstd" > /pkgs/$PACKAGE/depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
