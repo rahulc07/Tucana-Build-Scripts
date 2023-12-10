@@ -20,7 +20,7 @@ cd $DIR
 ./configure -prefix /usr \
             -sysconfdir /etc/xdg    \
             -bindir lib/qt6/bin     \
-            -header include/qt6     \
+            -headerdir include/qt6     \
             -datadir share/qt6      \
             -dbus-linked            \
             -openssl-linked         \
