@@ -25,7 +25,14 @@ make -j22
 
 # Install
 sudo make INSTALL_ROOT=/pkgs/$PACKAGE/usr install
-sudo make install
+
+mkdir -p /pkgs/$PACKAGE/usr/include/PythonQt/{gui,extensions/PythonQt_QtAll}
+cp -p src/*.h /pkgs/$PACKAGE/usr/include/PythonQt
+cp -rp src/gui/*.h /pkgs/$PACKAGE/usr/include/PythonQt/gui
+cp extensions/PythonQt_QtAll/*.h /pkgs/$PACKAGE/usr/include/PythonQt/extensions/PythonQt_QtAll/
+
+mkdir -p /pkgs/$PACKAGE/usr/lib
+cp -a lib/*.so /pkgs/$PACKAGE/usr/lib/
 cd /pkgs
 
 

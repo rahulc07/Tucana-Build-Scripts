@@ -1,0 +1,51 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+PKG_VER=4.9.1
+URL=https://ftp.gnu.org/gnu/screen/screen-$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+sh autogen.sh                                 &&
+./configure --prefix=/usr                     \
+            --infodir=/usr/share/info         \
+            --mandir=/usr/share/man           \
+            --with-socket-dir=/run/screen     \
+            --with-pty-group=5                \
+            --with-sys-screenrc=/etc/screenrc &&
+
+sed -i -e "s%/usr/local/etc/screenrc%/etc/screenrc%" {etc,doc}/*
+
+
+make -j22
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+mkdir -p /pkgs/$PACKAGE/etc
+install -m 644 etc/etcscreenrc /pkgs/$PACKAGE/etc/screenrc
+cd /pkgs
+
+
+
+sudo echo "pam" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
