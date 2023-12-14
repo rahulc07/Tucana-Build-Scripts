@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=1.7
+PKG_VER=1.7.1
 URL=https://github.com/stedolan/jq/releases/download/jq-$PKG_VER/jq-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

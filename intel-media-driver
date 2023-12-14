@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 #CURRENCY_TAG_OVERRIDE
 
-PKG_VER=23.4.2
+PKG_VER=23.4.3
 URL=https://github.com/intel/media-driver/archive/refs/tags/intel-media-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=media-driver-$(echo $TAR | sed 's|.tar.*||g')

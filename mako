@@ -31,7 +31,7 @@ cd /pkgs
 
 cp -rpv /pkgs/$PACKAGE/* /
 
-sudo echo "python3" > /pkgs/$PACKAGE/depends
+sudo echo "markupsafe python setuptools" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
