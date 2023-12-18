@@ -23,7 +23,7 @@ mkdir build
 cd build
 
 
-meson --prefix=/usr --buildtype=release -Dsession-managers= ..
+meson setup --prefix=/usr --buildtype=release -Dsession-managers="[]" ..
 
 ninja
 
