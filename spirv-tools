@@ -4,11 +4,12 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 #HOLD_TUCANA
-PKG_VER=2023.2
-URL=https://github.com/KhronosGroup/SPIRV-Tools/archive/sdk-$PKG_VER.tar.gz
+PKG_VER="2023.5.rc1"
+URL=https://github.com/KhronosGroup/SPIRV-Tools/archive/refs/tags/v$PKG_VER/SPIRV-Tools-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=SPIRV-Tools-vulkan-sdk-$PKG_VER
+DIR=SPIRV-Tools-$PKG_VER
 PACKAGE=spirv-tools
+
 
 # Get Package
 
