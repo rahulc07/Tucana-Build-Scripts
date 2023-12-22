@@ -7,7 +7,7 @@ export CXXFLAGS="-O2"
 PKG_VER=2023.2
 URL=https://github.com/KhronosGroup/SPIRV-Tools/archive/sdk-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=SPIRV-Tools-sdk-$PKG_VER
+DIR=SPIRV-Tools-vulkan-sdk-$PKG_VER
 PACKAGE=spirv-tools
 
 # Get Package
@@ -15,11 +15,9 @@ PACKAGE=spirv-tools
 cd /blfs/builds
 wget $URL
 tar -xvf $TAR
-wget https://src.fedoraproject.org/rpms/spirv-tools/raw/rawhide/f/fix-gcc12-build.patch
 cd $DIR
 
 # Build
-patch -Np1 < ../fix-gcc12-build.patch
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib  -DSPIRV-Headers_SOURCE_DIR=/usr -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=None -DSPIRV_WERROR=off ..

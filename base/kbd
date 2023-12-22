@@ -17,7 +17,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/lfs/development/kbd-$PKG_VER-backspace-1.patch
+wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/kbd-backspace-lfs.patch
 tar -xvf $TAR
 cd $DIR
 
