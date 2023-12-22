@@ -14,24 +14,22 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/ffmpeg-6.0.1-chromium_method-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/ffmpeg-6.1-chromium_method-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 -i ../ffmpeg-6.0.1-chromium_method-1.patch
+patch -Np1 -i ../ffmpeg-6.1-chromium_method-1.patch
 
 sed -i 's/-lflite"/-lflite -lasound"/' configure 
 ./configure --prefix=/usr        \
             --enable-gpl         \
             --enable-version3    \
-            --enable-nonfree     \
             --disable-static     \
             --enable-shared      \
             --disable-debug      \
             --enable-libass      \
             --enable-libaom      \
-            --enable-libfdk-aac  \
             --enable-libfreetype \
             --enable-libmp3lame  \
             --enable-libopus     \
@@ -39,8 +37,9 @@ sed -i 's/-lflite"/-lflite -lasound"/' configure
             --enable-libvorbis   \
             --enable-libvpx      \
             --enable-libx264     \
+            --enable-vulkan      \
             --enable-libx265     \
-            --enable-openssl     \
+            --enable-gnutls      \
             --docdir=/usr/share/doc/ffmpeg
 
 
