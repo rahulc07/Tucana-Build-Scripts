@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=13.1.1
+PKG_VER=14.0.0
 URL=https://github.com/KhronosGroup/glslang/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=glslang-$PKG_VER

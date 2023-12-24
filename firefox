@@ -3,7 +3,7 @@
 
 set -e
 # Last Validated Version 120.0
-PKG_VER=120.0.1
+PKG_VER=121.0
 URL=https://archive.mozilla.org/pub/firefox/releases/$PKG_VER/source/firefox-$PKG_VER.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=firefox-$PKG_VER
@@ -153,7 +153,6 @@ export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
 export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 
 
-./mach configure
 ./mach build
 
 

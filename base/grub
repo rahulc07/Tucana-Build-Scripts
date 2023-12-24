@@ -2,7 +2,7 @@
 
 set -e
 
-PKG_VER=2.06
+PKG_VER=2.12
 URL=https://ftp.gnu.org/gnu/grub/grub-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -13,7 +13,6 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 cd /blfs/builds
 wget $URL
 wget https://unifoundry.com/pub/unifont/unifont-15.0.06/font-builds/unifont-15.0.06.pcf.gz
-wget https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
@@ -22,7 +21,6 @@ cd $DIR
 mkdir -pv /pkgs/grub/usr/share/fonts/unifont &&
 gunzip -c ../unifont-15.0.06.pcf.gz > /pkgs/$PACKAGE/usr/share/fonts/unifont/unifont.pcf
 
-patch -Np1 < ../grub-2.06-upstream_fixes-1.patch
 ./configure --prefix=/usr        \
             --sysconfdir=/etc    \
             --disable-efiemu     \

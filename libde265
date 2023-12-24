@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=1.0.14
+PKG_VER=1.0.15
 URL=https://github.com/strukturag/libde265/releases/download/v$PKG_VER/libde265-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

@@ -2,7 +2,8 @@
 
 
 set -e
-PKG_VER=3.95
+#HOLD_TUCANA
+PKG_VER=3.96.1
 URL=https://archive.mozilla.org/pub/security/nss/releases/NSS_$(sed 's/\./\_/g' <<< $PKG_VER)_RTM/src/nss-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

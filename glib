@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=2.78.3
+PKG_VER=2.79.0
 MINOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/glib/$MINOR/glib-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -40,6 +40,7 @@ cd /pkgs
 
 
 sudo echo "pcre base" > /pkgs/$PACKAGE/depends
+sudo echo "python-packaging" > /pkgs/$PACKAGE/make-depends
 echo "if [ -e /usr/include/glib-2.0 ]; then
     rm -rf /usr/include/glib-2.0.old &&
     mv -vf /usr/include/glib-2.0{,.old}
