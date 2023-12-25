@@ -33,7 +33,7 @@ cd /pkgs
 
 
 
-sudo echo "cairo gdk-pixbuf pango freetype" > /pkgs/$PACKAGE/depends
+sudo echo "cairo gdk-pixbuf pango freetype2" > /pkgs/$PACKAGE/depends
 sudo echo "rustc cairo gdk-pixbuf pango freetype base-fonts " > /pkgs/$PACKAGE/make-depends
 sudo echo "gdk-pixbuf-query-loaders --update-cache" > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
