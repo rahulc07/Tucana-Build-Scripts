@@ -18,8 +18,8 @@ cd $DIR
 
 # Build
 
-mkdir build-1
-cd build-1
+mkdir build
+cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 
 
