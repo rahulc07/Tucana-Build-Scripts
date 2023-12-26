@@ -1,0 +1,39 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+URL=https://github.com/ventoy/vtoydump.git
+DIR=vtoydump
+PACKAGE=$DIR
+
+# Get Package
+
+cd /blfs/builds
+git clone $URL
+cd $DIR
+
+# Build
+
+
+chmod +x build.sh
+./build.sh
+mkdir -p /pkgs/$PACKAGE/usr/bin/
+cp vtoydump /pkgs/$PACKAGE/usr/bin
+
+
+# Install
+cd /pkgs
+
+
+
+sudo echo "mkinitramfs" > /pkgs/$PACKAGE/depends
+sudo echo "bash gcc linux-tucana" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
