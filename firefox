@@ -17,33 +17,7 @@ tar -xvf $TAR
 cd $DIR
 # Build
 
-(for i in $(find -name six.py); do
-   ln -sfv /usr/lib/python3.12/site-packages/six.py $i
-   [ $? = 0 ] || exit $?
- done) &&
-
-sed '/ConfigParser/s/Safe//'                          \
-    -i testing/mozbase/mozprofile/mozprofile/prefs.py &&
-
-(for i in setuptools distutils-precedence.pth  \
-          pkg_resources _distutils_hack; do
-   rm -rf third_party/python/setuptools/$i     &&
-   ln -sv /usr/lib/python3.12/site-packages/$i \
-          third_party/python/setuptools
-   [ $? = 0 ] || exit $?
- done) &&
-
-sed 's/distutils/setuptools._&/'           \
-    -i python/mozbuild/mozbuild/nodeutil.py &&
-
-sed -e '/^import/s/imp$/importlib.util/'             \
-    -e 's/imp.new_module/__import__/'                \
-    -e "s/imp.load_source\(.*\)/spec =               \
-        importlib.util.spec_from_file_location\1;    \
-        mod = importlib.util.module_from_spec(spec); \
-        spec.loader.exec_module(mod)/" -i python/mach/mach/main.py python/mach/mach/command_util.py &&
-sed '/import imp/d' -i netwerk/dns/prepare_tlds.py
-
+# ICU 74
 (for i in {43..47}; do
    sed '/ZWJ/s/}/,CLASS_CHARACTER&/' -i intl/lwbrk/LineBreaker.cpp || exit $?
  done)
@@ -140,7 +114,6 @@ unset MOZ_TELEMETRY_REPORTING
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
 EOF
 
-sed -i '/ROOT_CLIP_CHAIN/d' gfx/webrender_bindings/webrender_ffi.h
 
 
 # These keys are for Tucana only not for any other distro, if you need keys check the mozilala docs
@@ -148,16 +121,17 @@ echo "AIzaSyCmvXzMy5AD_zkzsrJ-bkY1m70W9ybiAsg" > google-key
 echo "613364a7-9418-4c86-bcee-57e32fd70c23" > mozilla-key
 
 
-
+export PYTHON3="python3.11"
+export PYTHON="python3.11"
 export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
 export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 
-
+./mach configure
 ./mach build
 
 
 # Install
-MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none DESTDIR=/pkgs/$PACKAGE ./mach install
+PYTHON="python3.11" PYTHON3="python3.11" MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none DESTDIR=/pkgs/$PACKAGE ./mach install
 cd /pkgs
 
 mkdir -pv /usr/share/applications &&
