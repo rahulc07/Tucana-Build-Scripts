@@ -24,7 +24,7 @@ sed -e '/install -m 644 $(LIBNEWT)/ s/^/#/' \
 
 ./configure --prefix=/usr           \
             --with-gpm-support      \
-            --with-python=python3.11
+            --with-python=python3.12
 
 
 make -j16

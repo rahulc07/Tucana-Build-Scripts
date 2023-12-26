@@ -2,11 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-
-PKG_VER=45.1
-MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://download.gnome.org/sources/xdg-desktop-portal-gnome/$MAJOR/xdg-desktop-portal-gnome-$PKG_VER.tar.xz
+PKG_VER=1.15.1
+URL=https://github.com/flatpak/xdg-desktop-portal-gtk/releases/download/$PKG_VER/xdg-desktop-portal-gtk-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -35,7 +32,8 @@ cd /pkgs
 
 
 
-sudo echo "xdg-desktop-portal xdg-desktop-portal-gtk fontconfig cairo gdk-pixbuf glib gnome-desktop gnome-keyring gtk4 libadwaita libX11 wayland" > /pkgs/$PACKAGE/depends
+sudo echo "gsettings-desktop-schemas gtk3 xdg-desktop-portal" > /pkgs/$PACKAGE/depends
+sudo echo "evince flatpak git" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
