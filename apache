@@ -52,9 +52,9 @@ mv -v /pkgs/$PACKAGE/usr/sbin/suexec /pkgs/$PACKAGE/usr/lib/httpd/suexec &&
 chgrp apache           /pkgs/$PACKAGE/usr/lib/httpd/suexec &&
 chmod 4754             /pkgs/$PACKAGE/usr/lib/httpd/suexec 
 
-echo "groupadd -g 25 apache &&
+echo 'groupadd -g 25 apache &&
 useradd -c "Apache Server" -d /srv/www -g apache \
-        -s /bin/false -u 25 apache" > /pkgs/$PACKAGE/postinst
+        -s /bin/false -u 25 apache' > /pkgs/$PACKAGE/postinst
 cd /pkgs
 
 
