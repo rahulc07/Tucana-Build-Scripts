@@ -121,17 +121,15 @@ echo "AIzaSyCmvXzMy5AD_zkzsrJ-bkY1m70W9ybiAsg" > google-key
 echo "613364a7-9418-4c86-bcee-57e32fd70c23" > mozilla-key
 
 
-export PYTHON3="python3.11"
-export PYTHON="python3.11"
 export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
 export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 
-./mach configure
-./mach build
+python3.11 ./mach configure
+python3.11 ./mach build
 
 
 # Install
-PYTHON="python3.11" PYTHON3="python3.11" MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none DESTDIR=/pkgs/$PACKAGE ./mach install
+MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none DESTDIR=/pkgs/$PACKAGE python3.11 ./mach install
 cd /pkgs
 
 mkdir -pv /usr/share/applications &&
