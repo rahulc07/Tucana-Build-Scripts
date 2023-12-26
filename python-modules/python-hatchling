@@ -37,7 +37,7 @@ cd /pkgs
 sudo cp -rpv /pkgs/$PACKAGE/* /
 
 sudo echo "python-pluggy python python-pathspec python-editables" > /pkgs/$PACKAGE/depends
-sudo echo "python-build python-installer" > /pkgs/$PACKAGE/make-depends
+sudo echo "python-trove-classifiers python-build python-installer" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

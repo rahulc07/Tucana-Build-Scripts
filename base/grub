@@ -20,6 +20,8 @@ cd $DIR
 
 mkdir -pv /pkgs/grub/usr/share/fonts/unifont &&
 gunzip -c ../unifont-15.0.06.pcf.gz > /pkgs/$PACKAGE/usr/share/fonts/unifont/unifont.pcf
+# Fix missing file
+echo depends bli part_gpt > grub-core/extra_deps.lst
 
 ./configure --prefix=/usr        \
             --sysconfdir=/etc    \
@@ -41,8 +43,9 @@ tar -xvf $TAR
 cd $DIR
 
 # Build BIOS 
-patch -Np1 < ../grub-2.06-upstream_fixes-1.patch
+
 mkdir -pv /pkgs/grub/usr/share/fonts/unifont &&
+echo depends bli part_gpt > grub-core/extra_deps.lst
 gunzip -c ../unifont-15.0.06.pcf.gz > /pkgs/$PACKAGE/usr/share/fonts/unifont/unifont.pcf
 
 ./configure --prefix=/usr        \
@@ -75,7 +78,7 @@ cd /pkgs
 
 
 # Package into 1 cohesive package
-sudo echo "glibc " > /pkgs/$PACKAGE/depends
+sudo echo "glibc" > /pkgs/$PACKAGE/depends
 sudo echo "base efibootmgr freetype2" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
