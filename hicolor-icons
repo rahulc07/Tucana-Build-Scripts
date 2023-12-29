@@ -3,7 +3,8 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
+PKG_VER=0.17
+URL=https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=hicolor-icons

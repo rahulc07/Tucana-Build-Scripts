@@ -2,8 +2,8 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=1.6.0
-URL=https://rdfind.pauldreik.se/rdfind-$PKG_VER.tar.gz
+PKG_VER=3.6.2
+URL=https://github.com/sass/sassc/archive/$PKG_VER/sassc-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -17,9 +17,12 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr
+autoreconf -fi
+./configure --prefix=/usr 
+
 
 make -j22
+
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
@@ -28,7 +31,7 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "libsass" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
