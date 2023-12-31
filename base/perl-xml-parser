@@ -7,7 +7,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=2.46
+PKG_VER=2.47
 URL=https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
