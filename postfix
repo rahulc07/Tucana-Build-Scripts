@@ -3,10 +3,14 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://ghostarchive.org/postfix/postfix-release/official/postfix-3.8.3.tar.gz
+#ARCH_PKG=postfix
+#ARCH_VAR=pkgver
+PKG_VER=3.8.3
+URL=https://ghostarchive.org/postfix/postfix-release/official/postfix-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+BLFS_SYSTEMD_VER=20231205
 
 # Get Package
 
@@ -47,11 +51,17 @@ sed -i 's/.\x08//g' README_FILES/*
 sh postfix-install -non-interactive \
    daemon_directory=/usr/lib/postfix \
    manpage_directory=/usr/share/man \
-   html_directory=/usr/share/doc/postfix-3.8.3/html \
-   readme_directory=/usr/share/doc/postfix-3.8.3/readme \
+   html_directory=/usr/share/doc/postfix/html \
+   readme_directory=/usr/share/doc/postfix/readme \
    install_root=/pkgs/$PACKAGE/
 
 
+# Install systemd unit
+cd /blfs/builds
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+tar -xvf blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+cd blfs-systemd-units-$BLFS_SYSTEMD_VER
+make DESTDIR=/pkgs/$PACKAGE install-postfix
 
 # Install
 cd /pkgs
