@@ -34,6 +34,14 @@ cd /pkgs
 
 sudo echo "zstd lz4 popt acl xxhash" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo 'getent passwd rsyncd > /dev/null
+
+if [ $? -eq 0 ]; then
+    :
+else
+   groupadd -g 48 rsyncd &&
+   useradd -c "rsyncd Daemon" -m -d /home/rsync -g rsyncd \
+    -s /bin/false -u 48 rsyncd' > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
