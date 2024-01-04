@@ -21,7 +21,6 @@ cd $DIR
 # Build
 patch -Np1 -i ../ffmpeg-6.1-chromium_method-1.patch
 
-sed -i 's/-lflite"/-lflite -lasound"/' configure 
 ./configure --prefix=/usr        \
             --enable-gpl         \
             --enable-version3    \
