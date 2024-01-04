@@ -1,0 +1,43 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+PKG_VER=2.20.0
+URL=https://github.com/intel/libva-utils/releases/download/$PKG_VER/libva-utils-$PKG_VER.tar.bz2
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure --prefix=/usr
+
+
+make -j22
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "libva" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
