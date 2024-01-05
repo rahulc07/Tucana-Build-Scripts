@@ -27,7 +27,7 @@ mkdir build &&
 cd    build &&
 
 
-meson --prefix=/usr --buildtype=release -Dlibnotify=true ..
+meson setup --prefix=/usr --buildtype=release -Dlibnotify=true ..
 
 ninja 
 
