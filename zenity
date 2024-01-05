@@ -27,7 +27,7 @@ mkdir build &&
 cd    build &&
 
 
-meson setup --prefix=/usr --buildtype=release -Dlibnotify=true ..
+meson --prefix=/usr --buildtype=release -Dmanpage=false -Dwebkitgtk=true ..
 
 ninja 
 
@@ -38,9 +38,9 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "gtk3 itstool libnotify" > /pkgs/$PACKAGE/depends
+sudo echo "webkitgtk5.0 libadwaita itstool libnotify" > /pkgs/$PACKAGE/depends
+sudo echo ""> /pkgs/$PACKAGE/make-depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
-sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
