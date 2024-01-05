@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=0.3.14
+PKG_VER=0.3.15
 URL=https://github.com/hughsie/libxmlb/releases/download/$PKG_VER/libxmlb-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

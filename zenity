@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 GNOME_MAJOR=43
 GNOME_MINOR=0
-PKG_VER=4.0.0
+PKG_VER=4.0.1
 #ARCH_PKG=zenity
 #ARCH_VAR=pkgver
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
