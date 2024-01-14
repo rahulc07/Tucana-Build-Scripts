@@ -18,7 +18,6 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-sed -i '/not.*system/s/system/cpu_family/' meson.build
 mkdir build
 cd build
 
