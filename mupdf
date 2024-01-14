@@ -1,0 +1,73 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+PKG_VER=1.23.7
+URL=https://www.mupdf.com/downloads/archive/mupdf-$PKG_VER-source.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+
+sed -i '/MU.*_EXE. :/{
+        s/\(.(MUPDF_LIB)\)\(.*\)$/\2 | \1/
+        N
+        s/$/ -lmupdf -L$(OUT)/
+        }' Makefile
+
+cat > user.make << EOF &&
+USE_SYSTEM_FREETYPE := yes
+USE_SYSTEM_HARFBUZZ := yes
+USE_SYSTEM_JBIG2DEC := no
+USE_SYSTEM_JPEGXR := no # not used without HAVE_JPEGXR
+USE_SYSTEM_LCMS2 := no # need lcms2-art fork
+USE_SYSTEM_LIBJPEG := yes
+USE_SYSTEM_MUJS := no # build needs source anyway
+USE_SYSTEM_OPENJPEG := yes
+USE_SYSTEM_ZLIB := yes
+USE_SYSTEM_GLUT := no # need freeglut2-art fork
+USE_SYSTEM_CURL := yes
+USE_SYSTEM_GUMBO := no
+EOF
+
+export XCFLAGS=-fPIC                               &&
+make build=release shared=yes -j22                      &&
+unset XCFLAGS
+
+
+
+
+
+# Install
+
+make prefix=/pkgs/$PACKAGE/usr                        \
+     shared=yes                         \
+     install                            &&
+
+chmod 755 /pkgs/$PACKAGE/usr/lib/libmupdf.so          &&
+ln -sfv mupdf-x11 /pkgs/$PACKAGE/usr/bin/mupdf
+cd /pkgs
+
+
+cp -rpv /pkgs/$PACKAGE/* /
+sudo echo "glu xorg-libs harfbuzz libjpeg-turbo openjpeg curl" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
