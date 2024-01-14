@@ -28,7 +28,7 @@ meson --prefix=/usr       \
       -Ddoxygen=false    ..
 
 
-ninja -j16
+ninja
 
 
 # Install
