@@ -31,10 +31,12 @@ make -j22
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+mkdir -p /pkgs/$PACKAGE/usr/sbin
+ln -svf ../libexec/bluetooth/bluetoothd /pkgs/$PACKAGE/usr/sbin
 cd /pkgs
 
-
+install -v -dm755 /pkgs/$PACKAGE/etc/bluetooth &&
+install -v -m644 src/main.conf /pkgs/$PACKAGE/etc/bluetooth/main.conf
 
 sudo echo "dbus glib libical" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
