@@ -26,7 +26,7 @@ cd build
 meson --prefix=/usr   \
       --buildtype=release     \
     -Dplatforms=x11,wayland \
-    -Dgallium-drivers=auto \
+    -Dgallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,i915,iris,crocus,zink,d3d12 \
     -Dvulkan-drivers=amd,intel,intel_hasvk,swrast,virtio \
     -Dvulkan-layers=device-select,intel-nullhw,overlay \
     -Ddri3=enabled \
