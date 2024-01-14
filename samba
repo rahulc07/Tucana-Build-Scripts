@@ -38,7 +38,8 @@ LDFLAGS="-ltirpc"                          \
 
 make -j22
 
-
+sed '1s@^.*$@#!/usr/bin/python3@' \
+    -i ./bin/default/source4/scripting/bin/*.inst
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
 
