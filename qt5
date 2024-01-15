@@ -20,7 +20,6 @@ cd $DIR
 # Build
 
 patch -Np1 -i ../qt-everywhere-opensource-src-$PKG_VER-kf5-1.patch
-sed -i '277,280d' qtbase/src/platformsupport/input/xkbcommon/qxkbcommon.cpp
 mkdir -pv qtbase/.git
 sed -e "/pragma once/a#include <cstdint>"                                      \
     -i qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/geometry.hpp \
