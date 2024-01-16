@@ -3,13 +3,8 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
-
-
-
 PKG_VER=2.5.2
-URL=https://download.savannah.gnu.org/releases/attr/attr-$PKG_VER.tar.gz
+URL=https://download.savannah.gnu.org/releases/attr/attr-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
