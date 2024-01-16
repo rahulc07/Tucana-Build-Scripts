@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=4.15.0
+PKG_VER=4.16.0
 URL=https://ftp.debian.org/debian/pool/main/i/iso-codes/iso-codes_$PKG_VER.orig.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=iso-codes-$PKG_VER

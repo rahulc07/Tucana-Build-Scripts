@@ -8,7 +8,7 @@ export CXXFLAGS="-O2"
 
 
 
-PKG_VER=2.5.1
+PKG_VER=2.5.2
 URL=https://download.savannah.gnu.org/releases/attr/attr-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

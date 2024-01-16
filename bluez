@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=5.71
+PKG_VER=5.72
 URL=https://www.kernel.org/pub/linux/bluetooth/bluez-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -33,10 +33,10 @@ make -j22
 sudo make DESTDIR=/pkgs/$PACKAGE install
 mkdir -p /pkgs/$PACKAGE/usr/sbin
 ln -svf ../libexec/bluetooth/bluetoothd /pkgs/$PACKAGE/usr/sbin
-cd /pkgs
-
 install -v -dm755 /pkgs/$PACKAGE/etc/bluetooth &&
 install -v -m644 src/main.conf /pkgs/$PACKAGE/etc/bluetooth/main.conf
+cd /pkgs
+
 
 sudo echo "dbus glib libical" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
