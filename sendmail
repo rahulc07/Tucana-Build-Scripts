@@ -102,11 +102,11 @@ cd /pkgs
 
 sudo echo "openldap-client cyrus-sasl" > /pkgs/$PACKAGE/depends
 sudo echo "ghostscript" > /pkgs/$PACKAGE/make-depends
-sudo echo "groupadd -g 26 smmsp                               
+sudo echo 'groupadd -g 26 smmsp                               
 useradd -c "Sendmail Daemon" -g smmsp -d /dev/null \
         -s /bin/false -u 26 smmsp                  
 chmod -v 1777 /var/mail                            
-install -v -m700 -d /var/spool/mqueue" > /pkgs/$PACKAGE/postinst
+install -v -m700 -d /var/spool/mqueue' > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
