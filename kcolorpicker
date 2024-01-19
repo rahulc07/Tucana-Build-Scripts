@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 set -e
 
-PKG_VER=0.2.0
+PKG_VER=0.3.0
 URL=https://github.com/ksnip/kColorPicker/archive/refs/tags/v$PKG_VER/kColorPicker-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=kColorPicker-$PKG_VER

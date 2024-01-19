@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 
 # This package does not get installed 
 set -e
-PKG_VER=1.5.3
+PKG_VER=1.6.0
 URL=https://github.com/linux-pam/linux-pam/releases/download/v$PKG_VER/Linux-PAM-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

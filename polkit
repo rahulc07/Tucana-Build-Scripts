@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=123
+PKG_VER=124
 URL=https://gitlab.freedesktop.org/polkit/polkit/-/archive/$PKG_VER/polkit-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -57,8 +57,8 @@ session  include        system-session
 
 # End /etc/pam.d/polkit-1
 EOF
-
-cat > /pkgs/polkit/etc/pam.d/polkit-1 << "EOF"
+mkdir -p /pkgs/$PACKAGE/etc/pam.d/
+cat > /pkgs/$PACKAGE/etc/pam.d/polkit-1 << "EOF"
 # Begin /etc/pam.d/polkit-1
 
 auth     include        system-auth
