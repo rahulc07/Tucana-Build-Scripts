@@ -20,11 +20,13 @@ cd /blfs/builds
 wget $URL
 wget $ALT_URL
 wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-$PKG_VER-fhs-1.patch
+wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-$PKG_VER-upstream_fixes-4.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 patch -Np1 -i ../glibc-$PKG_VER-fhs-1.patch
+patch -Np1 -i ../glibc-$PKG_VER-upstream_fixes-4.patch
 sed '/width -=/s/workend - string/number_length/' \
     -i stdio-common/vfprintf-process-arg.c
 mkdir -v build

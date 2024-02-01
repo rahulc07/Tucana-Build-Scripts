@@ -7,7 +7,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 PKG_VER=5.4.5
-URL=https://tukaani.org/xz/xz-$PKG_VER.tar.xz
+URL=https://github.com/tukaani-project/xz/releases/download/v$PKG_VER/xz-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

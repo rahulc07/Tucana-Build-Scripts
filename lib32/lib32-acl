@@ -3,7 +3,8 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-URL=https://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
+PKG_VER=2.3.1
+URL=https://download.savannah.gnu.org/releases/acl/acl-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
