@@ -1,0 +1,178 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+PKG_VER=9.18.21
+URL=https://ftp.isc.org/isc/bind9/$PKG_VER/bind-$PKG_VER.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+BLFS_SYSTEMD_VER=20240205
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure --prefix=/usr           \
+            --sysconfdir=/etc       \
+            --localstatedir=/var    \
+            --mandir=/usr/share/man \
+            --disable-static 
+
+
+make -j22
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+cd /pkgs
+mkdir -p /pkgs/$PACKAGE/srv/named/etc/
+cat >> /pkgs/$PACKAGE/srv/named/etc/named.conf << "EOF"
+options {
+    directory "/etc/named";
+    pid-file "/var/run/named.pid";
+    statistics-file "/var/run/named.stats";
+
+};
+zone "." {
+    type hint;
+    file "root.hints";
+};
+zone "0.0.127.in-addr.arpa" {
+    type master;
+    file "pz/127.0.0";
+};
+
+// Bind 9 now logs by default through syslog (except debug).
+// These are the default logging rules.
+
+logging {
+    category default { default_syslog; default_debug; };
+    category unmatched { null; };
+
+  channel default_syslog {
+      syslog daemon;                      // send to syslog's daemon
+                                          // facility
+      severity info;                      // only send priority info
+                                          // and higher
+  };
+
+  channel default_debug {
+      file "named.run";                   // write to named.run in
+                                          // the working directory
+                                          // Note: stderr is used instead
+                                          // of "named.run"
+                                          // if the server is started
+                                          // with the '-f' option.
+      severity dynamic;                   // log at the server's
+                                          // current debug level
+  };
+
+  channel default_stderr {
+      stderr;                             // writes to stderr
+      severity info;                      // only send priority info
+                                          // and higher
+  };
+
+  channel null {
+      null;                               // toss anything sent to
+                                          // this channel
+  };
+};
+EOF
+
+cat > /pkgs/$PACKAGE/srv/named/etc/named/pz/127.0.0 << "EOF"
+$TTL 3D
+@      IN      SOA     ns.local.domain. hostmaster.local.domain. (
+                        1       ; Serial
+                        8H      ; Refresh
+                        2H      ; Retry
+                        4W      ; Expire
+                        1D)     ; Minimum TTL
+                NS      ns.local.domain.
+1               PTR     localhost.
+EOF
+
+cat > /pkgs/$PACKAGE/srv/named/etc/named/root.hints << "EOF"
+.                       6D  IN      NS      A.ROOT-SERVERS.NET.
+.                       6D  IN      NS      B.ROOT-SERVERS.NET.
+.                       6D  IN      NS      C.ROOT-SERVERS.NET.
+.                       6D  IN      NS      D.ROOT-SERVERS.NET.
+.                       6D  IN      NS      E.ROOT-SERVERS.NET.
+.                       6D  IN      NS      F.ROOT-SERVERS.NET.
+.                       6D  IN      NS      G.ROOT-SERVERS.NET.
+.                       6D  IN      NS      H.ROOT-SERVERS.NET.
+.                       6D  IN      NS      I.ROOT-SERVERS.NET.
+.                       6D  IN      NS      J.ROOT-SERVERS.NET.
+.                       6D  IN      NS      K.ROOT-SERVERS.NET.
+.                       6D  IN      NS      L.ROOT-SERVERS.NET.
+.                       6D  IN      NS      M.ROOT-SERVERS.NET.
+A.ROOT-SERVERS.NET.     6D  IN      A       198.41.0.4
+A.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:503:ba3e::2:30
+B.ROOT-SERVERS.NET.     6D  IN      A       170.247.170.2
+B.ROOT-SERVERS.NET.     6D  IN      AAAA    2801:1b8:10::b
+C.ROOT-SERVERS.NET.     6D  IN      A       192.33.4.12
+C.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:2::c
+D.ROOT-SERVERS.NET.     6D  IN      A       199.7.91.13
+D.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:2d::d
+E.ROOT-SERVERS.NET.     6D  IN      A       192.203.230.10
+E.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:a8::e
+F.ROOT-SERVERS.NET.     6D  IN      A       192.5.5.241
+F.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:2f::f
+G.ROOT-SERVERS.NET.     6D  IN      A       192.112.36.4
+G.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:12::d0d
+H.ROOT-SERVERS.NET.     6D  IN      A       198.97.190.53
+H.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:1::53
+I.ROOT-SERVERS.NET.     6D  IN      A       192.36.148.17
+I.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:7fe::53
+J.ROOT-SERVERS.NET.     6D  IN      A       192.58.128.30
+J.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:503:c27::2:30
+K.ROOT-SERVERS.NET.     6D  IN      A       193.0.14.129
+K.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:7fd::1
+L.ROOT-SERVERS.NET.     6D  IN      A       199.7.83.42
+L.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:9f::42
+M.ROOT-SERVERS.NET.     6D  IN      A       202.12.27.33
+M.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:dc3::35
+EOF
+
+# Install systemd unit
+cd /blfs/builds
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+tar -xvf blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+cd blfs-systemd-units-$BLFS_SYSTEMD_VER
+make DESTDIR=/pkgs/$PACKAGE install-bind
+
+
+sudo echo "libuv json-c libcap nghttp2" > /pkgs/$PACKAGE/depends
+sudo echo "groupadd -g 20 named &&
+useradd -c 'BIND Owner' -g named -s /bin/false -u 20 named &&
+install -d -m770 -o named -g named /srv/named
+
+
+
+mkdir -p /srv/named &&
+cd       /srv/named &&
+mkdir -p dev etc/named/{slave,pz} usr/lib/engines var/run/named &&
+mknod /srv/named/dev/null c 1 3 &&
+mknod /srv/named/dev/urandom c 1 9 &&
+chmod 666 /srv/named/dev/{null,urandom} &&
+cp /etc/localtime etc
+
+rndc-confgen -a -b 512 -t /srv/named
+chown -R named:named /srv/named
+systemctl start named
+" > /pkgs/$PACKAGE/postinst
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
