@@ -43,7 +43,6 @@ EOF
 # For some reason pip does not install by default even with ensurepip on
 curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py --ignore-installed --root=/pkgs/$PACKAGE
-rm /pkgs/$PACKAGE/usr/bin/pip$PKG_VER
 rm get-pip.py
 
 

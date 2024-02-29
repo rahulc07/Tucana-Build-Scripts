@@ -22,7 +22,7 @@ cd $DIR
 mkdir build
 cd build
 
-meson --prefix=/usr       \
+meson setup --prefix=/usr       \
       --buildtype=release \
        ..
 
@@ -38,6 +38,7 @@ cd /pkgs
 
 
 sudo echo "dbus glib libX11 libxml2 systemd" > /pkgs/$PACKAGE/depends
+sudo echo "libei"> /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
