@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=2.57.1
+PKG_VER=2.57.91
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/librsvg/$MAJOR/librsvg-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

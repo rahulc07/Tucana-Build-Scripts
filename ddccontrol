@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=1.0.0
+PKG_VER=1.0.3
 URL=https://github.com/ddccontrol/ddccontrol/archive/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=ddccontrol-$(echo $TAR | sed 's|.tar.*||g')

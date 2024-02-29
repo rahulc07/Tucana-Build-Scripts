@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=2.6.6
+PKG_VER=2.6.7
 URL=https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-$PKG_VER.tgz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tgz||g')
@@ -85,7 +85,6 @@ make -j20
 sudo make DESTDIR=/pkgs/$PACKAGE2 install
 sudo echo "mariadb cyrus-sasl pam coreutils iproute2" > /pkgs/$PACKAGE2/depends
 sudo echo "groff" > /pkgs/$PACKAGE2/make-depends
-sudo echo "" > /pkgs/$PACKAGE2/make-depends
 cd /pkgs
 
 sudo tar -cvzpf $PACKAGE2.tar.xz $PACKAGE2

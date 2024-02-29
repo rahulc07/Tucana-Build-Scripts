@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=10.42
+PKG_VER=10.43
 URL=https://github.com/PCRE2Project/pcre2/releases/download/pcre2-$PKG_VER/pcre2-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

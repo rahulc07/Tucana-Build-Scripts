@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=9.0.0
+PKG_VER=10.0.1
 URL=https://gitlab.com/graphviz/graphviz/-/archive/$PKG_VER/graphviz-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

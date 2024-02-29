@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 set -e
-PKG_VER=8.17.2
+PKG_VER=8.18.1
 URL=https://ftp.sendmail.org/sendmail.$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=sendmail-$PKG_VER

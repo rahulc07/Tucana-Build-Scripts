@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=0.4.5.2
+PKG_VER=0.4.5.3
 URL=https://github.com/dashea/timezonemap/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=timezonemap-$PKG_VER
