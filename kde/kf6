@@ -139,7 +139,7 @@ while read -r line; do
       cd    build
 
       cmake -DCMAKE_INSTALL_PREFIX=/usr \
-            -DCMAKE_PREFIX_PATH=/usr       \
+	    -DCMAKE_CMAKE_PREFIX=/usr/lib/qt6 \
             -DCMAKE_BUILD_TYPE=Release         \
             -DBUILD_TESTING=OFF                \
             -Wno-dev ..

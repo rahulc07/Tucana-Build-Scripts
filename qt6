@@ -22,6 +22,7 @@ cd $DIR
             -bindir lib/qt6/bin     \
             -headerdir include/qt6     \
             -datadir share/qt6      \
+	    -archdatadir=lib/qt6    \
             -dbus-linked            \
             -openssl-linked         \
             -system-sqlite          \
@@ -39,6 +40,7 @@ ninja
 # Install
 
 sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+ln -sfv /usr/lib/qt6/bin/qmake6 /pkgs/$PACKAGE/usr/bin/
 find /pkgs/$PACKAGE/ -name \*.prl \
    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 
