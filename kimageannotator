@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=0.7.0
+PKG_VER=0.7.1
 URL=https://github.com/ksnip/kImageAnnotator/archive/refs/tags/v$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=kImageAnnotator-$PKG_VER
