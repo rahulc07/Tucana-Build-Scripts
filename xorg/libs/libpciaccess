@@ -18,17 +18,14 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
+mkdir build
+cd build
+meson setup --prefix=/usr --buildtype=release ..
 
-./configure --disable-static --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
-  --with-appdefaultdir=/etc/X11/app-defaults --docdir=/usr/share/doc/$PACKAGE
-
-
-make -j20
-
+ninja
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 

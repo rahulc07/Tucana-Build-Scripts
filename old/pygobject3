@@ -2,12 +2,12 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=1.14.52
+PKG_VER=3.47.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://download.gnome.org/sources/libgsf/$MAJOR/libgsf-$PKG_VER.tar.xz
+URL=https://download.gnome.org/sources/pygobject/$MAJOR/pygobject-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE="pygobject3"
 
 # Get Package
 
@@ -17,26 +17,20 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-autoreconf -riv
-./configure     --prefix=/usr \
-    --sysconfdir=/etc \
-    --localstatedir=/var \
-    --disable-static \
-    --enable-introspection \
 
 
+python3 setup.py build
 
-make -j22
+
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo python3 setup.py install --root="/pkgs/$PACKAGE" --optimize=1
 cd /pkgs
 
+sudo cp -rpv /pkgs/$PACKAGE/* /
 
-
-sudo echo "bzip2 libxml2 gdk-pixbuf" > /pkgs/$PACKAGE/depends
+sudo echo "python gtk3 pycairo" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

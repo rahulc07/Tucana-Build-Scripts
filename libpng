@@ -14,13 +14,13 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://downloads.sourceforge.net/sourceforge/libpng-apng/libpng-1.6.39-apng.patch.gz
+wget https://downloads.sourceforge.net/sourceforge/libpng-apng/libpng-1.6.43-apng.patch.gz
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-gzip -cd ../libpng-1.6.39-apng.patch.gz | patch -p1
+gzip -cd ../libpng-1.6.43-apng.patch.gz | patch -p1
 
 
 ./configure --prefix=/usr --disable-static

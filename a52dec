@@ -4,7 +4,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 PKG_VER=0.7.4
-URL=http://liba52.sourceforge.net/files/a52dec-$PKG_VER.tar.gz
+URL=https://distfiles.adelielinux.org/source/a52dec/a52dec-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

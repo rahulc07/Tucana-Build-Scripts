@@ -45,15 +45,6 @@ curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py --ignore-installed --root=/pkgs/$PACKAGE
 rm get-pip.py
 
-
-install -v -dm755 /pkgs/python/usr/share/doc/python-$PKG_VER/html
-
-tar --strip-components=1  \
-    --no-same-owner       \
-    --no-same-permissions \
-    -C /pkgs/python/usr/share/doc/python-$PKG_VER/html \
-    -xvf ../python-$PKG_VER-docs-html.tar.bz2
-
 sudo cp -rpv /pkgs/$PACKAGE/* /
 
 sudo echo "bzip2 expat libffi zlib openssl sqlite libxcrypt" > /pkgs/$PACKAGE/depends

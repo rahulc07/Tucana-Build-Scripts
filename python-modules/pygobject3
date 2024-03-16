@@ -7,7 +7,7 @@ MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/pygobject/$MAJOR/pygobject-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE="pygobject3"
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')3
 
 # Get Package
 
@@ -18,21 +18,25 @@ cd $DIR
 
 # Build
 
+mkdir build &&
+cd    build &&
 
-python3 setup.py build
+meson setup --prefix=/usr --buildtype=release ..
 
-
+ninja 
 
 
 # Install
-sudo python3 setup.py install --root="/pkgs/$PACKAGE" --optimize=1
+ninja install
+DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
-sudo cp -rpv /pkgs/$PACKAGE/* /
 
-sudo echo "python gtk3 pycairo" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
-sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo echo "python gobject-introspection cairo" > /pkgs/$PACKAGE/depends
+sudo echo "git" > /pkgs/$PACKAGE/make-depends
+sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
+sudo rm -rf /pkgs/$PACKAGE/blfs
+sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
 
