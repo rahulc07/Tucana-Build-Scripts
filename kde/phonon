@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://download.kde.org/stable/phonon/4.11.1/phonon-4.11.1.tar.xz
+URL=https://download.kde.org/stable/phonon/4.12.0/phonon-4.12.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -29,6 +29,7 @@ cd build
 
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_BUILD_TYPE=Release  \
+      -DPHONON_BUILD_QT5=OFF \
       .. 
 
 

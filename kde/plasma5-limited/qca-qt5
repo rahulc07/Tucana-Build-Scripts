@@ -7,7 +7,7 @@ PKG_VER=2.3.8
 URL=https://download.kde.org/stable/qca/$PKG_VER/qca-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')-qt5
 
 # Get Package
 
@@ -27,8 +27,7 @@ cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_BUILD_TYPE=Release                \
       -DQCA_MAN_INSTALL_DIR:PATH=/usr/share/man \
-      -DQCA_INSTALL_IN_QT_PREFIX=ON \
-      -DQT6=ON \
+      -DQT6=OFF \
       ..
 
 
@@ -43,7 +42,7 @@ cd /pkgs
 
 
 
-sudo echo "ca-certificates qt6 which" > /pkgs/$PACKAGE/depends
+sudo echo "ca-certificates qt5 which" > /pkgs/$PACKAGE/depends
 sudo echo "cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

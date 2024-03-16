@@ -1,0 +1,165 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+
+
+
+# This script is different from the other scripts, it does not use  a seperate file  for every package
+# It uses a for loop to compile into packages, do not modify this unless you know what you are doing
+# Credits:
+# LFS for the build order and method for doing this
+set -e
+
+
+PKG_VER=6.0.0
+URL=https://download.kde.org/stable/frameworks/6.0/
+
+# Get Package(s)
+
+# Make a new directories incase this fails
+
+mkdir -p /blfs/builds/kf6
+mkdir -p /pkgs/kf6
+mkdir -p /finished/kf6
+
+cd /blfs/builds/kf6
+#wget -r -nH -nd -A '*.xz' -np $URL
+
+
+# Build
+
+
+# Set build order
+echo "kirigami-$PKG_VER.tar.xz
+ktexttemplate-$PKG_VER.tar.xz
+kuserfeedback-$PKG_VER.tar.xz
+attica-$PKG_VER.tar.xz
+kapidox-$PKG_VER.tar.xz
+karchive-$PKG_VER.tar.xz
+kcodecs-$PKG_VER.tar.xz
+kconfig-$PKG_VER.tar.xz
+kcoreaddons-$PKG_VER.tar.xz
+kdbusaddons-$PKG_VER.tar.xz
+kdnssd-$PKG_VER.tar.xz
+kguiaddons-$PKG_VER.tar.xz
+ki18n-$PKG_VER.tar.xz
+kcolorscheme-$PKG_VER.tar.xz
+ksvg-$PKG_VER.tar.xz
+kidletime-$PKG_VER.tar.xz
+kimageformats-$PKG_VER.tar.xz
+kitemmodels-$PKG_VER.tar.xz
+kitemviews-$PKG_VER.tar.xz
+kplotting-$PKG_VER.tar.xz
+kwidgetsaddons-$PKG_VER.tar.xz
+kwindowsystem-$PKG_VER.tar.xz
+kstatusnotifieritem-$PKG_VER.tar.xz
+networkmanager-qt-$PKG_VER.tar.xz
+solid-$PKG_VER.tar.xz
+sonnet-$PKG_VER.tar.xz
+threadweaver-$PKG_VER.tar.xz
+kauth-$PKG_VER.tar.xz
+kcompletion-$PKG_VER.tar.xz
+kcrash-$PKG_VER.tar.xz
+kdoctools-$PKG_VER.tar.xz
+kpty-$PKG_VER.tar.xz
+kunitconversion-$PKG_VER.tar.xz
+kconfigwidgets-$PKG_VER.tar.xz
+kservice-$PKG_VER.tar.xz
+kglobalaccel-$PKG_VER.tar.xz
+kpackage-$PKG_VER.tar.xz
+kdesu-$PKG_VER.tar.xz
+kiconthemes-$PKG_VER.tar.xz
+knotifications-$PKG_VER.tar.xz
+kjobwidgets-$PKG_VER.tar.xz
+ktextwidgets-$PKG_VER.tar.xz
+kxmlgui-$PKG_VER.tar.xz
+kbookmarks-$PKG_VER.tar.xz
+kwallet-$PKG_VER.tar.xz
+kded-$PKG_VER.tar.xz
+kio-$PKG_VER.tar.xz
+kdeclarative-$PKG_VER.tar.xz
+kcmutils-$PKG_VER.tar.xz
+syndication-$PKG_VER.tar.xz
+knewstuff-$PKG_VER.tar.xz
+frameworkintegration-$PKG_VER.tar.xz
+kparts-$PKG_VER.tar.xz
+syntax-highlighting-$PKG_VER.tar.xz
+ktexteditor-$PKG_VER.tar.xz
+modemmanager-qt-$PKG_VER.tar.xz
+kcontacts-$PKG_VER.tar.xz
+kpeople-$PKG_VER.tar.xz
+bluez-qt-$PKG_VER.tar.xz
+kfilemetadata-$PKG_VER.tar.xz
+baloo-$PKG_VER.tar.xz
+breeze-icons-$PKG_VER.tar.xz
+krunner-$PKG_VER.tar.xz
+prison-$PKG_VER.tar.xz
+qqc2-desktop-style-$PKG_VER.tar.xz
+kholidays-$PKG_VER.tar.xz
+purpose-$PKG_VER.tar.xz
+kcalendarcore-$PKG_VER.tar.xz
+kquickcharts-$PKG_VER.tar.xz
+knotifyconfig-$PKG_VER.tar.xz
+kdav-$PKG_VER.tar.xz" > frameworks-$PKG_VER.md5
+
+
+
+
+# Thanks to the BLFS Team
+
+while read -r line; do
+
+    # Get the file name, ignoring comments and blank lines
+    file=$(echo $line)
+
+    TAR=$(echo $file|sed 's|^.*/||')          # Remove directory
+    DIR=$(echo $TAR|sed 's|\.tar.*||') # Package directory
+
+    PACKAGE=$(echo $TAR|sed 's|-6.*$||') # Isolate package name
+
+    tar -xf $file
+    pushd $DIR
+
+      # kapidox is a python module
+      case $PACKAGE in
+        kapidox)
+          # First install some python module dependencies
+           pip3 install --no-user doxypypy doxyqml requests
+
+           python3 setup.py build
+           python3 setup.py install --root=/pkgs/kf6/$PACKAGE
+	   python3 setup.py install
+	   popd
+          rm -rf $DIR
+          continue
+      esac
+      mkdir build
+      cd    build
+
+      cmake -DCMAKE_INSTALL_PREFIX=/usr \
+            -DCMAKE_PREFIX_PATH=/usr       \
+            -DCMAKE_BUILD_TYPE=Release         \
+            -DBUILD_TESTING=OFF                \
+            -Wno-dev ..
+      make -j20
+      make install
+      
+      # Package 
+  
+      make DESTDIR=/pkgs/kf6/$PACKAGE install
+      sudo echo "boost giflib libepoxy libgcrypt libical libjpeg-turbo libpng libxslt lmdb qrencode phonon xorg plasma-wayland-protocols shared-mime-info URI libdbusmenu-qt network-manager polkit-qt5 jasper udisks upower mitkrb" > /pkgs/kf6/$PACKAGE/depends
+      cd /pkgs/kf6
+      sudo tar -cvzpf /finished/kf6/$PACKAGE.tar.xz $PACKAGE
+      cd - 
+      
+    popd
+
+   rm -rf $DIR
+
+
+done < frameworks-$PKG_VER.md5
+
+exit
+
