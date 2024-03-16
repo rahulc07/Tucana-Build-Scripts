@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=6.9.0
+PKG_VER=6.8.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/tepl/$MAJOR/tepl-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
