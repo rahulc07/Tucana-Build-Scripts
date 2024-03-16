@@ -10,7 +10,7 @@ URL=https://ghostarchive.org/postfix/postfix-release/official/postfix-$PKG_VER.t
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-BLFS_SYSTEMD_VER=20231205
+BLFS_SYSTEMD_VER=20240205
 
 # Get Package
 
