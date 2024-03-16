@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 GNOME_MAJOR=43
 GNOME_MINOR=0
 
-PKG_VER=1.1.3
+PKG_VER=1.2.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/libshumate/$MAJOR/libshumate-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
