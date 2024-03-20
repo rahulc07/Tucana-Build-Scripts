@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://download.qt.io/archive/qt/6.6/6.6.1/single/qt-everywhere-src-6.6.1.tar.xz
+URL=https://download.qt.io/archive/qt/6.6/6.6.2/single/qt-everywhere-src-6.6.2.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=qt6
@@ -11,7 +11,7 @@ PACKAGE=qt6
 # Get Package
 
 cd /blfs/builds
-wget $URL
+#wget $URL
 tar -xvf $TAR
 cd $DIR
 
@@ -22,6 +22,7 @@ cd $DIR
             -bindir lib/qt6/bin     \
             -headerdir include/qt6     \
             -datadir share/qt6      \
+	    -archdatadir=lib/qt6    \
             -dbus-linked            \
             -openssl-linked         \
             -system-sqlite          \
@@ -39,6 +40,7 @@ ninja
 # Install
 
 sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+ln -sfv /usr/lib/qt6/bin/qmake6 /pkgs/$PACKAGE/usr/bin/
 find /pkgs/$PACKAGE/ -name \*.prl \
    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 

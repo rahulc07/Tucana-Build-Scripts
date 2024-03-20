@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=2.0.21
+PKG_VER=2.0.22
 URL=https://github.com/asciidoctor/asciidoctor/archive/v$PKG_VER/asciidoctor-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

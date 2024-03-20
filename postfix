@@ -5,12 +5,12 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=postfix
 #ARCH_VAR=pkgver
-PKG_VER=3.8.5
+PKG_VER=3.8.6
 URL=https://ghostarchive.org/postfix/postfix-release/official/postfix-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-BLFS_SYSTEMD_VER=20231205
+BLFS_SYSTEMD_VER=20240205
 
 # Get Package
 

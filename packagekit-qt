@@ -20,7 +20,7 @@ cd $DIR
 # Build
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=release -DBUILD_WITH_QT6=ON ..
 
 
 

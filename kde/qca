@@ -3,10 +3,8 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
-
-URL=https://download.kde.org/stable/qca/2.3.5/qca-2.3.5.tar.xz
+PKG_VER=2.3.8
+URL=https://download.kde.org/stable/qca/$PKG_VER/qca-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -20,15 +18,17 @@ cd $DIR
 
 # Build
 
-
+sed -i 's@cert.pem@certs/ca-bundle.crt@' CMakeLists.txt
 
 mkdir build
 cd build
 
 
-cmake -DCMAKE_INSTALL_PREFIX=$QT5DIR            \
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_BUILD_TYPE=Release                \
       -DQCA_MAN_INSTALL_DIR:PATH=/usr/share/man \
+      -DQCA_INSTALL_IN_QT_PREFIX=ON \
+      -DQT6=ON \
       ..
 
 
@@ -43,7 +43,8 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "ca-certificates qt6 which" > /pkgs/$PACKAGE/depends
+sudo echo "cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

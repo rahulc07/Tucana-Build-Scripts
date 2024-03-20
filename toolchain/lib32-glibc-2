@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 set -e
-PKG_VER=2.38
+PKG_VER=2.39
 URL=https://ftp.gnu.org/gnu/glibc/glibc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -16,13 +16,11 @@ PACKAGE=lib32-glibc
 cd /blfs/builds
 wget $URL
 wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-$PKG_VER-fhs-1.patch
-wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.38-upstream_fixes-4.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 patch -Np1 -i ../glibc-$PKG_VER-fhs-1.patch
-patch -Np1 -i ../glibc-2.38-upstream_fixes-4.patch
 mkdir -v build
 cd       build
 echo "rootsbindir=/usr/sbin" > configparms

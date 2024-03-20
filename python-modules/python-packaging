@@ -4,7 +4,7 @@ export CFLAGS=-"O$PKG_VER"
 export CXXFLAGS="-O$PKG_VER"
 
 
-PKG_VER=23.2
+PKG_VER=24.0
 URL=https://files.pythonhosted.org/packages/source/p/packaging/packaging-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

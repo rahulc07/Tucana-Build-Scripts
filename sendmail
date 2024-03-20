@@ -9,7 +9,7 @@ URL=https://ftp.sendmail.org/sendmail.$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=sendmail-$PKG_VER
 PACKAGE=sendmail
-set -e
+BLFS_SYSTEMD_VER=20240205
 # Get Package
 
 cd /blfs/builds
@@ -92,9 +92,9 @@ cd ../..
 
 # Install
 # Systemd units
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-20230627.tar.xz
-tar -xvf blfs-systemd-units-20230627.tar.xz
-cd blfs-systemd-units-20230627
+wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+tar -xvf blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
+cd blfs-systemd-units-$BLFS_SYSTEMD_VER
 make DESTDIR=/pkgs/$PACKAGE install-sendmail
 cd /pkgs
 

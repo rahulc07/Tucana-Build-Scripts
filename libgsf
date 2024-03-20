@@ -17,8 +17,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
-./autogen.sh
+autoreconf -riv
 ./configure     --prefix=/usr \
     --sysconfdir=/etc \
     --localstatedir=/var \
