@@ -3,10 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
-
-PKG_VER=23.08.3
+PKG_VER=24.02.0
 URL=https://download.kde.org/stable/release-service/$PKG_VER/src/ark-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
