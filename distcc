@@ -69,7 +69,7 @@ for target in $TARGETS; do
    ln -sfv /usr/bin/distcc /pkgs/$PACKAGE/usr/lib/distcc/$target
 done
 
-mkdir -p /pkgs/$PACAKGE/usr/lib/sysusers.d
+mkdir -p /pkgs/$PACKAGE/usr/lib/sysusers.d
 cat > /pkgs/$PACKAGE/usr/lib/sysusers.d/distccd.conf << "EOF"
 g distcc - -
 u distcc - "distcc user" /usr/bin/false
