@@ -24,7 +24,7 @@ mkdir build
 cd build
 
 
-cmake -DCMAKE_INSTALL_PREFIX=/usr \
+cmake -G Ninja -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_BUILD_TYPE=Release                \
       -DQCA_MAN_INSTALL_DIR:PATH=/usr/share/man \
       -DQCA_INSTALL_IN_QT_PREFIX=ON \
@@ -33,12 +33,12 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
 
 
 
-make -j16
+ninja 
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
 cd /pkgs
 
 
