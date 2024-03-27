@@ -68,8 +68,16 @@ install -d "/pkgs/$PACKAGE/usr/lib/distcc"
 for target in $TARGETS; do
    ln -sfv /usr/bin/distcc /pkgs/$PACKAGE/usr/lib/distcc/$target
 done
+
+mkdir -p /pkgs/$PACAKGE/usr/lib/sysusers.d
+cat > /pkgs/$PACKAGE/usr/lib/sysusers.d/distccd.conf << "EOF"
+g distcc - -
+u distcc - "distcc user" /usr/bin/false
+EOF
+
 sudo echo "avahi popt python" > /pkgs/$PACKAGE/depends
-sudo echo "gtk" > /pkgs/$PACKAGE/make-depends
+sudo echo 'groupadd -g 64 distcc && useradd -c "Distcc User" -u 64 distcc -g distcc -s /bin/false' > /pkgs/$PACKAGE/postinst
+sudo echo "gtk3" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
