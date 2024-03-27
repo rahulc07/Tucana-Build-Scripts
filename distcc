@@ -1,0 +1,80 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+PKG_VER=3.4
+URL=https://github.com/distcc/distcc/releases/download/v$PKG_VER/distcc-$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+export CFLAGS+=' -DPY_SSIZE_T_CLEAN -fcommon'
+export NATIVE_COMPILER_TRIPLE=x86_64-pc-linux-gnu-gcc
+
+./configure --prefix=/usr --sbindir=/usr/bin --mandir=/usr/share/man --sysconfdir=/etc --with-gtk --without-libiberty
+
+
+make WERROR_CFLAGS= INCLUDESERVER_PYTHON=/usr/bin/python -j20
+
+# Install
+sudo make INCLUDESERVER_PYTHON=/usr/bin/python DESTDIR=/pkgs/$PACKAGE install
+cd /pkgs
+
+mkdir -p /pkgs/$PACKAGE/etc/conf.d/
+# Credit: Arch for this sample config
+cat > /pkgs/$PACKAGE/etc/conf.d/distccd << "EOF"
+#
+# Parameters to be passed to distccd
+#
+# You must explicitly add IPs (or subnets) that are allowed to connect,
+# using the --allow switch.  See the distccd manpage for more info.
+#
+
+DISTCC_ARGS="--allow 127.0.0.1"
+#DISTCC_ARGS="--allow 192.168.0.0/24 --log-level error --log-file /tmp/distccd.log"
+
+EOF
+
+mkdir -p /pkgs/$PACKAGE/usr/lib/systemd/system
+
+cat > /pkgs/$PACKAGE/usr/lib/systemd/system/distccd.service << "EOF"
+[Unit]
+Description=Distributed C, C++ compiler
+Documentation=man:distccd(1)
+After=network.target
+
+[Service]
+User=distcc
+EnvironmentFile=/etc/conf.d/distccd
+ExecStart=/usr/bin/distccd --no-detach --daemon $DISTCC_ARGS
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+
+# Make symlinks for the whitelist
+TARGETS="cc c++ gcc g++ clang clang++ cpp x86_64-pc-linux-gnu-gcc x86_64-pc-linux-gnu-g++ x86_64-pc-linux-gnu-gcc-13.2.0"
+install -d "/pkgs/$PACKAGE/usr/lib/distcc"
+for target in $TARGETS; do
+   ln -sfv /usr/bin/distcc /pkgs/$PACKAGE/usr/lib/distcc/$target
+done
+sudo echo "avahi popt python" > /pkgs/$PACKAGE/depends
+sudo echo "gtk" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

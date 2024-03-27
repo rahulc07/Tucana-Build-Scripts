@@ -34,7 +34,7 @@ cd /pkgs
 
 
 
-sudo echo "at-spi2-core gdk-pixbuf libepoxy pango wayland sassc" > /pkgs/$PACKAGE/depends
+sudo echo "gdk-pixbuf libepoxy adwaita hicolor-icons libxkbcommon sassc at-spi2-core gdk-pixbuf libepoxy pango wayland sassc" > /pkgs/$PACKAGE/depends
 echo "gtk-query-immodules-3.0 --update-cache && glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
