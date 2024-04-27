@@ -31,6 +31,7 @@ sed -i '/t_kadm5.py/d'           lib/kadm5/Makefile.in                &&
             --with-system-et         \
             --with-system-ss         \
             --with-system-verto=no   \
+	    --with-system-mitkrb5    \
             --enable-dns-for-real
 
 make -j16
