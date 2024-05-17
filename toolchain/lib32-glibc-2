@@ -16,11 +16,13 @@ PACKAGE=lib32-glibc
 cd /blfs/builds
 wget $URL
 wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-$PKG_VER-fhs-1.patch
+wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.39-upstream_fix-2.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 patch -Np1 -i ../glibc-$PKG_VER-fhs-1.patch
+patch -Np1 -i ../glibc-2.39-upstream_fix-2.patch
 mkdir -v build
 cd       build
 echo "rootsbindir=/usr/sbin" > configparms
@@ -39,7 +41,7 @@ CC="gcc -m32" CXX="g++ -m32" \
 
 
 
-make -j20 --jobserver-style=pipe
+make -j20 
 
 
 # Install

@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 set -e
-PKG_VER=13.2.0
+PKG_VER=14.1.0
 TARGET=$(gcc -dumpmachine)
 URL=https://ftp.gnu.org/gnu/gcc/gcc-$PKG_VER/gcc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -62,6 +62,7 @@ ln -v -sf ../usr/bin/cpp /pkgs/$PACKAGE/usr/lib
 ln -v -sf gcc /pkgs/$PACKAGE/usr/bin/cc
 
 # LTO
+mkdir -p /pkgs/$PACKAGE/usr/lib/bfd-plugins/
 ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/$PKG_VER/liblto_plugin.so \
         /pkgs/$PACKAGE/usr/lib/bfd-plugins/
 

@@ -38,7 +38,7 @@ CC="gcc -m32" CXX="g++ -m32" \
       --libdir=/usr/lib32 libc_cv_slibdir=/usr/lib32 \
 
 
-make -j16  --jobserver-style=pipe
+make -j20
 
 
 # Install

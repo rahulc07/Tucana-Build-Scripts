@@ -9,10 +9,10 @@ export CXXFLAGS="-O2"
 # Base compiler for all of these scripts it assumed that EVERY package is being updated hence the order. 
 # This will build a new version of GCC for the current version of glibc
 
-URL=https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
-MPC=https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz
-GMP=https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
-MPFR=https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.1.tar.xz
+URL=https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.xz
+MPC=https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz
+GMP=https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
+MPFR=https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -29,12 +29,12 @@ cd $DIR
 
 # Build
 
-tar -xf ../mpfr-4.1.1.tar.xz
-mv -v mpfr-4.1.1 mpfr
-tar -xf ../gmp-6.2.1.tar.xz
-mv -v gmp-6.2.1 gmp
-tar -xf ../mpc-1.2.1.tar.gz
-mv -v mpc-1.2.1 mpc
+tar -xf ../mpfr-4.2.1.tar.xz
+mv -v mpfr-4.2.1 mpfr
+tar -xf ../gmp-6.3.0.tar.xz
+mv -v gmp-6.3.0 gmp
+tar -xf ../mpc-1.3.1.tar.gz
+mv -v mpc-1.3.1 mpc
 
 
 
