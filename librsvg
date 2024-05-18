@@ -17,18 +17,17 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
-./configure --prefix=/usr    \
-            --enable-vala    \
-            --disable-static \
-
-
-make -j16
+mkdir build
+cd build
+meson setup \
+      --prefix=/usr \
+      --buildtype=release \
+      ..
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
 cd /pkgs
 
 

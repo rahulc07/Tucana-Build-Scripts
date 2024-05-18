@@ -25,7 +25,7 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-meson --prefix /usr --buildtype=release -Denable-gtk-doc=false -Dsoup2=false .. 
+meson setup --prefix /usr --buildtype=release -Denable-gtk-doc=false -Dsoup2=false .. 
 
 ninja 
 
