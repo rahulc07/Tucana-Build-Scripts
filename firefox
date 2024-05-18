@@ -17,36 +17,6 @@ tar -xvf $TAR
 cd $DIR
 # Build
 
-# ICU 74
-(for i in {43..47}; do
-   sed '/ZWJ/s/}/,CLASS_CHARACTER&/' -i intl/lwbrk/LineBreaker.cpp || exit $?
- done)
-
-# LLVM 18
-
-
-sed -e "/match cursor.kind()/a                                    \
-        CXCursor_LinkageSpec => return Err(ParseError::Recurse)," \
-    -i third_party/rust/bindgen/ir/item.rs                        &&
-
-cat >> Cargo.toml << EOF &&
-[patch.crates-io.bindgen_0_64_0]
-package = "bindgen"
-version = "0.64.0"
-path = "third_party/rust/bindgen"
-EOF
-
-sed -r '/name = "bindgen"/,+5 s/^source|^checksum/#&/' \
-    -i Cargo.lock
-
-sed 's/uint32_t timestamp/uint64_t timestamp/'                \
-    -i dom/media/gmp-plugin-openh264/gmp-fake-openh264.cpp    \
-       dom/media/gtest/TestGMPRemoveAndDelete.cpp             \
-       dom/media/webrtc/libwebrtcglue/WebrtcGmpVideoCodec.cpp &&
-
-sed '/mInputImageMap/s/uint32_t/uint64_t/' \
-    -i dom/media/webrtc/libwebrtcglue/WebrtcGmpVideoCodec.h
-
 cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
 

@@ -18,37 +18,6 @@ tar -xvf $TAR
 cd $DIR
 # Build
 
-(for i in $(find -name six.py); do
-   ln -sfv /usr/lib/python3.12/site-packages/six.py $i
-   [ $? = 0 ] || exit $?
- done) &&
-
-sed '/ConfigParser/s/Safe//'                          \
-    -i testing/mozbase/mozprofile/mozprofile/prefs.py &&
-
-(for i in setuptools distutils-precedence.pth  \
-          pkg_resources _distutils_hack; do
-   rm -rf third_party/python/setuptools/$i     &&
-   ln -sv /usr/lib/python3.12/site-packages/$i \
-          third_party/python/setuptools
-   [ $? = 0 ] || exit $?
- done) &&
-
-sed 's/distutils/setuptools._&/'            \
-    -i python/mozbuild/mozbuild/nodeutil.py &&
-
-sed -e '/^import/s/imp$/importlib.util/'             \
-    -e 's/imp.new_module/__import__/'                \
-    -e "s/imp.load_source\(.*\)/spec =               \
-        importlib.util.spec_from_file_location\1;    \
-        mod = importlib.util.module_from_spec(spec); \
-        spec.loader.exec_module(mod)/" -i python/mach/mach/main.py &&
-sed '/import imp/d' -i netwerk/dns/prepare_tlds.py
-
-(for i in {43..47}; do
-   sed '/ZWJ/s/}/,CLASS_CHARACTER&/' -i intl/lwbrk/LineBreaker.cpp || exit $?
- done)
-
 cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
 
