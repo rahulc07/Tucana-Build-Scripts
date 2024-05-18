@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=4.1
+PKG_VER=4.3
 URL=https://download.gnome.org/sources/gcr/$PKG_VER/gcr-$PKG_VER.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -20,9 +20,8 @@ cd $DIR
 
 mkdir build &&
 cd    build &&
-sed -i 's:"/desktop:"/org:' schema/*.xml
 
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false .. 
+meson setup --prefix=/usr --buildtype=release -Dgtk_doc=false .. 
 
 
 ninja 

@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=45
+GNOME_MAJOR=46
 GNOME_MINOR=0
 URL=https://download.gnome.org/sources/gnome-disk-utility/$GNOME_MAJOR/gnome-disk-utility-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -23,7 +23,7 @@ mkdir build &&
 cd    build &&
 
 
-meson --prefix=/usr --buildtype=release .. &&
+meson setup --prefix=/usr --buildtype=release .. &&
 
 
 ninja -j16

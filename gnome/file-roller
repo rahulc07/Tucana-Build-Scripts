@@ -3,8 +3,8 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=43
-GNOME_MINOR=0
+GNOME_MAJOR=44
+GNOME_MINOR=1
 URL=https://download.gnome.org/sources/file-roller/$GNOME_MAJOR/file-roller-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -23,7 +23,7 @@ mkdir build &&
 cd    build &&
 
 
-meson --prefix=/usr --buildtype=release -Dpackagekit=false ..
+meson setup --prefix=/usr --buildtype=release -Dpackagekit=false ..
 
 
 ninja 

@@ -30,8 +30,6 @@ meson setup --prefix=/usr --buildtype=release -Dbroadway-backend=true -Dintrospe
 
 
 ninja 
-dbus-run-session meson test --setup x11
-exit 0
 
 # Install
 ninja install

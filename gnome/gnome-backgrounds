@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=45
+GNOME_MAJOR=46
 GNOME_MINOR=0
 URL=https://download.gnome.org/sources/gnome-backgrounds/$GNOME_MAJOR/gnome-backgrounds-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -22,7 +22,7 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr ..
+meson setup --prefix=/usr ..
 
 ninja 
 

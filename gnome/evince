@@ -4,8 +4,8 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 set -e
-GNOME_MAJOR=45
-GNOME_MINOR=0
+GNOME_MAJOR=46
+GNOME_MINOR=1
 URL=https://download.gnome.org/sources/evince/$GNOME_MAJOR/evince-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -25,8 +25,8 @@ cd    build &&
 
 
 
-export CPPFLAGS="-I/opt/texlive/2022/include" &&
-export LDFLAGS="$LDFLAGS -L/opt/texlive/2022/lib"
+export CPPFLAGS="-I/opt/texlive/2024/include" &&
+export LDFLAGS="$LDFLAGS -L/opt/texlive/2024/lib"
 meson --prefix=/usr          \
       --buildtype=release    \
       -Dgtk_doc=false          \

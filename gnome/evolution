@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=3.50.0
+PKG_VER=3.52.1
 MINOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/evolution/$MINOR/evolution-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -27,7 +27,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DENABLE_YTNEF=OFF          \
       -DENABLE_CONTACT_MAPS=OFF   \
       -DENABLE_MARKDOWN=OFF       \
-      -DWITH_GWEATHER4=ON         \
+      -DENABLE_WEATHER=ON         \
       -G Ninja .. 
 
 

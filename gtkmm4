@@ -1,0 +1,64 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+# Notes
+# gtk4mm -
+#  - pangomm
+#    - libcairomm
+#  - atkmm
+#  - glibmm
+#
+# gtk3mm
+#  - pangomm3 (really 2.46.x)
+#    - libcairomm3 (really cairomm-1.14.x)
+#  - atkmm3 (really 2.36.x)
+#  - glibmm3 (really 2.66.x)
+#
+#  In Tucana 3.1 (June 2024) all the existing mm packages were renamed to 3 because of the
+#  addition fo the gtk4mm packages
+
+
+
+PKG_VER=4.14.0
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://download.gnome.org/sources/gtkmm/$MAJOR/gtkmm-$PKG_VER.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')4
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build1
+cd build1
+
+meson setup --prefix=/usr --buildtype=release .. 
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+
+
+
+sudo echo "atkmm gtk4 pangomm" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

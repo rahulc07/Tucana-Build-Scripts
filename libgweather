@@ -26,7 +26,7 @@ mkdir build &&
 cd    build &&
 
 
-meson --prefix=/usr --buildtype=release -Dgtk_doc=true ..
+meson setup --prefix=/usr --buildtype=release -Dgtk_doc=true ..
 
 ninja 
 

@@ -2,9 +2,9 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=3.50.1
-MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://download.gnome.org/sources/gnome-online-accounts/$MAJOR/gnome-online-accounts-$PKG_VER.tar.xz
+
+PKG_VER=1.1.0
+URL=https://github.com/google/highway/archive/$PKG_VER/highway-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -17,9 +17,16 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
+
 mkdir build
 cd build
-meson setup --prefix=/usr -Dmedia_server=true ..
+
+cmake -D CMAKE_INSTALL_PREFIX=/usr \
+      -D CMAKE_BUILD_TYPE=Release  \
+      -D BUILD_TESTING=OFF         \
+      -D BUILD_SHARED_LIBS=ON      \
+      -G Ninja ..
+
 
 ninja
 
@@ -31,8 +38,8 @@ cd /pkgs
 
 
 
-sudo echo "gcr json-glib rest vala webkitgtk webkitgtk4.1 webkitgtk5.0 gobject-introspection" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

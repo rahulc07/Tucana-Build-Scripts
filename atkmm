@@ -1,16 +1,14 @@
 #!/bin/bash
 
-export CFLAGS=-"O$MAJOR"
-export CXXFLAGS="-O$MAJOR"
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
 
-
-# This is the newer version of glibmm (4) see note in gtkmm4
-PKG_VER=2.80.0
+PKG_VER=2.36.2
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://download.gnome.org/sources/glibmm/$MAJOR/glibmm-$PKG_VER.tar.xz
+URL=https://download.gnome.org/sources/atkmm/$MAJOR/atkmm-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=glibmm
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
@@ -21,8 +19,9 @@ cd $DIR
 
 # Build
 
-mkdir bld &&
-cd    bld &&
+mkdir build
+cd build
+
 
 meson setup --prefix=/usr --buildtype=release ..
 
@@ -36,7 +35,8 @@ cd /pkgs
 
 
 
-sudo echo "glib libsigc++ gnutls libxslt" > /pkgs/$PACKAGE/depends
+sudo echo "at-spi2-core glibmm4" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
