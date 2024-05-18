@@ -25,7 +25,7 @@ cd build
 meson  --prefix=/usr       \
        --buildtype=release \
        -Dpackage-origin=https://github.com/xXTeraXx/Tucana \
-       -Dpackage-name="GStreamer 1.20.5 for Tucana"    \
+       -Dpackage-name="GStreamer $PKG_VER for Tucana"    \
        --wrap-mode=nodownload
 
 ninja

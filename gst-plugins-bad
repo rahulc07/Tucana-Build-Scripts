@@ -2,6 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
+set -e
 PKG_VER=1.24.3
 URL=https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -25,7 +26,7 @@ cd build
 meson  --prefix=/usr       \
        --buildtype=release \
        -Dpackage-origin=https://github.com/xXTeraXx/Tucana \
-       -Dpackage-name="GStreamer 1.20.5 for Tucana"    \
+       -Dpackage-name="GStreamer $PKG_VER for Tucana"    \
        --wrap-mode=nodownload
 
 ninja
