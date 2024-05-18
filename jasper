@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=4.2.2
+PKG_VER=4.2.4
 URL=https://github.com/jasper-software/jasper/archive/version-$PKG_VER/jasper-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=jasper-version-$PKG_VER
