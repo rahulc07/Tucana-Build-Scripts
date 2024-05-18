@@ -19,7 +19,8 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
+mkdir build
+cd build
 meson setup \
       --prefix=/usr \
       --buildtype=release \
