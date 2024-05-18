@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=2.4.58
+PKG_VER=2.4.59
 URL=https://archive.apache.org/dist/httpd/httpd-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
