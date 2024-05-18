@@ -4,9 +4,9 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=1.17.6
+PKG_VER=1.18.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://www.cairographics.org/releases/cairomm-$PKG_VER.tar.xz
+URL=https://www.cairographics.org/releases/cairo-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
