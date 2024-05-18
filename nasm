@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 #ARCH_PKG=nasm
 #ARCH_VAR=pkgver
 
-PKG_VER=2.16.01
+PKG_VER=2.16.03
 URL=https://www.nasm.us/pub/nasm/releasebuilds/$PKG_VER/nasm-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
