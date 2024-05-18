@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=steam
 #ARCH_VAR=pkgver
-PKG_VER=1.0.0.78
+PKG_VER=1.0.0.79
 URL=https://repo.steampowered.com/steam/pool/steam/s/steam/steam_$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=steam-launcher
