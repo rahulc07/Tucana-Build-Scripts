@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=3.0.17
+PKG_VER=3.0.18
 URL=https://github.com/libical/libical/releases/download/v$PKG_VER/libical-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
