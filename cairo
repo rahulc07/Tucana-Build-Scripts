@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 
 PKG_VER=1.17.6
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://download.gnome.org/sources/cairo/$MAJOR/cairo-$PKG_VER.tar.xz
+URL=https://www.cairographics.org/releases/cairomm-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -20,21 +20,16 @@ cd $DIR
 
 # Build
 
-sed 's/PTR/void */' -i util/cairo-trace/lookup-symbol.c
-sed -e "/@prefix@/a exec_prefix=@exec_prefix@" \
-    -i util/cairo-script/cairo-script-interpreter.pc.in
-./configure --prefix=/usr    \
-            --disable-static \
-            --enable-tee \
-	    --enable-gl \
+meson setup \
+      --prefix=/usr \
+      --buildtype=release \
+      ..
 
-
-make -j16
-
+ninja
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install 
 cd /pkgs
 
 
