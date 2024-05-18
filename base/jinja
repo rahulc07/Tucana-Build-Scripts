@@ -3,15 +3,11 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
-
-
 PKG_VER=3.1.4
-URL=https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-$PKG_VER.tar.gz
+URL=https://files.pythonhosted.org/packages/source/j/jinja2/jinja2-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=jinja
+PACKAGE=python-$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
@@ -21,21 +17,19 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
-
-python3 setup.py build
-
+python3 -m build --wheel --skip-dependency-check
 
 
 
 # Install
-sudo python3 setup.py install --root="/pkgs/$PACKAGE" --optimize=1
-cd /pkgs
-cp -rpv /pkgs/$PACKAGE/* /
+sudo python3 -m installer --destdir=/pkgs/$PACKAGE  dist/*.whl
 
+cd /pkgs
+
+sudo cp -rpv /pkgs/$PACKAGE/* /
 
 sudo echo "python markupsafe" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "python-build python-installer" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
