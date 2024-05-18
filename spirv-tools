@@ -3,8 +3,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-#HOLD_TUCANA
-PKG_VER="2023.5.rc1"
+PKG_VER="2024.1"
 URL=https://github.com/KhronosGroup/SPIRV-Tools/archive/refs/tags/v$PKG_VER/SPIRV-Tools-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=SPIRV-Tools-$PKG_VER
