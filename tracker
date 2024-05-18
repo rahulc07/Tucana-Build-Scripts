@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 GNOME_MAJOR=43
 GNOME_MINOR=0
 
-PKG_VER=3.7.rc
+PKG_VER=3.7.3
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/tracker/$MAJOR/tracker-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
