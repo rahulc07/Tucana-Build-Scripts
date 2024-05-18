@@ -42,6 +42,7 @@ cd /pkgs
 
 
 sudo echo "dconf iso-codes vala gtk2 gtk3 libnotify gtk4 gobject-introspection dbus-python pygobject3" > /pkgs/$PACKAGE/depends
+echo "libdbusmenu" > /pkgs/$PACKAGE/make-depends
 sudo echo "gtk-query-immodules-3.0 --update-cache" > /pkgs/$PACKAGE/postinst
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
