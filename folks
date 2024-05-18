@@ -3,9 +3,6 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=43
-GNOME_MINOR=0
-
 PKG_VER=0.15.9
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/folks/$MAJOR/folks-$PKG_VER.tar.xz
@@ -25,7 +22,7 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr --buildtype=release ..
+CC="gcc -std=gnu89" meson setup --prefix=/usr --buildtype=release ..
 
 ninja 
 

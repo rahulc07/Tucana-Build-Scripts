@@ -40,7 +40,7 @@ ac_add_options --disable-necko-wifi
 
 # Comment out following options if you have not installed
 # recommended dependencies:
-ac_add_options --with-system-icu
+#ac_add_options --with-system-icu
 ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
 ac_add_options --with-system-nspr
@@ -118,12 +118,12 @@ echo "AIzaSyCmvXzMy5AD_zkzsrJ-bkY1m70W9ybiAsg" > google-key
 export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
 export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 
-python3.11 ./mach configure
-python3.11 ./mach build
+./mach configure
+./mach build
 
 
 # Install
-MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none DESTDIR=/pkgs/$PACKAGE python3.11 ./mach install
+MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none DESTDIR=/pkgs/$PACKAGE ./mach install
 cd /pkgs
 
 mkdir -pv /usr/share/applications &&
@@ -161,7 +161,7 @@ app.distributor=tucana
 app.distributor.channel=firefox" > /pkgs/$PACKAGE/usr/lib/firefox/distribution/distribution.ini
 
 sudo echo "dbus-glib gtk3 gtk2 libnotify pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu" > /pkgs/$PACKAGE/depends
-sudo echo "python3.11 autoconf dbus-glib gtk3 gtk2 libnotify nodejs pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu cbindgen wireless-tools rustc" > /pkgs/$PACKAGE/make-depends
+sudo echo "autoconf dbus-glib gtk3 gtk2 libnotify nodejs pulseaudio python startup-notification yasm nasm nss libwebp libvpx libevent icu cbindgen wireless-tools rustc" > /pkgs/$PACKAGE/make-depends
 cd /pkgs/$PACKAGE
 sudo rm -rf root blfs
 cd ..
