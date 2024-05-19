@@ -18,9 +18,9 @@ cd $DIR
 
 # Build
 
+sed -i 's:"/desktop:"/org:' schema/*.xml
 mkdir build &&
 cd    build &&
-sed -i 's:"/desktop:"/org:' schema/*.xml
 
 meson --prefix=/usr --buildtype=release -Dgtk_doc=false .. 
 
@@ -34,7 +34,7 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "glib libgcrypt p11-kit gnupg gtk3 libsecret libxslt vala" > /pkgs/$PACKAGE/depends
 sudo rm -r /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

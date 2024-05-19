@@ -19,7 +19,7 @@ cd $DIR
 # Build
 mkdir build
 cd build
-meson setup --prefix=/usr -Dmedia_server=true ..
+meson setup --prefix=/usr --buildtype=release ..
 
 ninja
 

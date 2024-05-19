@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-GNOME_MAJOR=45
+GNOME_MAJOR=46
 GNOME_MINOR=0.2
 URL=https://download.gnome.org/sources/gnome-system-monitor/$GNOME_MAJOR/gnome-system-monitor-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 CAT=gnome

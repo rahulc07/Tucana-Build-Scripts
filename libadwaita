@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=1.4.4
+PKG_VER=1.5.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/libadwaita/$MAJOR/libadwaita-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -24,10 +24,10 @@ mkdir build &&
 cd    build &&
 
 
-meson --prefix=/usr --buildtype=release .. &&
+meson setup --prefix=/usr --buildtype=release .. &&
 
 
-ninja -j16
+ninja
 
 
 # Install

@@ -1,5 +1,5 @@
 #!/bin/bash
-ROOT=""
+ROOT="/home/rahul/Tucana-Build-Scripts/gnome"
 build() {
   echo "Building $1"
   bash $ROOT/$1
