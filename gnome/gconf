@@ -24,8 +24,7 @@ cd $DIR
             --sysconfdir=/etc \
             --disable-orbit \
             --disable-static 
-
-ninja 
+make -j22
 
 
 # Install
