@@ -13,8 +13,8 @@ export CXXFLAGS="-O2"
 set -e
 
 
-PKG_VER=6.0.0
-URL=https://download.kde.org/stable/frameworks/6.0/
+PKG_VER=6.1.0
+URL=https://download.kde.org/stable/frameworks/6.1/
 
 # Get Package(s)
 

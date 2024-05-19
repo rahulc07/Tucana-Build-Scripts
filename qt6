@@ -11,7 +11,7 @@ PACKAGE=qt6
 # Get Package
 
 cd /blfs/builds
-#wget $URL
+wget $URL
 tar -xvf $TAR
 cd $DIR
 
@@ -53,7 +53,7 @@ mkdir -p /pkgs/$PACKAGE/usr/bin
 ln -sfv /usr/lib/qt6/bin/qmake6 /pkgs/$PACKAGE/usr/bin/
 find /pkgs/$PACKAGE/ -name \*.prl \
    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
-
+cd ..
 pushd qttools/src &&
 
 install -v -Dm644 assistant/assistant/images/assistant-128.png       \
