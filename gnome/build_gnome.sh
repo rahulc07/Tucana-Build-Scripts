@@ -1,8 +1,9 @@
 #!/bin/bash
+set -e
 ROOT="/home/rahul/Tucana-Build-Scripts/gnome"
 build() {
   echo "Building $1"
-  bash $ROOT/$1
+  bash -e $ROOT/$1
 
 }
 build "gcr"
