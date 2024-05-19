@@ -1,7 +1,9 @@
 #!/bin/bash
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
+export CFLAGS="-O2 -fcf-protection=none"
+export CXXFLAGS="-O2 -fcf-protection=none"
+export CC=clang
+export CXX=clang++
 
 set -e
 PKG_VER=2.44.2
@@ -30,8 +32,6 @@ cmake -DPORT=GTK \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_INSTALL_LIBEXECDIR=lib \
     -DCMAKE_SKIP_RPATH=ON \
-    -DUSE_LIBHYPHEN=OFF \
-    -DUSE_GAMEPAD=OFF \
     -DUSE_GTK4=OFF \
     -DUSE_LIBBACKTRACE=OFF \
     -DUSE_SOUP2=OFF \
