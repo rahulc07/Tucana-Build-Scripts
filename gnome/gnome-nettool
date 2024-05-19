@@ -23,10 +23,10 @@ sed -i '/merge_file/s/(.*/(/' data/meson.build
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr --buildtype=release  &&
+meson setup --prefix=/usr --buildtype=release  &&
 
 
-ninja -j16
+ninja
 
 
 # Install
@@ -35,7 +35,7 @@ cd /pkgs
 
 
 sudo echo "gtk3 itstool libgtop" > /pkgs/$PACKAGE/depends
-sudo rm -r /pkgs/$PACKAGE/blfs
+sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

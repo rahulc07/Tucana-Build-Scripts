@@ -35,7 +35,7 @@ cd /pkgs
 
 sudo echo "dbus gcr libxslt gnupg pam" > /pkgs/$PACKAGE/depends
 sudo echo "openssh" > /pkgs/$PACKAGE/make-depends
-sudo rm -r /pkgs/$PACKAGE/blfs
+sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

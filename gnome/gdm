@@ -3,24 +3,12 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=45
+GNOME_MAJOR=46
 GNOME_MINOR=0
 URL=https://download.gnome.org/sources/gdm/$GNOME_MAJOR/gdm-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-
-getent passwd gdm  > /dev/null
-
-if [ $? -eq 0 ]; then
-    :
-else
-    groupadd -g 21 gdm &&
-    useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
-             -g gdm -s /bin/false gdm &&
-    passwd -ql gdm
-fi
-
 
 # Get Package
 
@@ -35,7 +23,7 @@ mkdir build &&
 cd    build &&
 
 
-meson --prefix=/usr               \
+meson setup --prefix=/usr               \
       --buildtype=release         \
       -Dgdm-xsession=true \
       -Dinitial-vt=7 \
@@ -56,7 +44,7 @@ sudo echo 'groupadd -g 21 gdm &&
 useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
         -g gdm -s /bin/false gdm &&
 passwd -ql gdm' >> /pkgs/$PACKAGE/postinst
-sudo rm -r /pkgs/$PACKAGE/blfs
+sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

@@ -34,7 +34,8 @@ cd /pkgs
 
 
 sudo echo "glib libgcrypt gnupg gobject-introspection gtk3 libxslt libsecret vala" > /pkgs/$PACKAGE/depends
-sudo rm -r /pkgs/$PACKAGE/blfs
+sudo echo "openssh" > /pkgs/$PACKAGE/make-depends
+sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
