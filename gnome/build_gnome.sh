@@ -9,7 +9,6 @@ build() {
 build "gcr"
 build "gcr-4"
 build "gsettings-desktop-schemas"
-build "libsecret"
 build "rest"
 build "totem-pl-parser"
 build "vte"
