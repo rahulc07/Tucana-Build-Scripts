@@ -24,19 +24,21 @@ mkdir build1 &&
 cd    build1 &&
 
 
-cmake -DCMAKE_BUILD_TYPE=Release  \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -DCMAKE_SKIP_RPATH=ON       \
-      -DPORT=GTK                  \
-      -DUSE_JPEGXL=OFF            \
-      -DUSE_AVIF=OFF \
-      -DLIB_INSTALL_DIR=/usr/lib  \
-      -DUSE_LIBHYPHEN=OFF         \
-      -DENABLE_GAMEPAD=OFF        \
-      -DENABLE_MINIBROWSER=ON     \
-      -DUSE_SOUP2=OFF              \
-      -DUSE_WPE_RENDERER=ON       \
-      -Wno-dev -G Ninja ..        &&
+cmake -DPORT=GTK \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_INSTALL_LIBEXECDIR=lib \
+    -DCMAKE_SKIP_RPATH=ON \
+    -DUSE_LIBHYPHEN=OFF \
+    -DUSE_GAMEPAD=OFF \
+    -DUSE_GTK4=OFF \
+    -DUSE_LIBBACKTRACE=OFF \
+    -DUSE_SOUP2=OFF \
+    -DENABLE_DOCUMENTATION=ON \
+    -DENABLE_MINIBROWSER=ON \
+    -G Ninja .. \
+
 
 ninja
 
@@ -53,7 +55,7 @@ strip $(file * | grep ELF | sed 's/:.*//')
 popd
 
 sudo echo "cairo woff2 gst-plugins-base gst-plugins-bad gtk3 libsoup3 icu lcms libgudev libsecret libsoup libwebp mesa openjpeg ruby sqlite which wpebackend-foo enchant geoclue gobject-introspection hicolor-icons libnotify wayland xdg-dbus-proxy" > /pkgs/$PACKAGE/depends
-sudo echo "bubblewrap unifdef gi-docgen" > /pkgs/$PACKAGE/make-depends
+sudo echo "bubblewrap unifdef gi-docgen libavif" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

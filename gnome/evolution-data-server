@@ -25,7 +25,7 @@ cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr   \
       -DSYSCONF_INSTALL_DIR=/etc    \
       -DENABLE_VALA_BINDINGS=ON     \
-      -DENABLE_INSTALLED_TESTS=ON   \
+      -DENABLE_INSTALLED_TESTS=OFF   \
       -DENABLE_GOOGLE=ON            \
       -DENABLE_OAUTH2_WEBKITGTK4=OFF \
       -DWITH_OPENLDAP=OFF           \
