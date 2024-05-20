@@ -19,9 +19,6 @@ build "gnome-online-accounts"
 build "libwnck"
 build "libcloudproviders"
 build "evolution-data-server"
-build "tracker"
-build "tracker-miners"
-build "gsound"
 
 # Desktop
 build "dconf"

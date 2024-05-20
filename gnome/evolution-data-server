@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 PKG_VER=3.52.1
@@ -29,7 +29,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr   \
       -DENABLE_GOOGLE=ON            \
       -DENABLE_OAUTH2_WEBKITGTK4=ON \
       -DWITH_OPENLDAP=OFF           \
-      -DWITH_KRB5=OFF               \
+      -DWITH_KRB5=ON               \
       -DENABLE_INTROSPECTION=ON     \
       -DENABLE_GTK_DOC=OFF          \
       -DWITH_LIBDB=OFF              \
