@@ -1,0 +1,44 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+
+PKG_VER=0.26.0
+URL=https://github.com/rust-lang/rust-bindgen/archive/v0.69.4/rust-bindgen-0.69.4.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+cargo build --release
+
+
+
+# Installinstall -Dm755 target/release/cbindgen /usr/bin/
+mkdir -p /pkgs/$PACKAGE/usr/bin
+install -Dm755 target/release/bindgen /pkgs/$PACKAGE/usr/bin/
+install -Dm755 target/release/bindgen /usr/bin/
+cd /pkgs
+
+
+
+sudo echo "rustc llvm" > /pkgs/$PACKAGE/depends
+sudo echo "rustc" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+# Method 2 install
+cp -rpv /pkgs/$PACKAGE /
+cd /blfs/builds
+sudo rm -r $DIR
+
+

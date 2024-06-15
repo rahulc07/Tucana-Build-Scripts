@@ -57,16 +57,16 @@ cd ..
 pushd qttools/src &&
 
 install -v -Dm644 assistant/assistant/images/assistant-128.png       \
-                  /usr/share/pixmaps/assistant-qt6.png               &&
+                  /pkgs/$PACKAGE/usr/share/pixmaps/assistant-qt6.png               &&
 
 install -v -Dm644 designer/src/designer/images/designer.png          \
-                  /usr/share/pixmaps/designer-qt6.png                &&
+                  /pkgs/$PACKAGE/usr/share/pixmaps/designer-qt6.png                &&
 
 install -v -Dm644 linguist/linguist/images/icons/linguist-128-32.png \
-                  /usr/share/pixmaps/linguist-qt6.png                &&
+                  /pkgs/$PACKAGE/usr/share/pixmaps/linguist-qt6.png                &&
 
 install -v -Dm644 qdbus/qdbusviewer/images/qdbusviewer-128.png       \
-                  /usr/share/pixmaps/qdbusviewer-qt6.png             &&
+                  /pkgs/$PACKAGE/usr/share/pixmaps/qdbusviewer-qt6.png             &&
 popd &&
 
 
