@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=3.3.1
+PKG_VER=3.3.3
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://cache.ruby-lang.org/pub/ruby/$MAJOR/ruby-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
