@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=6.7.5
+PKG_VER=6.7.6
 URL=https://github.com/gavinhoward/bc/releases/download/$PKG_VER/bc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
