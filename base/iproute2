@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=6.8.0
+PKG_VER=6.9.0
 URL=https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
