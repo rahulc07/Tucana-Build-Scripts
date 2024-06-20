@@ -13,6 +13,7 @@ PACKAGE=qt5
 set -e
 cd /blfs/builds
 wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/qt-5.15.14-kde.patch
+wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/qt-gcc14.patch
 wget $URL
 tar -xvf $TAR
 cd $DIR
@@ -20,6 +21,7 @@ cd $DIR
 # Build
 
 patch -Np1 -i ../qt-5.15.14-kde.patch
+patch -Np1 -i ../qt-gcc14.patch
 mkdir -pv qtbase/.git
 sed -e "/pragma once/a#include <cstdint>"                                      \
     -i qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/geometry.hpp \
