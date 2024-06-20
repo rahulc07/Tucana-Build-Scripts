@@ -24,7 +24,7 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr --buildtype=release -Dfribidi=false .. -Dgtk4=true
+meson setup --prefix=/usr --buildtype=release -Dfribidi=false .. -Dgtk4=true
 
 ninja 
 
