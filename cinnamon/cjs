@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 PACKAGE=cjs
-PKG_VER=6.0.0
+PKG_VER=6.2.0
 URL=https://github.com/linuxmint/$PACKAGE/archive/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$PACKAGE-$PKG_VER
