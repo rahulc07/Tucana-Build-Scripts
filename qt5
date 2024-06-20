@@ -25,6 +25,9 @@ sed -e "/pragma once/a#include <cstdint>"                                      \
     -i qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/geometry.hpp \
        qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/string.hpp   \
        qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/gl/stencil_mode.hpp
+sed -e "/c++1z/s;^CONFIG;#CONFIG;" \
+    -e "s;c++14;c++17;"            \
+    -i qtlocation/src/3rdparty/mapbox-gl-native/mapbox-gl-native.pro
 ./configure -prefix /usr                              \
             -sysconfdir /etc/xdg                      \
             -confirm-license                          \
