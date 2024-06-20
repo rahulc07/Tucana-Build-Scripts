@@ -17,7 +17,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-autoreconf -riv
+autoreconf -fiv
 ./configure     --prefix=/usr \
     --sysconfdir=/etc \
     --localstatedir=/var \
