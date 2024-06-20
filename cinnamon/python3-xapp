@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 PACKAGE=python3-xapp
-PKG_VER=2.4.1
+PKG_VER=2.4.2
 URL=https://github.com/linuxmint/$PACKAGE/archive/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$PACKAGE-$PKG_VER
