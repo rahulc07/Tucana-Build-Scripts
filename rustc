@@ -21,7 +21,7 @@ cd $DIR
 cat << EOF > config.toml
 
 # tell x.py to not keep printing an annoying warning
-changelog-seen = 2
+change-id = 123711
 
 # see config.toml.example for more possible options
 # See the 8.4 book for an example using shipped LLVM
