@@ -15,10 +15,12 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
+wget https://www.linuxfromscratch.org/patches/blfs/svn/libxml2-2.13.0-upstream_fixes-2.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
+patch -Np1 -i ../libxml2-2.13.0-upstream_fixes-2.patch
 
 autoreconf -fiv
 ./configure --prefix=/usr           \
