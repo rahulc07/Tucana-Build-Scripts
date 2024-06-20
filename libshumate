@@ -21,7 +21,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
+dot -c
 mkdir build &&
 cd    build &&
 
@@ -38,7 +38,7 @@ cd /pkgs
 
 
 sudo echo "gtk4 libsoup3 sqlite" > /pkgs/$PACKAGE/depends
-sudo echo "protobuf-c" > /pkgs/$PACKAGE/make-depends
+sudo echo "protobuf-c json-glib librsvg" > /pkgs/$PACKAGE/make-depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
