@@ -20,8 +20,6 @@ cd $DIR
 
 # Build
 
-sed -i /ARPD/d Makefile
-rm -fv man/man8/arpd.8
 
 
 make NETNS_RUN_DIR=/run/netns -j16
