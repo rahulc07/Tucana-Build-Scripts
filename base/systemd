@@ -23,23 +23,16 @@ cd $DIR
 sed -i -e 's/GROUP="render"/GROUP="video"/' \
        -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 
-
-sed '/bus_message_type_from_string/s/_pure_//' \
-    -i src/libsystemd/sd-bus/bus-internal.h    &&
-sed '/devt_hash_func/s/_pure_//'               \
-    -i src/basic/hash-funcs.h                  &&
-sed '/job_get_timeout/s/_pure_//'              \
-    -i src/core/job.h
-
 mkdir build
 cd build
 
-meson --prefix=/usr                 \
+meson setup --prefix=/usr                 \
       --buildtype=release           \
       -Ddefault-dnssec=no           \
       -Dfirstboot=false             \
       -Dinstall-tests=false         \
       -Dldconfig=false              \
+      -Ddev-kvm-mode=0660     \
       -Dman=auto                    \
       -Dsysusers=false              \
       -Drpmmacrosdir=no             \
