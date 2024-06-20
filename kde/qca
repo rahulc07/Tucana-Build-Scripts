@@ -24,18 +24,18 @@ mkdir build
 cd build
 
 
-cmake -G Ninja -DCMAKE_INSTALL_PREFIX=/usr \
-      -DCMAKE_BUILD_TYPE=Release                \
-      -DQCA_MAN_INSTALL_DIR:PATH=/usr/share/man \
-      -DQCA_INSTALL_IN_QT_PREFIX=ON \
-      -DQT6=ON \
+cmake -D CMAKE_INSTALL_PREFIX=/usr \
+      -D CMAKE_BUILD_TYPE=Release                \
+      -D QCA_MAN_INSTALL_DIR:PATH=/usr/share/man \
+      -D QCA_INSTALL_IN_QT_PREFIX=ON \
+      -D QT6=ON \
+      -D BUILD_TESTS=OFF \
+      -G Ninja \
       ..
 
 
 
-ninja 
-
-
+ninja
 # Install
 sudo DESTDIR=/pkgs/$PACKAGE ninja install
 sudo ninja install

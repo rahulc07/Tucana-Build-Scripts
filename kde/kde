@@ -31,50 +31,7 @@ wget -r -nH -nd -A '*.xz' -np $URL
 
 # Set build order
 
-echo " kdecoration-$PKG_VER.tar.xz
- libkscreen-$PKG_VER.tar.xz
- libksysguard-$PKG_VER.tar.xz
- breeze-$PKG_VER.tar.xz
- breeze-gtk-$PKG_VER.tar.xz
- layer-shell-qt-$PKG_VER.tar.xz
- kscreenlocker-$PKG_VER.tar.xz
- oxygen-$PKG_VER.tar.xz
- kinfocenter-$PKG_VER.tar.xz
- kwin-$PKG_VER.tar.xz
- plasma-workspace-$PKG_VER.tar.xz
- plasma-disks-$PKG_VER.tar.xz
- bluedevil-$PKG_VER.tar.xz
- kde-gtk-config-$PKG_VER.tar.xz
- khotkeys-$PKG_VER.tar.xz
- kmenuedit-$PKG_VER.tar.xz
- kscreen-$PKG_VER.tar.xz
- kwallet-pam-$PKG_VER.tar.xz
- kwayland-integration-$PKG_VER.tar.xz
- kwrited-$PKG_VER.tar.xz
- milou-$PKG_VER.tar.xz
- plasma-nm-$PKG_VER.tar.xz
- plasma-pa-$PKG_VER.tar.xz
- plasma-workspace-wallpapers-$PKG_VER.tar.xz
- polkit-kde-agent-1-$PKG_VER.tar.xz
- powerdevil-$PKG_VER.tar.xz
- plasma-desktop-$PKG_VER.tar.xz
- kdeplasma-addons-$PKG_VER.tar.xz
- kgamma5-$PKG_VER.tar.xz
- ksshaskpass-$PKG_VER.tar.xz
- plasma-sdk-$PKG_VER.tar.xz
- sddm-kcm-$PKG_VER.tar.xz
- discover-$PKG_VER.tar.xz
- kactivitymanagerd-$PKG_VER.tar.xz
- plasma-integration-$PKG_VER.tar.xz
- xdg-desktop-portal-kde-$PKG_VER.tar.xz
- drkonqi-$PKG_VER.tar.xz
- plasma-vault-$PKG_VER.tar.xz
- plasma-browser-integration-$PKG_VER.tar.xz
- kde-cli-tools-$PKG_VER.tar.xz
- systemsettings-$PKG_VER.tar.xz
- plasma-thunderbolt-$PKG_VER.tar.xz
- plasma-firewall-$PKG_VER.tar.xz
- plasma-systemmonitor-$PKG_VER.tar.xz
+echo "plasma-systemmonitor-$PKG_VER.tar.xz
  qqc2-breeze-style-$PKG_VER.tar.xz
  ksystemstats-$PKG_VER.tar.xz
  oxygen-sounds-$PKG_VER.tar.xz" > plasma-$PKG_VER.md5

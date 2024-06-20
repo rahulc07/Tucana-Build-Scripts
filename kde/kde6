@@ -13,7 +13,7 @@ export CXXFLAGS="-O2"
 set -e
 
 
-PKG_VER=6.0.0
+PKG_VER=6.1.0
 URL=https://download.kde.org/stable/plasma/$PKG_VER/
 
 # Get Package(s)
@@ -25,7 +25,7 @@ mkdir -p /pkgs/kde
 mkdir -p /finished/kde
 
 cd /blfs/builds/kde
-#wget -r -nH -nd -A '*.xz' -np $URL
+wget -r -nH -nd -A '*.xz' -np $URL
 # Build
 
 
@@ -45,8 +45,8 @@ echo "kglobalacceld-$PKG_VER.tar.xz
  kscreenlocker-$PKG_VER.tar.xz
  oxygen-$PKG_VER.tar.xz
  kinfocenter-$PKG_VER.tar.xz
- kwin-$PKG_VER.tar.xz
- plasma5support-$PKG_VER.tar.xz
+ kwin-$PKG_VER.tar.xz 
+ plasma5support-$PKG_VER.tar.xz 
  plasma-workspace-$PKG_VER.tar.xz
  plasma-disks-$PKG_VER.tar.xz
  bluedevil-$PKG_VER.tar.xz
@@ -115,7 +115,7 @@ while read -r line; do
       # Package 
   
       make DESTDIR=/pkgs/kde/$PACKAGE install
-      sudo echo "gtk2 gtk3 kf5 libpwquality libqalculate libxkbcommon mesa wayland network-manager pipewire pulseaudio qca sassc taglib xcb-util-cursor fftw gsettings-desktop-schemas libdbusmenu-qt libcanberra libinput libpcap lm-sensors oxygen-icons pciutils accounts-service smartmontools qtwebengine kuserfeedback appstream" > /pkgs/kde/$PACKAGE/depends
+      sudo echo "gtk2 gtk3 kf5 libpwquality libqalculate libxkbcommon mesa wayland network-manager pipewire pulseaudio qca sassc taglib xcb-util-cursor fftw gsettings-desktop-schemas libdbusmenu-qt libcanberra libinput libpcap lm-sensors oxygen-icons pciutils accounts-service smartmontools kuserfeedback appstream libdisplay-info python-chai pulseaudio-qt kirigami-addons" > /pkgs/kde/$PACKAGE/depends
       cd /pkgs/kde
       sudo tar -cvzpf /finished/kde/$PACKAGE.tar.xz $PACKAGE
       cd - 
