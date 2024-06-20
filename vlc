@@ -18,8 +18,8 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 -i vlc-3.0.21-taglib-1.patch
-patch -Np1 -i vlc-3.0.21-fedora_ffmpeg7-1.patch
+patch -Np1 -i ../vlc-3.0.21-taglib-1.patch
+patch -Np1 -i ../vlc-3.0.21-fedora_ffmpeg7-1.patch
 
 export LUAC=/usr/bin/luac5.2                   &&
 export LUA_LIBS="$(pkg-config --libs lua52)"   &&
