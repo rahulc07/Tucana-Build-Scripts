@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 # Using git, there might be other submodules later
-URL=https://github.com/xXTeraXx/Tucana.git
+URL=https://github.com/rahul07/Tucana.git
 # If it's a frequently updated git repo without a set version, title it with the tucana version in the for t[version] no minor versions, just append to the major eg 1.1=t11
 TAR_FINAL=mercury.tar.xz
 # master?
