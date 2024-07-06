@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=22.3.20
+PKG_VER=22.4.1
 URL=https://github.com/intel/gmmlib/archive/refs/tags/intel-gmmlib-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=gmmlib-$(echo $TAR | sed 's|.tar.*||g')
