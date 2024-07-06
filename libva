@@ -19,14 +19,14 @@ cd $DIR
 # Build
 
 
-./configure --prefix=/usr --disable-static
+cd build &&
 
-make -j16
-
+meson setup --prefix=/usr --buildtype=release ..
+ninja
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
 cd /pkgs
 
 
