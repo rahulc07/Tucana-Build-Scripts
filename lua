@@ -40,7 +40,7 @@ Requires:
 Libs: -L${libdir} -llua -lm -ldl
 Cflags: -I${includedir}
 EOF
-patch -Np1 -i ../lua-5.4.6-shared_library-1.patch &&
+patch -Np1 -i ../lua-$PKG_VER-shared_library-1.patch &&
 make linux -j20
 
 
@@ -50,7 +50,7 @@ make linux -j20
 make INSTALL_TOP=/pkgs/$PACKAGE/usr                \
      INSTALL_DATA="cp -d"            \
      INSTALL_MAN=/usr/share/man/man1 \
-     TO_LIB="liblua.so liblua.so.5.4 liblua.so.5.4.6" \
+     TO_LIB="liblua.so liblua.so.5.4 liblua.so.$PKG_VER" \
      install
 install -v -m644 -D lua.pc /pkgs/$PACKAGE/usr/lib/pkgconfig/lua.pc
 cd /pkgs
