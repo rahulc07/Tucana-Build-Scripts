@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=cryptsetup
 #ARCH_VAR=pkgver
-PKG_VER=2.7.2
+PKG_VER=2.7.3
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://www.kernel.org/pub/linux/utils/cryptsetup/v$MAJOR/cryptsetup-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
