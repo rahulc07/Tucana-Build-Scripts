@@ -38,7 +38,7 @@ cd /pkgs
 
 
 sudo echo "libassuan libgcrypt libksba npth gnutls" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "libgpg-error" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
