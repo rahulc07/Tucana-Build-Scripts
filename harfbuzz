@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 set -e
-PKG_VER=8.5.0
+PKG_VER=9.0.0
 URL=https://github.com/harfbuzz/harfbuzz/releases/download/$PKG_VER/harfbuzz-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
