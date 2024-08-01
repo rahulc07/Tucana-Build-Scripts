@@ -1,0 +1,43 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+PKG_VER=4.3
+URL=https://www.kernel.org/pub/software/utils/i2c-tools/i2c-tools-$PKG_VER.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+make EXTRA="eeprog"
+cd py-smbus
+python3 -m build --wheel --skip-dependency-check
+cd ..
+
+
+# Install
+sudo make EXTRA="eeprog" PREFIX=/pkgs/$PACKAGE/usr sbindir=/pkgs/$PACKAGE/usr/bin install
+sudo python3 -m installer --destdir=/pkgs/$PACKAGE  dist/*.whl
+
+cd /pkgs
+
+sudo cp -rpv /pkgs/$PACKAGE/* /
+
+sudo echo "perl" > /pkgs/$PACKAGE/depends
+sudo echo "python-build python-installer setuptools wheel" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

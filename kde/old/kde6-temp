@@ -1,0 +1,143 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+
+
+
+# This script is different from the other scripts, it does not use  a seperate file  for every package
+# It uses a for loop to compile into packages, do not modify this unless you know what you are doing
+# Credits:
+# LFS for the build order and the method for compiling these packages
+set -e
+
+
+PKG_VER=6.1.0
+URL=https://download.kde.org/stable/plasma/$PKG_VER/
+
+# Get Package(s)
+
+# Make a new directories incase this fails
+
+mkdir -p /blfs/builds/kde
+mkdir -p /pkgs/kde
+mkdir -p /finished/kde
+
+cd /blfs/builds/kde
+#wget -r -nH -nd -A '*.xz' -np $URL
+# Build
+
+
+# Set build order
+
+echo "plasma-systemmonitor-$PKG_VER.tar.xz
+ qqc2-breeze-style-$PKG_VER.tar.xz
+ ksystemstats-$PKG_VER.tar.xz
+ oxygen-sounds-$PKG_VER.tar.xz" > plasma-$PKG_VER.md5
+
+
+
+
+# Thanks to the BLFS Team
+
+while read -r line; do
+
+    # Get the file name, ignoring comments and blank lines
+    file=$(echo $line)
+
+    TAR=$(echo $file|sed 's|^.*/||')          # Remove directory
+    DIR=$(echo $TAR|sed 's|\.tar.*||') # Package directory
+
+    PACKAGE=$(echo $TAR|sed 's|-6.*$||') # Isolate package name
+
+    tar -xf $file
+    pushd $DIR
+
+      mkdir build
+      cd    build
+
+      cmake -DCMAKE_INSTALL_PREFIX=/usr \
+            -DCMAKE_PREFIX_PATH=/usr       \
+            -DCMAKE_BUILD_TYPE=Release         \
+            -Wno-dev ..
+      make -j20
+      make install
+      
+      # Package 
+  
+      make DESTDIR=/pkgs/kde/$PACKAGE install
+      sudo echo "gtk2 gtk3 kf5 libpwquality libqalculate libxkbcommon mesa wayland network-manager pipewire pulseaudio qca sassc taglib xcb-util-cursor fftw gsettings-desktop-schemas libdbusmenu-qt libcanberra libinput libpcap lm-sensors oxygen-icons pciutils accounts-service smartmontools qtwebengine kuserfeedback appstream libdisplay-info python-chai pulseaudio-qt" > /pkgs/kde/$PACKAGE/depends
+      cd /pkgs/kde
+      sudo tar -cvzpf /finished/kde/$PACKAGE.tar.xz $PACKAGE
+      cd - 
+      
+    popd
+
+   rm -rf $DIR
+
+
+done < plasma-$PKG_VER.md5
+
+# Recompress kscreenlocker with pam files
+# Make the direcotry
+mkdir -p /pkgs/kde/kscreenlocker/etc/pam.d
+# Create the pam files
+cat > /pkgs/kde/kscreenlocker/etc/pam.d/kde << "EOF"
+# Begin /etc/pam.d/kde
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     include        system-auth
+
+account  include        system-account
+password include        system-password
+session  include        system-session
+
+# End /etc/pam.d/kde
+EOF
+
+cat > /pkgs/kde/kscreenlocker/etc/pam.d/kde-np << "EOF"
+# Begin /etc/pam.d/kde-np
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     required       pam_permit.so
+
+account  include        system-account
+password include        system-password
+session  include        system-session
+
+# End /etc/pam.d/kde-np
+EOF
+
+cat > /pkgs/kde/kscreenlocker/etc/pam.d/kscreensaver << "EOF"
+# Begin /etc/pam.d/kscreensaver
+
+auth    include system-auth
+account include system-account
+
+# End /etc/pam.d/kscreensaver
+EOF
+# Recompress & Re-Copy
+cd /pkgs/kde
+tar -cvzpf kscreenlocker.tar.xz kscreenlocker
+mv kscreenlocker.tar.xz /finished/kde
+
+
+
+
+
+exit
+#TODO new depend, libdisplay-info for kwin
+#TODO when spliting script add the plasma5-limited stuff to kwindow-integration
+#TODO PAM Changes https://invent.kde.org/plasma/kscreenlocker/-/merge_requests/163
+#TODO plasma5-limited (kwindowsystem5 kiconthemes5 kirigami2) breeze
+#TODO plasma5-limited (maybe frameworkintegration5 kservice kcompletion) kscreenlocker (def. needed to build) 
+#TODO plasma-workspace xdotool
+#TODO qcoro plasma-nm
+#TOOD chai python
