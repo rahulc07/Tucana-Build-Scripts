@@ -1,4 +1,5 @@
 #!/bin/bash
+bash -e plasma-activities
 bash -e  kglobalacceld
 bash -e  libksysguard
 bash -e  kwayland
