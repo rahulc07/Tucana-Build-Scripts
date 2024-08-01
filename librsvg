@@ -22,7 +22,7 @@ cd build
 meson setup \
       --prefix=/usr \
       --buildtype=release \
-      -Ddocs=false \
+      -Ddocs=disabled \
       ..
 
 
