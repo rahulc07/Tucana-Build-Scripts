@@ -2,12 +2,10 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
-
-PKG_VER=24.05.2
-URL=https://download.kde.org/stable/release-service/$PKG_VER/src/kio-extras-$PKG_VER.tar.xz
+#ARCH_PKG=kdsoap-ws-discovery-client
+#ARCH_VAR=pkgver
+PKG_VER=0.4.0
+URL=https://download.kde.org/stable/kdsoap-ws-discovery-client/kdsoap-ws-discovery-client-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -21,20 +19,14 @@ cd $DIR
 
 # Build
 
-
-
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
-      -DCMAKE_BUILD_TYPE=Release         \
-      -DBUILD_TESTING=OFF                \
-      -Wno-dev ..
+      -DBUILD_QCH=ON \
+      -DQT_MAJOR_VERSION=6 \
 
 
-
-
-
-make -j16
+make -j22
 
 
 # Install
@@ -44,7 +36,8 @@ cd /pkgs
 
 
 
-sudo echo "kdsoap-ws-discovery-client kf6 libtirpc libmtp samba" > /pkgs/$PACKAGE/depends
+sudo echo "kdsoap" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
