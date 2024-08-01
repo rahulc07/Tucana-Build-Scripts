@@ -12,3 +12,5 @@ bash -e okular
 bash -e libkdcraw
 bash -e gwenview
 bash -e kate
+bash -e kpmcore
+bash -e partitionmanager
