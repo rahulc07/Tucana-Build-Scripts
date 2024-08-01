@@ -25,6 +25,7 @@ cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_BUILD_TYPE=Release  \
       -DAVIF_CODEC_AOM=ON         \
+      -DAVIF_LIBYUV=OFF \
       -DAVIF_BUILD_GDK_PIXBUF=ON  \
       -G Ninja ..
 
