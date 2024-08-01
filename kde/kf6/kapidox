@@ -9,7 +9,6 @@ URL=https://download.kde.org/stable/frameworks/$PKG_VER/$PACKAGE-$PKG_VER.0.tar.
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 
-
 # Get Package
 
 cd /blfs/builds
@@ -18,31 +17,19 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
+python3 -m build --wheel --skip-dependency-check
 
-
-
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr \
-      -DCMAKE_BUILD_TYPE=Release         \
-      -DBUILD_TESTING=OFF                \
-      -Wno-dev ..
-
-
-
-
-
-make -j22
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo python3 -m installer --destdir=/pkgs/$PACKAGE  dist/*.whl
+
 cd /pkgs
 
+sudo cp -rpv /pkgs/$PACKAGE/* /
 
-
-sudo echo "jinja pyyaml" > /pkgs/$PACKAGE/depends
+sudo echo "python" > /pkgs/$PACKAGE/depends
+sudo echo "python-build python-installer" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
