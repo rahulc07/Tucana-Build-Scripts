@@ -283,15 +283,8 @@ EOF
 
 cat > /pkgs/$PACKAGE/etc/profile.d/i18n.sh << "EOF"
 # Set up i18n variables
-for i in $(locale); do
-  unset ${i%=*}
-done
-
-if [[ "$TERM" = linux ]]; then
-  export LANG=C.UTF-8
-else
-  source /etc/locale.conf
-fi
+source /etc/locale.conf
+export LANG
 EOF
 
 cat > /pkgs/$PACKAGE/etc/profile.d/umask.sh << "EOF"
