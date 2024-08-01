@@ -22,7 +22,7 @@ cd $DIR
 mkdir build
 cd build
 
-meson setup -Dprefix=/usr --buildtype=release -Dgtk_doc=disabled
+meson setup -Dprefix=/usr --buildtype=release -Dgtk-doc=disabled
 
 ninja
 
