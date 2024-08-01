@@ -55,7 +55,7 @@ cd /pkgs/$PACKAGE/usr/lib
 strip $(file * | grep ELF | sed 's/:.*//')
 popd
 
-sudo echo "cairo woff2 gst-plugins-base gst-plugins-bad gtk3 icu lcms libgudev libsecret libsoup libwebp mesa openjpeg ruby sqlite which wpebackend-foo enchant geoclue gobject-introspection hicolor-icons libnotify wayland xdg-dbus-proxy libavif" > /pkgs/$PACKAGE/depends
+sudo echo "libjxl cairo woff2 gst-plugins-base gst-plugins-bad gtk3 icu lcms libgudev libsecret libsoup libwebp mesa openjpeg ruby sqlite which wpebackend-foo enchant geoclue gobject-introspection hicolor-icons libnotify wayland xdg-dbus-proxy libavif" > /pkgs/$PACKAGE/depends
 sudo echo "unifdef gi-docgen bubblewrap libavif" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

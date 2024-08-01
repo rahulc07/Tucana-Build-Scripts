@@ -7,7 +7,7 @@ PKG_VER=4.6.0
 URL=https://download.osgeo.org/libtiff/tiff-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=lib$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
