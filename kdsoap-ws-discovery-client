@@ -24,6 +24,7 @@ cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DBUILD_QCH=ON \
       -DQT_MAJOR_VERSION=6 \
+      ..
 
 
 make -j22
