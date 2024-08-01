@@ -2,6 +2,9 @@
 set -e
 # Building Depends
 bash ecm
+bash libdbusmenu-qt
+bash polkit-qt
+bash polkit-qt5
 bash phonon
 #bash phonon-backend-vlc
 bash polkit-qt
@@ -14,6 +17,7 @@ cd ..
 # KF6
 cd kf6
 bash -e build_kf6.sh
+bash ../kirigami-addons
 cd ..
 # Desktop
 cd plasma
