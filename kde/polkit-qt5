@@ -9,7 +9,7 @@ export CXXFLAGS="-O2"
 URL=https://download.kde.org/stable/polkit-qt-1/polkit-qt-1-0.200.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=polkit-qt
+PACKAGE=polkit-qt5
 
 # Get Package
 
