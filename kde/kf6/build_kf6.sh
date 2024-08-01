@@ -1,3 +1,4 @@
+#!/bin/bash
 bash kirigami
 bash ktexttemplate
 bash kuserfeedback
