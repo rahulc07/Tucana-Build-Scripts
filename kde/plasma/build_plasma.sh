@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo mercury-install libdisplay-info boost gtk3 libpwquality libqalculate libnl libxcvt bison gperf libxkbcommon mesa wayland pipewire pulseaudio sassc taglib xdotool gsettings-desktop-schemas libinput libcanberra pam lm-sensors pciutils power-profiles-daemon python-psutil accounts-service smartmontools xdg-desktop-portal xwayland appstream ibus
 bash -e plasma-activities
 bash -e  kglobalacceld
 bash -e  libksysguard
