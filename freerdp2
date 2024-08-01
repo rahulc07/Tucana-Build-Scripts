@@ -33,7 +33,7 @@ cd /pkgs
 
 
 
-sudo echo "xorg pulseaudio alsa-lib icu libjpeg-turbo ffmpeg libusb cups libxkbcommon sdl2_ttf" > /pkgs/$PACKAGE/depends
+sudo echo "fuse3 xorg pulseaudio alsa-lib icu libjpeg-turbo ffmpeg libusb cups libxkbcommon sdl2_ttf" > /pkgs/$PACKAGE/depends
 sudo echo "pkcs11-helper" > /pkgs/$PACKAGE/make-depends
 
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
