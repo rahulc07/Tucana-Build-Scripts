@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo mercury-install bison gperf pkgconf cmake make
 bash kirigami
 bash ktexttemplate
 bash kuserfeedback
