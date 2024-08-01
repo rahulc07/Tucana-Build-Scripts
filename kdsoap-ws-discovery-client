@@ -22,7 +22,7 @@ cd $DIR
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
-      -DBUILD_QCH=ON \
+      -DBUILD_QCH=OFF \
       -DQT_MAJOR_VERSION=6 \
       ..
 
