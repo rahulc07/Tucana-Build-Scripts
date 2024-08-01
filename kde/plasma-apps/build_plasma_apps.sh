@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo mercury-install cpio p7zip unzip unrar zip libarchive mlt v4l-utils xapian exiv2 boost libtiff poppler libraw kimageannotator lcms libmtp libssh2 libXcursor samba
+sudo mercury-install cpio p7zip unzip unrar zip libarchive mlt v4l-utils xapian exiv2 boost libtiff poppler libraw kimageannotator lcms libmtp libssh2 libXcursor samba kdsoap
 bash -e ark
 bash -e kio-extras
 bash -e dolphin
