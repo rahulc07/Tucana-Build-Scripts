@@ -24,7 +24,7 @@ cd build
 
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_BUILD_TYPE=Release  \
-      -DBUILD_QT5=OFF \
+      -DPHONON_BUILD_QT5=OFF \
       ..
 
 
