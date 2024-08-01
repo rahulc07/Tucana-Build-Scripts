@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=14.2
+PKG_VER=15.1
 URL=https://ftp.gnu.org/gnu/gdb/gdb-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
