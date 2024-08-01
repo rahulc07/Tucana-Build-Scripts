@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=1.32.0
+PKG_VER=1.32.3
 URL=https://github.com/c-ares/c-ares/releases/download/v$PKG_VER/c-ares-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
