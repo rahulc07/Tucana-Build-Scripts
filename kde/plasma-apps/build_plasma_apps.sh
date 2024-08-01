@@ -11,4 +11,4 @@ bash -e plasma-activites
 bash -e okular
 bash -e libkdcraw
 bash -e gwenview
-bash -e spectacle
+bash -e kate
