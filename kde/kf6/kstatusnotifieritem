@@ -4,8 +4,8 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 PACKAGE=kstatusnotifieritem
-PKG_VER=6.4.0
-URL=https://download.kde.org/stable/frameworks/$PKG_VER/$PACKAGE-$PKG_VER.tar.xz
+PKG_VER=6.4
+URL=https://download.kde.org/stable/frameworks/$PKG_VER/$PACKAGE-$PKG_VER.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 
