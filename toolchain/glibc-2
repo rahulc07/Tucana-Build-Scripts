@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 set -e
-PKG_VER=2.39
+PKG_VER=2.40
 URL=https://ftp.gnu.org/gnu/glibc/glibc-$PKG_VER.tar.xz
 # Not actually a seperate package just the time zone info
 ALT_URL=https://www.iana.org/time-zones/repository/releases/tzdata2024a.tar.gz
@@ -20,13 +20,11 @@ cd /blfs/builds
 wget $URL
 wget $ALT_URL
 wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-$PKG_VER-fhs-1.patch
-wget https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.39-upstream_fix-2.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 patch -Np1 -i ../glibc-$PKG_VER-fhs-1.patch
-patch -Np1 -i ../glibc-2.39-upstream_fix-2.patch
 sed '/width -=/s/workend - string/number_length/' \
     -i stdio-common/vfprintf-process-arg.c
 mkdir -v build
