@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=24.03
+PKG_VER=24.07
 URL=https://poppler.freedesktop.org/poppler-$PKG_VER.0.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -13,7 +13,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://poppler.freedesktop.org/poppler-data-0.4.11.tar.gz
+wget https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
 tar -xvf $TAR
 cd $DIR
 
@@ -41,8 +41,8 @@ sudo make install
 
 
 
-tar -xf ../../poppler-data-0.4.11.tar.gz &&
-cd poppler-data-0.4.11
+tar -xf ../../poppler-data-0.4.12.tar.gz &&
+cd poppler-data-0.4.12
 make prefix=/usr install
 make prefix=/usr DESTDIR=/pkgs/$PACKAGE install
 
