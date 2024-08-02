@@ -30,6 +30,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DRUNTIME_DIR=/run/sddm     \
       -DBUILD_MAN_PAGES=ON        \
       -DDATA_INSTALL_DIR=/usr/share/sddm \
+      -DBUILD_WITH_QT6=ON \
       -DDBUS_CONFIG_FILENAME=sddm_org.freedesktop.DisplayManager.conf \
       .. 
 
@@ -111,6 +112,7 @@ session  required       pam_unix.so
 
 # End /etc/pam.d/sddm-greeter
 EOF
+install -v -dm755 -o sddm -g sddm /pkgs/$PACKAGE/var/lib/sddm
 
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

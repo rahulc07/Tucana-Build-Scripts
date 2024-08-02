@@ -32,7 +32,7 @@ cd /pkgs
 
 
 
-sudo echo "fuse3 gdk-pixbuf glib pipewire systemd" > /pkgs/$PACKAGE/depends
+sudo echo "json-glib fuse3 gdk-pixbuf glib pipewire systemd" > /pkgs/$PACKAGE/depends
 sudo echo "docbook-xsl flatpak git libportal meson dbus-python dbusmock" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
