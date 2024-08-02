@@ -1,0 +1,58 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+
+PKG_VER=gs10031
+PKG_VER_SEMANTIC=$(echo $PKG_VER | sed 's/gs\([0-9]\{2\}\)\([0-9]\{2\}\)\([0-9]\)/\1.\2.\3/')
+URL=https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/$PKG_VER/ghostscript-$PKG_VER_SEMANTIC.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+rm -rf freetype lcms2mt jpeg libpng openjpeg
+rm -rf zlib &&
+
+./configure --prefix=/usr           \
+            --disable-compile-inits \
+            --with-system-libtiff   &&
+make -j22
+
+
+
+make so -j22
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make DESTDIR=/pkgs/$PACKAGE soinstall
+mkdir -p /pkgs/$PACKAGE/usr/share/include/ghostscript
+install -v -m644 base/*.h /pkgs/$PACKAGE/usr/include/ghostscript &&
+ln -sfvn ghostscript /pkgs/$PACKAGE/usr/include/ps
+
+mv -v /pkgs/$PACKAGE/usr/share/doc/ghostscript/$PKG_VER_SEMANTIC /pkgs/$PACKAGE/usr/share/doc/ghostscript-$PKG_VER_SEMANTIC &&
+rm -r /usr/share/doc/ghostscript &&
+cp -r examples/ -T /pkgs/$PACKAGE/usr/share/ghostscript/$PKG_VER_SEMANTIC/examples
+
+cd /pkgs
+
+
+
+sudo echo "libpaper fontconfig freetype lcms libjpeg-turbo libpng libtiff openjpeg cairo gtk3 libidn" > /pkgs/$PACKAGE/depends
+sudo echo "cups" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

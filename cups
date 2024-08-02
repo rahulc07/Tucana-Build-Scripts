@@ -46,7 +46,7 @@ cd /pkgs
 
 
 
-sudo echo "cups-filter gnutls colord dbus libusb pam xdg-utils avahi" > /pkgs/$PACKAGE/depends
+sudo echo "cups-filters cups-browsed gnutls colord dbus libusb pam xdg-utils avahi" > /pkgs/$PACKAGE/depends
 sudo echo 'useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp && groupadd -g 19 lpadmin && gtk-update-icon-cache -qtf /usr/share/icons/hicolor' > /pkgs/$PACKAGE/postinst
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE

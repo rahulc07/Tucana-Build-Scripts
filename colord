@@ -1,0 +1,65 @@
+#!/bin/bash
+
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+PKG_VER="1.4.7"
+URL=https://www.freedesktop.org/software/colord/releases/colord-$PKG_VER.tar.xz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+if [[ $PKG_VER == "1.4.7" ]]; then
+   wget https://www.linuxfromscratch.org/patches/blfs/svn/colord-1.4.7-upstream_fixes-1.patch
+fi
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+if [[ $PKG_VER == "1.4.7" ]]; then
+   patch -Np1 -i ../colord-1.4.7-upstream_fixes-1.patch
+fi
+mkdir build
+cd build
+
+meson setup ..                 \
+      --prefix=/usr            \
+      --buildtype=release      \
+      -Ddaemon_user=colord     \
+      -Dvapi=true              \
+      -Dsystemd=true           \
+      -Dlibcolordcompat=true   \
+      -Dargyllcms_sensor=false \
+      -Dbash_completion=false  \
+      -Ddocs=false             \
+      -Dman=false
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
+cd /pkgs
+cat > /pkgs/$PACKAGE/postinst << "EOF"
+groupadd -g 71 colord &&
+useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 \
+        -g colord -s /bin/false colord
+EOF
+
+
+
+sudo echo "dbus glib lcms polkit sqlite libgudev libgusb vala" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
