@@ -17,6 +17,7 @@ bash -e  oxygen
 bash -e  kinfocenter
 bash -e  kwin
 bash -e  plasma5support
+bash -e  kpipewire
 bash -e  plasma-workspace
 bash -e  plasma-disks
 bash -e  bluedevil
