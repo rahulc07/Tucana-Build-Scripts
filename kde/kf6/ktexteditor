@@ -42,7 +42,7 @@ cd /pkgs
 
 
 
-sudo echo "editorconfig-core-c libgcc glibc karchive kauth kcodecs kcolorscheme kcompletion kconfig kconfigwidgets kcoreaddons kguiaddons ki18n kio kitemviews kparts ktextwidgets kwidgetsaddons kxmlgui qt6" > /pkgs/$PACKAGE/depends
+sudo echo "libgcc glibc karchive kauth kcodecs kcolorscheme kcompletion kconfig kconfigwidgets kcoreaddons kguiaddons ki18n kio kitemviews kparts ktextwidgets kwidgetsaddons kxmlgui qt6" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
