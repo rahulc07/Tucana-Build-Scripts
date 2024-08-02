@@ -43,6 +43,8 @@ echo "rootsbindir=/usr/sbin" > configparms
 make -j22
 
 
+
+
 # Install
 sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
 # This is NOT installed on the host system, use mercury-update to update this package
@@ -85,8 +87,63 @@ EOF
 
 mkdir -p /pkgs/$PACKAGE/etc/ld.so.conf.d
 
+# Locales
+cd ..
+install -dm755 /pkgs/$PACKAGE/usr/lib/locale
+install -m644 posix/gai.conf /pkgs/$PACKAGE/etc/gai.conf
+cat > /pkgs/$PACKAGE/usr/bin/locale-gen << "EOF"
+#!/bin/sh
+# Credit to Arch Linux for the locale-gen script
+set -e
 
-# Final pakcage
+LOCALEGEN=/etc/locale.gen
+LOCALES=/usr/share/i18n/locales
+if [ -n "$POSIXLY_CORRECT" ]; then
+  unset POSIXLY_CORRECT
+fi
+
+
+[ -f $LOCALEGEN -a -s $LOCALEGEN ] || exit 0;
+
+# Remove all old locale dir and locale-archive before generating new
+# locale data.
+rm -rf /usr/lib/locale/locale-archive || true
+
+umask 022
+
+is_entry_ok() {
+  if [ -n "$locale" -a -n "$charset" ] ; then
+    true
+  else
+    echo "error: Bad entry '$locale $charset'"
+    false
+  fi
+}
+
+echo "Generating locales..."
+while read locale charset; do \
+	case $locale in \#*) continue;; "") continue;; esac; \
+	is_entry_ok || continue
+	echo -n "  `echo $locale | sed 's/\([^.\@]*\).*/\1/'`"; \
+	echo -n ".$charset"; \
+	echo -n `echo $locale | sed 's/\([^\@]*\)\(\@.*\)*/\2/'`; \
+	echo -n '...'; \
+        if [ -f $LOCALES/$locale ]; then input=$locale; else \
+        input=`echo $locale | sed 's/\([^.]*\)[^@]*\(.*\)/\1\2/'`; fi; \
+	localedef -i $input -c -f $charset -A /usr/share/locale/locale.alias $locale; \
+	echo ' done'; \
+done < $LOCALEGEN
+echo "Generation complete."
+EOF
+chmod +x /pkgs/$PACKAGE/usr/bin/locale-gen
+sed -e '1,3d' -e 's|/| |g' -e 's|\\| |g' -e 's|^|#|g' localedata/SUPPORTED >> /pkgs/$PACKAGE/etc/locale.gen
+make -C $(pwd)/localedata objdir=$(pwd)/build \
+    DESTDIR=$(pwd)/locales install-locale-files
+# Install C.utf8 by default
+cp -r locales/usr/lib/locale/C.utf8 -t /pkgs/$PACKAGE/usr/lib/locale
+sed -i '/#C\.UTF-8 /d' /pkgs/$PACKAGE/etc/locale.gen
+
+# Final package 
 cd /pkgs
 sudo echo "linux-api-headers" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
