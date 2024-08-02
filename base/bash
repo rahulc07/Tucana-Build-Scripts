@@ -281,12 +281,6 @@ fi
 # End ~/.bash_profile
 EOF
 
-cat > /pkgs/$PACKAGE/etc/profile.d/i18n.sh << "EOF"
-# Set up i18n variables
-source /etc/locale.conf
-export LANG
-EOF
-
 cat > /pkgs/$PACKAGE/etc/profile.d/umask.sh << "EOF"
 # By default, the umask should be set.
 if [ "$(id -gn)" = "$(id -un)" -a $EUID -gt 99 ] ; then
