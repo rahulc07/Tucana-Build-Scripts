@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 PKG_VER=3.1
 URL=https://github.com/rahulc07/repochooser/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=repochoooser-$PKG_VER
+DIR=repochoooer-$PKG_VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
@@ -21,7 +21,7 @@ cd $DIR
 mkdir build
 cd build
 
-meson setup --prefix=/usr --buildtype=release
+meson setup --prefix=/usr --buildtype=release ..
 
 ninja
 
