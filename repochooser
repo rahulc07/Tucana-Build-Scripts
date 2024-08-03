@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 PKG_VER=3.1
 URL=https://github.com/rahulc07/repochooser/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=repochoooer-$PKG_VER
+DIR=repochooser-$PKG_VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
