@@ -45,8 +45,10 @@ cd /pkgs
 
 
 
-sudo echo "qt5 upower" > /pkgs/$PACKAGE/depends
+sudo echo "qt6 upower" > /pkgs/$PACKAGE/depends
 sudo echo "ecm cmake python-docutils" > /pkgs/$PACKAGE/make-depends
+
+sed -i 's/qtvirtualkeyboard//' /pkgs/$PACKAGE/etc/sddm.conf
 
 sudo cat > /pkgs/$PACKAGE/postinst << "EOF"
 
