@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=20240116.2
+PKG_VER=20240722.0
 URL=https://github.com/abseil/abseil-cpp/releases/download/$PKG_VER/abseil-cpp-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
