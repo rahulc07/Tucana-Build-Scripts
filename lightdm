@@ -150,7 +150,7 @@ chmod +x Xsession
 sed -i 's|#session-wrapper=.*|session-wrapper=/etc/lightdm/Xsession|g' lightdm.conf
 
 cd /pkgs
-sudo echo "exo libgcrypt itstool gobject-introspection vala libxklavier accounts-service inetutils" > /pkgs/$PACKAGE/depends
+sudo echo "exo libgcrypt itstool gobject-introspection vala libxklavier accounts-service inetutils libxkbcommon" > /pkgs/$PACKAGE/depends
 sudo echo 'groupadd -g 65 lightdm       &&
 useradd  -c "Lightdm Daemon" \
          -d /var/lib/lightdm \
