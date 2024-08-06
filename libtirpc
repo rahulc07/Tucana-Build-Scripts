@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 #ARCH_PKG=libtirpc
 #ARCH_VAR=pkgver
 
-PKG_VER=1.3.4
+PKG_VER=1.3.5
 URL=https://downloads.sourceforge.net/libtirpc/libtirpc-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
