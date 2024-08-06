@@ -13,10 +13,12 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
+wget https://raw.githubusercontent.com/rahulc07/Tucana/main/mercury/patches/calamares-tucana-$PKG_VER.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
+patch -Np1 < ../calamares-tucana-$PKG_VER.patch
 
 mkdir build
 cd build
