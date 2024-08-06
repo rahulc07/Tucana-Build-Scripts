@@ -1,0 +1,50 @@
+#!/bin/bash
+set -e
+export CFLAGS=-"O2"
+export CXXFLAGS="-O2"
+#HOLD_TUCANA
+PKG_VER=3.3.8
+URL=https://github.com/calamares/calamares/releases/download/v$PKG_VER/calamares-$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+mkdir build
+cd build
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_QT6=ON -Wno-dev -G Ninja ..
+
+ninja
+
+
+# Install
+sudo  DESTDIR=/pkgs/$PACKAGE ninja install
+
+# Install the configs
+git clone https://github.com/rahulc07/calamares-configs.git
+mkdir -p /pkgs/$PACKAGE/usr/share/calamares/
+cp -rpv calamares-configs/* /pkgs/$PACKAGE/usr/share/calamares
+
+cd /pkgs
+
+
+
+sudo echo "kconfig kcoreaddons ki18n kiconthemes kpmcore kio qt6 repochooser git" > /pkgs/$PACKAGE/depends
+sudo echo "kf6 cmake git" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+

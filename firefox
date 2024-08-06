@@ -154,7 +154,7 @@ ln -sfv /usr/lib/firefox/browser/chrome/icons/default/default128.png /pkgs/firef
 mkdir -p /pkgs/$PACKAGE/usr/lib/firefox/distribution/
 echo "[Global]
 id=Tucana
-version=3.0
+version=3.1
 about=Mozilla Firefox built for Tucana Linux
 [Preferences]
 app.distributor=tucana
