@@ -2,9 +2,9 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=6.1.0
-MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://github.com/gedit-technology/libgedit-tepl/releases/download/$PKG_VER/libgedit-tepl-$PKG_VER.tar.xz
+
+PKG_VER=0.1.0
+URL=https://github.com/gedit-technology/libgedit-gfls/releases/download/$PKG_VER/libgedit-gfls-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -18,14 +18,13 @@ cd $DIR
 
 # Build
 
-mkdir tbuild
-cd tbuild
-
+mkdir build
+cd build
 
 meson setup --prefix=/usr       \
             --buildtype=release \
-            -Dgtk_doc=false     \
-            ..
+            -D gtk_doc=false    \
+            ..   
 
 ninja
 
@@ -37,7 +36,8 @@ cd /pkgs
 
 
 
-sudo echo "libgedit-gfls amtk libgedit-gtksourceview uchardet" > /pkgs/$PACKAGE/depends
+sudo echo "glib" > /pkgs/$PACKAGE/depends
+sudo echo "gobject-introspection" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
