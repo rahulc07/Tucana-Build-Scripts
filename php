@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=8.3.9
+PKG_VER=8.3.10
 set -e
 URL=https://www.php.net/distributions/php-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
