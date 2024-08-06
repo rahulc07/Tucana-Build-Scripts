@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 
-PKG_VER=2.42
+PKG_VER=2.43
 URL=https://ftp.gnu.org/gnu/binutils/binutils-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
