@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 PATH=/opt/tucana/usr/bin:$PATH
-PKG_VER=2.39
+PKG_VER=2.40
 URL=https://ftp.gnu.org/gnu/glibc/glibc-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

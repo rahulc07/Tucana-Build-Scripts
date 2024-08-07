@@ -4,8 +4,8 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-
-URL=https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz
+PKG_VER=2.43
+URL=https://ftp.gnu.org/gnu/binutils/binutils-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

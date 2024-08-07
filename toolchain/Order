@@ -8,7 +8,7 @@
 # Glibc - Rebuild the entire toolchain, push to unstable(weekly) branch, recompile all packages by the next full release.
 # GCC - Updating only gcc should be fine
 
-
+set -e
 # Stage 1, preliminary builds, mostly for updating glibc
 bash linux-api-headers
 bash binutils-1
