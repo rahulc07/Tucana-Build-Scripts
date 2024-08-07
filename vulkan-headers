@@ -23,12 +23,11 @@ cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -G Ninja ..
 
 
-make -j16
-
+ninja
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
-sudo make install
+sudo DESTDIR=/pkgs/$PACKAGE ninja install
+sudo ninja install
 cd /pkgs
 
 
