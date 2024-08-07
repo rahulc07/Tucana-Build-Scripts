@@ -3,7 +3,9 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-URL=https://www.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz
+PKG_VER=2.40.2
+
+URL=https://www.kernel.org/pub/linux/utils/util-linux/v$MAJOR/util-linux-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')

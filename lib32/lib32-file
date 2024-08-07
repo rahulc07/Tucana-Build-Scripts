@@ -3,7 +3,9 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-URL=https://astron.com/pub/file/file-5.44.tar.gz
+PKG_VER=5.45
+ 
+URL=https://astron.com/pub/file/file-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')

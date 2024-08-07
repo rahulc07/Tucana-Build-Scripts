@@ -3,7 +3,9 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-URL=https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
+PKG_VER=1.0.8
+ 
+URL=https://www.sourceware.org/pub/bzip2/bzip2-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')

@@ -2,12 +2,12 @@
 
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
-
-PKG_VER=1.1.0
- 
-URL=https://github.com/google/brotli/archive/v$PKG_VER/brotli-$PKG_VER.tar.gz
+PKG_VER=75.1
+MAJOR=$(echo $PKG_VER | sed 's/\./-/g')
+REFORMAT=$(echo $PKG_VER | sed 's/\./_/g')
+URL=https://github.com/unicode-org/icu/releases/download/release-$MAJOR/icu4c-$REFORMAT-src.tgz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=$(echo $TAR | sed 's|.tar.*||g')
+DIR=icu
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
@@ -19,36 +19,30 @@ cd $DIR
 
 # Build
 
-export CFLAGS+="-m32"
+export CFLAGS+="-m32" 
 export CXXFLAGS+="-m32"
-export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
-
-sed -i 's@-R..libdir.@@' scripts/*.pc.in
-mkdir out &&
-cd    out &&
-
-cmake -DCMAKE_INSTALL_PREFIX=/usr \
-      -DCMAKE_BUILD_TYPE=Release  \
-      -DCMAKE_INSTALL_LIBDIR=lib32 \
-      ..
-
+cd source
+./configure --prefix=/usr --libdir=/usr/lib32 --host=i686-pc-linux-gnu --disable-clang
 
 
 make -j16
 
 
 # Install
+
+
 mkdir -p /pkgs/$PACKAGE/usr/lib32
 make DESTDIR=$PWD/DESTDIR install
 cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
 rm -rf DESTDIR
 cp -rpv /pkgs/$PACKAGE/* /
+
 cd /pkgs
 
 
 
-sudo echo "brotli lib32-glibc" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "lib32-libgcc icu" > /pkgs/$PACKAGE/depends
+sudo echo "python clang" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

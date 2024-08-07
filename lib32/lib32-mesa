@@ -1,7 +1,9 @@
 #!/bin/bash
 
 
-URL=https://archive.mesa3d.org/mesa-23.2.1.tar.xz
+PKG_VER=24.1.5
+ 
+URL=https://archive.mesa3d.org/mesa-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
@@ -67,7 +69,7 @@ cd /pkgs
 
 
 
-sudo echo "lib32-llvm lib32-libvdpau lib32-libdrm mako lib32-xorg-libs lib32-libvulkan mesa lib32-libglvnd" > /pkgs/$PACKAGE/depends
+sudo echo "lib32-llvm lib32-libvdpau lib32-libdrm mako lib32-xorg-libs lib32-libvulkan mesa lib32-libglvnd lib32-libclc" > /pkgs/$PACKAGE/depends
 sudo echo "libva llvm libvdpau libdrm mako xorg-libs glslang meson lm-sensors zstd libdrm cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

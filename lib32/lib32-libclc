@@ -3,9 +3,8 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-PKG_VER=2.42.12
-MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://download.gnome.org/sources/gdk-pixbuf/$MAJOR/gdk-pixbuf-$PKG_VER.tar.xz
+PKG_VER=18.1.7
+URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$PKG_VER/libclc-$PKG_VER.src.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
@@ -19,14 +18,18 @@ cd $DIR
 
 # Build
 
-export CFLAGS+="-m32" 
+export CFLAGS+="-m32"
 export CXXFLAGS+="-m32"
 export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
 
 mkdir build
 cd build
 
-meson --prefix=/usr --libdir=/usr/lib32 -Dintrospection=disabled ..
+
+cmake -D CMAKE_INSTALL_PREFIX=/usr \
+      -D CMAKE_BUILD_TYPE=Release  \
+      -D CMAKE_INSTALL_LIBDIR=lib32 \
+      -G Ninja ..
 
 ninja
 
@@ -37,12 +40,13 @@ DESTDIR=$PWD/DESTDIR ninja install
 cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
 rm -rf DESTDIR
 cp -rpv /pkgs/$PACKAGE/* /
+
 cd /pkgs
 
 
 
-sudo echo "gdk-pixbuf lib32-glib lib32-libjpeg-turbo lib32-libpng" > /pkgs/$PACKAGE/depends
-sudo echo "gdk-pixbuf-query-loaders --update-cache" > /pkgs/$PACKAGE/postinst
+sudo echo "libclc lib32-spirv-llvm-translator" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

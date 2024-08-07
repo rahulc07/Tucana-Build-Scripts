@@ -3,7 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.22.0/SDL2_ttf-2.22.0.tar.gz
+PKG_VER=2.22.0
+ 
+URL=https://github.com/libsdl-org/SDL_ttf/releases/download/release-$PKG_VER/SDL2_ttf-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-sdl2_ttf
