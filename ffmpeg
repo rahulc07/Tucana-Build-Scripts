@@ -14,7 +14,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/ffmpeg-$PKG_VER-chromium_method-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/ffmpeg-7.0.1-chromium_method-1.patch
 tar -xvf $TAR
 cd $DIR
 
