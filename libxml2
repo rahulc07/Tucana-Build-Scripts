@@ -23,8 +23,11 @@ cd $DIR
 autoreconf -fiv
 ./configure --prefix=/usr           \
             --sysconfdir=/etc       \
+	    --with-icu \
             --disable-static        \
             --with-history          \
+	    --with-legacy \
+	    --with-threads \
             PYTHON=/usr/bin/python3 \
             --docdir=/usr/share/doc/libxml2-$MAJOR.0 
 
