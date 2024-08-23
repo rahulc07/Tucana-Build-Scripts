@@ -24,7 +24,7 @@ mkdir build &&
 cd    build &&
 
 
-meson --prefix=/usr       \
+meson setup --prefix=/usr       \
       --buildtype=release \
       -Dfuse=true        \
       -Dgphoto2=false     \

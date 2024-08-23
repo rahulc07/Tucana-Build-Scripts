@@ -7,7 +7,7 @@ PKG_VER=0.8.0
 URL=https://github.com/jbeder/yaml-cpp/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=yaml-cpp-$PKG_VER
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=yamlcpp
 
 # Get Package
 
@@ -19,7 +19,7 @@ cd $DIR
 # Build
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -DBUILD_SHARED_LIBS=ON  -DYAML_BUILD_SHARED_LIBS=ON  -DCMAKE_BUILD_TYPE=Release ..
 
 
 make -j22
