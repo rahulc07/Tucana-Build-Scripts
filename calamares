@@ -41,7 +41,7 @@ cd /pkgs
 
 
 sudo echo "yamlcpp kconfig kcoreaddons ki18n kiconthemes kpmcore kio qt6 repochooser git" > /pkgs/$PACKAGE/depends
-sudo echo "kf6 cmake git" > /pkgs/$PACKAGE/make-depends
+sudo echo "kf6 cmake git ecm" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
