@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 PKG_VER=124
-URL=https://gitlab.freedesktop.org/polkit/polkit/-/archive/$PKG_VER/polkit-$PKG_VER.tar.gz
+URL=https://github.com/polkit-org/polkit/archive/$PKG_VER/polkit-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')

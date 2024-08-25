@@ -26,6 +26,7 @@ export CC="gcc -m32" CXX="g++ -m32"
             --mandir=/usr/share/man \
             --with-shared           \
             --without-debug         \
+	    --without-ada \
             --without-normal        \
             --with-cxx-shared       \
             --enable-pc-files       \

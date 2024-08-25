@@ -5,7 +5,7 @@ export CXXFLAGS="-O2 "
 
 PKG_VER=124
  
-URL=https://gitlab.freedesktop.org/polkit/polkit/-/archive/$PKG_VER/polkit-$PKG_VER.tar.gz
+URL=https://github.com/polkit-org/polkit/archive/$PKG_VER/polkit-$PKG_VEr.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
@@ -15,7 +15,6 @@ set -e
 cd /blfs/builds
 wget $URL
 tar -xvf $TAR
-wget https://raw.githubusercontent.com/archlinux/svntogit-community/packages/lib32-polkit/trunk/multilib.diff
 cd $DIR
 
 # Build
@@ -23,7 +22,6 @@ export CFLAGS+="-m32"
 export CXXFLAGS+="-m32"
 export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
 
-patch -Np1 < ../multilib.diff
 
 mkdir build
 cd build

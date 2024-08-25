@@ -30,7 +30,7 @@ sed -i -e 's/GROUP="render"/GROUP="video"/' \
 mkdir build
 cd build
 
-meson --prefix=/usr                 \
+meson setup --prefix=/usr                 \
       --buildtype=release           \
       -Ddefault-dnssec=no           \
       -Dfirstboot=false             \
@@ -43,7 +43,6 @@ meson --prefix=/usr                 \
       -Duserdb=false                \
       -Dmode=release                \
       -Dpamconfdir=/etc/pam.d       \
-      -Ddocdir=/usr/share/doc/systemd-252 \
       -Dsbat-distro-url=https://github.com/xXTeraXx/Tucana \
       --libdir=/usr/lib32 \
       ..      
@@ -62,7 +61,7 @@ cd /pkgs
 # Needed for steam
 ln -sfv /usr/lib32/libudev.so.1 /pkgs/$PACKAGE/usr/lib32/libudev.so.0
 
-sudo echo "lib32-dbus lib32-glibc systemd" > /pkgs/$PACKAGE/depends
+sudo echo "lib32-openssl lib32-util-linux lib32-libcap lib32-dbus lib32-glibc systemd" > /pkgs/$PACKAGE/depends
 sudo echo "pam glibc util-linux libcap acl attr gnu-efi" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

@@ -27,7 +27,6 @@ export CC="gcc -m32"
 ./configure --prefix=/usr    \
             --disable-static \
             --with-curses    \
-            --docdir=/usr/share/doc/readline-$PKG_VER \
 	    --libdir=/usr/lib32 \
 	    --host=i686-pc-linux-gnu
 
@@ -37,8 +36,6 @@ make SHLIB_LIBS="-lncursesw" -j16
 # Install
 mkdir -p /pkgs/$PACKAGE/usr/lib32
 sudo make SHLIB_LIBS="-lncursesw" DESTDIR=$PWD/DESTDIR install
-mkdir -p /pkgs/readline/usr/share/doc
-install -v -m644 doc/*.{ps,pdf,html,dvi} /pkgs/readline/usr/share/doc/readline-8.1.2
 cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
 rm -rf DESTDIR
 cp -rpv /pkgs/$PACKAGE/* /

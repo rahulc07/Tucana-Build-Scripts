@@ -15,7 +15,7 @@ set -e
 
 cd /blfs/builds
 wget $URL
-wget  https://www.linuxfromscratch.org/patches/blfs/svn/openldap-2.6.3-consolidated-1.patch
+wget  https://www.linuxfromscratch.org/patches/blfs/svn/openldap-$PKG_VER-consolidated-1.patch
 tar -xvf $TAR
 cd $DIR
 
@@ -26,7 +26,7 @@ export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
 # Build
 autoconf
 
-patch -Np1 -i ../openldap-2.6.3-consolidated-1.patch &&
+patch -Np1 -i ../openldap-$PKG_VER-consolidated-1.patch &&
 ./configure --prefix=/usr     \
             --sysconfdir=/etc \
             --disable-static  \

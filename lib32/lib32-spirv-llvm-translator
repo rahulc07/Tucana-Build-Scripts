@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export CFLAGS=-"O2"
-export CXXFLAGS="-O2"
+export CFLAGS="-O2 "
+export CXXFLAGS="-O2 "
 
 URL=https://github.com/KhronosGroup/SPIRV-LLVM-Translator/archive/v18.1.1/SPIRV-LLVM-Translator-18.1.1.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

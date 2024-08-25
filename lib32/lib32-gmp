@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export CFLAGS="-O2 "
-export CXXFLAGS="-O2 "
 
 URL=https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -16,9 +14,9 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-ABI="32" \
-CFLAGS="-m32 -O2 -pedantic -fomit-frame-pointer -mtune=generic -march=i686" \
-CXXFLAGS="$CFLAGS" \
+export ABI="32" 
+export CFLAGS="-m32 -O2 -pedantic -fomit-frame-pointer -mtune=generic -march=i686"
+export CXXFLAGS="$CFLAGS"
 cp -v configfsf.guess config.guess
 cp -v configfsf.sub   config.sub
 
@@ -28,7 +26,6 @@ cp -v configfsf.sub   config.sub
 	    --libdir=/usr/lib32 \
 	    --host=i686-pc-linux-gnu \
 	    --includedir=/usr/include/m32/gmp
-            --docdir=/usr/share/doc/gmp-6.2.1
 sed -i 's/$(exec_prefix)\/include/$\(includedir\)/' Makefile
 make -j16
 

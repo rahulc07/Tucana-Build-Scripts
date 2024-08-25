@@ -30,6 +30,7 @@ cd build
 
 meson --prefix=/usr       \
       --buildtype=release \
+      -Dintrospection=disabled \
       --libdir=/usr/lib32 \
        ..
 

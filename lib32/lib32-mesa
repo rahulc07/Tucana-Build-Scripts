@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-PKG_VER=24.1.5
+PKG_VER=24.1.6
  
 URL=https://archive.mesa3d.org/mesa-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -18,8 +18,8 @@ cd $DIR
 # Build
 export CC+="gcc -m32" 
 export CXX+="g++ -m32"
-export CFLAGS="-g1 -O2 "
-export CXXFLAGS="-g1 -O2 "
+export CFLAGS="-O2 "
+export CXXFLAGS="-O2 "
 export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
 
 
@@ -69,8 +69,8 @@ cd /pkgs
 
 
 
-sudo echo "lib32-llvm lib32-libvdpau lib32-libdrm mako lib32-xorg-libs lib32-libvulkan mesa lib32-libglvnd lib32-libclc" > /pkgs/$PACKAGE/depends
-sudo echo "libva llvm libvdpau libdrm mako xorg-libs glslang meson lm-sensors zstd libdrm cmake" > /pkgs/$PACKAGE/make-depends
+sudo echo "lib32-lm-sensors lib32-libelf lib32-llvm lib32-libvdpau lib32-libdrm mako lib32-xorg-libs lib32-libvulkan mesa lib32-libglvnd lib32-wayland" > /pkgs/$PACKAGE/depends
+sudo echo "lib32-clang lib32-spirv-llvm-translator libva llvm libvdpau libdrm libclc mako xorg-libs glslang meson lm-sensors zstd libdrm cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

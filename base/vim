@@ -41,7 +41,7 @@ cd /pkgs
 
 
 
-sudo echo "ncurses glibc tcl python attr acl" > /pkgs/$PACKAGE/depends
+sudo echo "gpm ncurses glibc tcl python attr acl" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

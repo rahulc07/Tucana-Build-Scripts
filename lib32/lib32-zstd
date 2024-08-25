@@ -15,14 +15,14 @@ set -e
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/lfs/development/zstd-1.5.2-upstream_fixes-1.patch
+#wget https://www.linuxfromscratch.org/patches/lfs/development/zstd-1.5.2-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
 
-patch -Np1 -i ../zstd-1.5.2-upstream_fixes-1.patch
+#patch -Np1 -i ../zstd-1.5.2-upstream_fixes-1.patch
 
 CC="gcc -m32" make prefix=/usr -j16
 

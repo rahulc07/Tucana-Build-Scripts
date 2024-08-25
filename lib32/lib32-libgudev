@@ -27,7 +27,7 @@ export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
 mkdir build
 cd build
 
-meson --prefix=/usr --buildtype=release   --libdir=/usr/lib32 ..
+meson setup --prefix=/usr --buildtype=release   --libdir=/usr/lib32 -Dintrospection=disabled -Dvapi=disabled ..
 
 ninja
 

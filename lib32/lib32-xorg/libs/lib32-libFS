@@ -3,7 +3,8 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-URL=https://www.x.org/pub/individual/lib/libFS-1.0.9.tar.xz
+PKG_VER=1.0.10
+URL=https://www.x.org/pub/individual/lib/libFS-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')

@@ -4,7 +4,7 @@ export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 PKG_VER=2.40.2
-
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://www.kernel.org/pub/linux/utils/util-linux/v$MAJOR/util-linux-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -25,12 +25,12 @@ export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
             --bindir=/usr/bin    \
             --libdir=/usr/lib32    \
             --sbindir=/usr/sbin  \
-            --docdir=/usr/share/doc/util-linux-2.38.1 \
             --disable-chfn-chsh  \
             --disable-login      \
             --disable-nologin    \
             --disable-su         \
             --disable-setpriv    \
+	    --disable-liblastlog2 \
             --disable-runuser    \
             --disable-pylibmount \
             --disable-static     \

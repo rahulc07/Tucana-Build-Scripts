@@ -25,6 +25,8 @@ cd $DIR
 sudo make DESTDIR=/pkgs/$PACKAGE install
 mkdir -p /pkgs/$PACKAGE/usr/bin
 install -vdm755 /pkgs/$PACKAGE/etc/ssl/local
+mkdir -p /pkgs/$PACKAGE/etc/ssl/certs/
+ln -svf /etc/pki/tls/certs/ca-bundle.crt /pkgs/$PACKAGE/etc/ssl/certs/ca-certificates.crt
 cd /pkgs
 
 

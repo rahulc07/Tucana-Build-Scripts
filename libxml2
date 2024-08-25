@@ -20,7 +20,6 @@ cd $DIR
 
 # Build
 
-autoreconf -fiv
 ./configure --prefix=/usr           \
             --sysconfdir=/etc       \
 	    --with-icu \
