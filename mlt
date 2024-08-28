@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=7.24.0
+PKG_VER=7.26.0
 URL=https://github.com/mltframework/mlt/releases/download/v$PKG_VER/mlt-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
