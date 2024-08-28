@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=mariadb
 #ARCH_VAR=pkgver
-PKG_VER=11.4.2
+PKG_VER=11.5.2
 URL=https://rsync.osuosl.org/pub/mariadb/mariadb-$PKG_VER/source/mariadb-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
