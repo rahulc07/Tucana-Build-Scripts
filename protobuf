@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=27.3
+PKG_VER=27.4
 URL=https://github.com/protocolbuffers/protobuf/releases/download/v$PKG_VER/protobuf-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
