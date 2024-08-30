@@ -8,7 +8,7 @@ URL=https://nlnetlabs.nl/downloads/unbound/unbound-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-BLFS_SYSTEMD_VER=20240205
+BLFS_SYSTEMD_VER=20240801
 
 # Get Package
 
