@@ -21,13 +21,13 @@ cd $DIR
 
 
 # Thanks arch for build instructions
-make PREFIX=/usr -C nv-codec-headers
+make PREFIX=/usr 
 sed -n '4,25p' nv-codec-headers/include/ffnvcodec/nvEncodeAPI.h > LICENSE
 sed -i '1,22s/^.\{,3\}//' LICENSE
 
 
 # Install
-sudo make PREFIX=/usr DESTDIR=/pkgs/$PACKAGE -C nv-codec-headers install
+sudo make PREFIX=/usr DESTDIR=/pkgs/$PACKAGE install
 install -Dm 644 LICENSE -t /pkgs/$PACKAGE/usr/share/licenses/ffnvcodec-headers/
 cd /pkgs
 
