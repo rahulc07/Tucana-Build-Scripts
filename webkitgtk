@@ -18,9 +18,6 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-export CC=clang
-export CXX=clang++
-
 mkdir build1 &&
 cd    build1 &&
 
