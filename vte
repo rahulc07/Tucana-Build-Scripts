@@ -20,7 +20,8 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
+# For some reason it needs /usr/local/include to be a directory?
+mkdir -p /usr/local/include
 mkdir build &&
 cd    build &&
 
