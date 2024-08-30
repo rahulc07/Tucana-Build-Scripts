@@ -3,7 +3,8 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=2.1b1
+#HOLD_TUCANA
+PKG_VER=2.0.0
 URL=https://github.com/OpenPrinting/libppd/releases/download/$PKG_VER/libppd-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
