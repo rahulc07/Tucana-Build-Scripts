@@ -34,7 +34,7 @@ cd build
 meson --prefix=/usr                 \
       --buildtype=release           \
       -Dman=true                    \
-      -Dsession_tracking=libsystemd-login \
+      -Dsession_tracking=logind \
       -Dtests=true                  \
       -Djs_engine=duktape           \
       ..         
