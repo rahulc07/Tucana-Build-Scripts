@@ -4,9 +4,9 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 PKG_VER=30.2.3
 set -e
-URL=https://github.com/obsproject/obs-studio/archive/refs/tags/$PKG_VER.tar.gz
+URL=https://github.com/obsproject/obs-studio/releases/download/$PKG_VER/OBS-Studio-$PKG_VER-Sources.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=obs-studio-$PKG_VER
+DIR=obs-studio-$PKG_VER-sources
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
