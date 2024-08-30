@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=24.2.0
+PKG_VER=24.2.1
 URL=https://archive.mesa3d.org/mesa-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -65,7 +65,7 @@ cd /pkgs
 
 
 sudo echo "wayland-protocols libva libglvnd llvm libvdpau libdrm mako xorg-libs libvulkan lm-sensors" > /pkgs/$PACKAGE/depends
-sudo echo "libunwind wayland-protocols libva llvm glslang vulkan-headers libvulkan libvdpau libdrm mako xorg-libs glslang meson lm-sensors zstd libdrm cmake python-ply libclc rust-bindgen cbindgen" > /pkgs/$PACKAGE/make-depends
+sudo echo "pyyaml libunwind wayland-protocols libva llvm glslang vulkan-headers libvulkan libvdpau libdrm mako xorg-libs glslang meson lm-sensors zstd libdrm cmake python-ply libclc rust-bindgen cbindgen" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
