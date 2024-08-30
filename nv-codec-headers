@@ -22,7 +22,7 @@ cd $DIR
 
 # Thanks arch for build instructions
 make PREFIX=/usr 
-sed -n '4,25p' nv-codec-headers/include/ffnvcodec/nvEncodeAPI.h > LICENSE
+sed -n '4,25p' include/ffnvcodec/nvEncodeAPI.h > LICENSE
 sed -i '1,22s/^.\{,3\}//' LICENSE
 
 
