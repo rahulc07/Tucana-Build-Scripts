@@ -7,7 +7,7 @@ PKG_VER=3.11.3
 URL=https://github.com/nlohmann/json/releases/download/v$PKG_VER/json.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=nlohmann-json
 
 # Get Package
 
@@ -21,7 +21,11 @@ cd $DIR
 mkdir build
 cd build
 
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=release -Wno-dev -G Ninja ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=release \
+      -DBUILD_TESTING=OFF \
+      -DJSON_BuildTests=OFF \
+      -Wno-dev -G Ninja ..
 
 ninja
 
