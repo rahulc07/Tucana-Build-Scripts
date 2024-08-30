@@ -26,6 +26,7 @@ cd $DIR
 ./configure --prefix=/usr          \
             --sysconfdir=/etc      \
             --with-openssl         \
+	    --disable-manpages \
             --with-xz              \
             --with-zstd            \
             --with-zlib
