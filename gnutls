@@ -7,7 +7,7 @@ PKG_VER=3.8.7.1
 MAJOR=$(echo $PKG_VER | grep -o -E "3\.[0-9]+") 
 URL=https://www.gnupg.org/ftp/gcrypt/gnutls/v$MAJOR/gnutls-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=gnutls-$(echo $PKG_VER | grep -Eo "3.\[0-9]+\.[0-9]+")
+DIR=gnutls-$(echo $PKG_VER | grep -Eo "3\.[0-9]+\.[0-9]+")
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
