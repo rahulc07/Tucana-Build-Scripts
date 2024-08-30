@@ -1,0 +1,45 @@
+#!/bin/bash
+
+export CFLAGS="-O2 "
+export CXXFLAGS="-O2 "
+
+PKG_VER=12.2.72.0
+URL=https://github.com/FFmpeg/nv-codec-headers/releases/download/n$PKG_VER/nv-codec-headers-$PKG_VER.tar.gz
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+
+
+# Thanks arch for build instructions
+make PREFIX=/usr -C nv-codec-headers
+sed -n '4,25p' nv-codec-headers/include/ffnvcodec/nvEncodeAPI.h > LICENSE
+sed -i '1,22s/^.\{,3\}//' LICENSE
+
+
+# Install
+sudo make PREFIX=/usr DESTDIR=/pkgs/$PACKAGE -C nv-codec-headers install
+install -Dm 644 LICENSE -t /pkgs/$PACKAGE/usr/share/licenses/ffnvcodec-headers/
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "git" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
