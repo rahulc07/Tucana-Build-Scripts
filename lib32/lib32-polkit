@@ -27,7 +27,7 @@ mkdir build
 cd build
 
 meson --prefix=/usr                 \
-      -Dsession_tracking=libsystemd-login \
+      -Dsession_tracking=logind \
       -Dlibs-only=true           \
       --libdir=/usr/lib32 \
       -D introspection=false \
