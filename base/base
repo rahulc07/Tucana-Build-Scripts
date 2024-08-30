@@ -12,7 +12,7 @@ export CXXFLAGS="-O2"
 # Tucana would not be possible without them!
 set -e
 PACKAGE=base
-TUCANA_VERSION='3.0'
+TUCANA_VERSION='3.1'
 
 # Notes 
 # To update
@@ -159,15 +159,15 @@ chmod -v 600  /pkgs/$PACKAGE/var/log/btmp
 
 cat > /pkgs/$PACKAGE/etc/lsb-release << "EOF"
 DISTRIB_ID="Tucana Linux"
-DISTRIB_RELEASE="3.0"
+DISTRIB_RELEASE="3.1"
 DISTRIB_DESCRIPTION="Tucana GNU/Linux"
 EOF
 
 cat > /pkgs/$PACKAGE/etc/os-release << "EOF"
 NAME="Tucana Linux"
-VERSION="3.0"
+VERSION="3.1"
 ID=tucana
-PRETTY_NAME="Tucana GNU/Linux 3.0"
+PRETTY_NAME="Tucana GNU/Linux 3.1"
 VENDOR_NAME="Rahul Chandra"
 
 EOF
