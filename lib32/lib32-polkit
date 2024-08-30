@@ -3,7 +3,7 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-PKG_VER=124
+PKG_VER=125
  
 URL=https://github.com/polkit-org/polkit/archive/$PKG_VER/polkit-$PKG_VEr.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
