@@ -25,7 +25,7 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr --buildtype=release -Dman=false ..
+meson setup --prefix=/usr --buildtype=release -Dman=false -Dminer_rss=false  ..
 
 
 ninja 
