@@ -2,7 +2,7 @@
 #NLFS
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=35.0.1
+PKG_VER=35.0.2
 URL=https://github.com/nmeum/android-tools/releases/download/$PKG_VER/android-tools-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
