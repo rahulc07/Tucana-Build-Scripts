@@ -10,7 +10,7 @@ export CXXFLAGS="-O2"
 # This is the non-xorg version, for the xorg version install vim-xorg
 
 
-PKG_VER=9.1.0698
+PKG_VER=9.1.0717
 URL=https://github.com/vim/vim/archive/v$PKG_VER/vim-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
