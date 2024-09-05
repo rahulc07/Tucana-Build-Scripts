@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=46.2
+PKG_VER=47
 GNOME_MAJOR=$(echo $PKG_VER | sed 's/\..*//g')
 GNOME_MINOR=$(echo $PKG_VER | sed 's/.*\.//g')
 URL=https://download.gnome.org/sources/adwaita-icon-theme/$GNOME_MAJOR/adwaita-icon-theme-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
