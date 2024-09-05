@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=R_2_6_2
+PKG_VER=R_2_6_3
 PKG_VER_REFORMAT=$(echo $PKG_VER | sed 's/R_//g' | sed 's/_/\./g')
 URL=https://github.com/libexpat/libexpat/releases/download/$PKG_VER/expat-$PKG_VER_REFORMAT.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
