@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=4.4.2
+PKG_VER=4.4.4
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/libgweather/$MAJOR/libgweather-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
