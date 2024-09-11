@@ -20,7 +20,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
+sed -e '/import MSVC/d' -e 's/isinstance.*MSVCCompiler)/False/' -i giscanner/ccompiler.py
 mkdir build
 cd build
 
