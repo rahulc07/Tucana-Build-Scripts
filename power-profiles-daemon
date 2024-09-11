@@ -2,7 +2,7 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=0.22
+PKG_VER=0.23
 URL=https://gitlab.freedesktop.org/upower/power-profiles-daemon/-/archive/$PKG_VER/power-profiles-daemon-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
