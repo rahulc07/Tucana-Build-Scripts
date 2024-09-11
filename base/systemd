@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 
 set -e
 
-PKG_VER=256.5
+PKG_VER=256.6
 URL=https://github.com/systemd/systemd/archive/v$PKG_VER/systemd-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
