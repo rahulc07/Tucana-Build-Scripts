@@ -41,7 +41,7 @@ meson setup --prefix=/usr                 \
       -Dmode=release                \
       -Dpam=true                    \
       -Dpamconfdir=/etc/pam.d       \
-      -Dsbat-distro-url=https://github.com/xXTeraXx/Tucana \
+      -Dsbat-distro-url=https://tucanalinux.org/ \
       ..      
       
 ninja
