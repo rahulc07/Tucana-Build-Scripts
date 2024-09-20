@@ -3,7 +3,7 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-PKG_VER=2024.1
+PKG_VER=2024.2
 URL=https://github.com/google/shaderc/archive/v$PKG_VER/shaderc-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -17,6 +17,13 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
+
+# Allow build with system shaderc and glslang (LFS)
+sed '/build-version/d'   -i glslc/CMakeLists.txt            &&
+sed '/third_party/d'     -i CMakeLists.txt                  &&
+sed 's|SPIRV|glslang/&|' -i libshaderc_util/src/compiler.cc &&
+
+echo "\"$PKG_VER\"" > glslc/src/build-version.inc
 
 mkdir build
 cd build
