@@ -41,7 +41,8 @@ cd /pkgs
 
 
 
-sudo echo "glibc kcmutils kconfig kcoreaddons kcrash kdbusaddons ki18n kiconthemes kidletime kio kirigami kirigami-addons kjobwidgets knewstuff knotifications kservice kstatusnotifieritem kuserfeedback kwidgetsaddons kwindowsystem purpose attica libgcc qcoro qt6 appstream" > /pkgs/$PACKAGE/depends
+sudo echo "flatpak glibc kcmutils kconfig kcoreaddons kcrash kdbusaddons ki18n kiconthemes kidletime kio kirigami kirigami-addons kjobwidgets knewstuff knotifications kservice kstatusnotifieritem kuserfeedback kwidgetsaddons kwindowsystem purpose attica libgcc qcoro qt6 appstream" > /pkgs/$PACKAGE/depends
+sudo echo "flatpak" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
