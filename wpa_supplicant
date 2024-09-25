@@ -15,11 +15,13 @@ set -e
 
 cd /blfs/builds
 wget $URL
+wget https://gitlab.archlinux.org/archlinux/packaging/packages/wpa_supplicant/-/raw/main/0007-nl80211-add-extra-ies-only-if-allowed-by-driver.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-
+# Fix broadcom-wl
+patch -Np1 < ../0007-nl80211-add-extra-ies-only-if-allowed-by-driver.patch
 cat > wpa_supplicant/.config << "EOF"
 CONFIG_BACKEND=file
 CONFIG_CTRL_IFACE=y
