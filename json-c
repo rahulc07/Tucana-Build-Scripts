@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=json-c
 #ARCH_VAR=pkgver
-PKG_VER=0.17
+PKG_VER=0.18
 URL=https://s3.amazonaws.com/json-c_releases/releases/json-c-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
