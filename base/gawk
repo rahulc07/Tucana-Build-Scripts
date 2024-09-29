@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=5.3.0
+PKG_VER=5.3.1
 URL=https://ftp.gnu.org/gnu/gawk/gawk-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
