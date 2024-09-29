@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=gs10031
+PKG_VER=gs10040
 PKG_VER_SEMANTIC=$(echo $PKG_VER | sed 's/gs\([0-9]\{2\}\)\([0-9]\{2\}\)\([0-9]\)/\1.\2.\3/')
 URL=https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/$PKG_VER/ghostscript-$PKG_VER_SEMANTIC.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
