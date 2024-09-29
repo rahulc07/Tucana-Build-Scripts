@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 # Uncomment Glibc 2.36 below
 
-PKG_VER=3.7.4
+PKG_VER=3.7.6
 URL=https://github.com/libarchive/libarchive/releases/download/v$PKG_VER/libarchive-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
