@@ -27,7 +27,6 @@ make -j16
 
 # Install
 sudo make CONFIG_PREFIX=/pkgs/$PACKAGE install
-sudo make install
 cd /pkgs
 
 

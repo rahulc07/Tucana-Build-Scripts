@@ -14,10 +14,12 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
+wget https://www.linuxfromscratch.org/patches/downloads/webkitgtk/webkitgtk-2.46.0-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
+patch -Np1 < ../webkitgtk-2.46.0-upstream_fixes-1.patch
 mkdir build1 &&
 cd    build1 &&
 
@@ -26,6 +28,7 @@ cmake  \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_LIBDIR=lib \
+    -DUSE_SYSTEM_SYSPROF_CAPTURE=NO \
     -DCMAKE_INSTALL_LIBEXECDIR=lib \
     -DCMAKE_SKIP_RPATH=ON \
     -DUSE_GTK4=OFF \
