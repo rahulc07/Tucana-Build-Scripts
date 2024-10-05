@@ -29,7 +29,6 @@ cmake -DPORT=GTK \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_INSTALL_LIBEXECDIR=lib \
-    -DUSE_SYSTEM_SYSPROF_CAPTURE=NO \
     -DCMAKE_SKIP_RPATH=ON \
     -DUSE_GTK4=OFF \
     -DUSE_LIBBACKTRACE=OFF \
@@ -56,7 +55,7 @@ strip $(file * | grep ELF | sed 's/:.*//')
 popd
 
 sudo echo "cairo libjxl woff2 gst-plugins-base gst-plugins-bad gtk3 libsoup3 icu lcms libgudev libsecret libsoup libwebp mesa openjpeg ruby sqlite which wpebackend-foo enchant geoclue gobject-introspection hicolor-icons libnotify wayland xdg-dbus-proxy" > /pkgs/$PACKAGE/depends
-sudo echo "bubblewrap unifdef gi-docgen libavif" > /pkgs/$PACKAGE/make-depends
+sudo echo "bubblewrap unifdef gi-docgen libavif sysprof" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
