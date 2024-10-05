@@ -27,7 +27,7 @@ meson --prefix=/usr       \
       --buildtype=release \
       -Dvapi=enabled      \
       -Dgssapi=disabled   \
-      -Dsysprof=disabled  \
+      -Dsysprof=enabled \
       ..                  &&
 
 
