@@ -23,6 +23,7 @@ cd $DIR
 mkdir build
 cd build
 
+meson setup --prefix=/usr --buildtype=release ..
 
 ninja
 
@@ -34,7 +35,7 @@ cd /pkgs
 
 
 
-sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "cairo glib graphene gtk4 json-glib libadwaita libunwind pango polkit" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
