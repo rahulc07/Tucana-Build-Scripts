@@ -3,10 +3,10 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-
-PKG_VER=47.0
-MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://download.gnome.org/sources/sysprof/$MAJOR/sysprof-$PKG_VER.tar.xz
+#ARCH_PKG=liburing
+#ARCH_VAR=pkgver
+PKG_VER=2.7
+URL=https://git.kernel.dk/cgit/liburing/snapshot/liburing-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -20,22 +20,16 @@ cd $DIR
 
 # Build
 
-mkdir build
-cd build
-
-meson setup --prefix=/usr --buildtype=release ..
-
-ninja
-
+./configure --prefix=/usr 
 
 # Install
-sudo  DESTDIR=/pkgs/$PACKAGE ninja install
-sudo ninja install
+sudo  make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
 cd /pkgs
 
 
 
-sudo echo "libdex libpanel cairo glib graphene gtk4 json-glib libadwaita libunwind pango polkit" > /pkgs/$PACKAGE/depends
+sudo echo "" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
@@ -43,4 +37,5 @@ sudo cp $PACKAGE.tar.xz /finished
 
 cd /blfs/builds
 sudo rm -r $DIR
+
 

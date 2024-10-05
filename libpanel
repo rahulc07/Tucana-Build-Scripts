@@ -4,9 +4,9 @@ export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 
-PKG_VER=47.0
+PKG_VER=1.8.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://download.gnome.org/sources/sysprof/$MAJOR/sysprof-$PKG_VER.tar.xz
+URL=https://download.gnome.org/sources/libpanel/$MAJOR/libpanel-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -23,7 +23,7 @@ cd $DIR
 mkdir build
 cd build
 
-meson setup --prefix=/usr --buildtype=release ..
+meson setup --prefix=/usr --buildtype release ..
 
 ninja
 
@@ -35,12 +35,13 @@ cd /pkgs
 
 
 
-sudo echo "libdex libpanel cairo glib graphene gtk4 json-glib libadwaita libunwind pango polkit" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "cairo glib graphene gtk4" > /pkgs/$PACKAGE/depends
+sudo echo "gi-docgen gobject-introspection vala" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
 
 cd /blfs/builds
 sudo rm -r $DIR
+
 
