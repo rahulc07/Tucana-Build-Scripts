@@ -13,12 +13,10 @@ PACKAGE=webkitgtk5.0
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/downloads/webkitgtk/webkitgtk-2.46.0-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 < ../webkitgtk-2.46.0-upstream_fixes-1.patch
 mkdir build1 &&
 cd    build1 &&
 

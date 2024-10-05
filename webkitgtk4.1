@@ -4,7 +4,7 @@ export CFLAGS="-O2 -fcf-protection=none"
 export CXXFLAGS="-O2 -fcf-protection=none"
 
 set -e
-PKG_VER=2.46.0
+PKG_VER=2.46.1
 URL=https://webkitgtk.org/releases/webkitgtk-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -14,12 +14,10 @@ PACKAGE=webkitgtk4.1
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/downloads/webkitgtk/webkitgtk-2.46.0-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 < ../webkitgtk-2.46.0-upstream_fixes-1.patch
 mkdir build1 &&
 cd    build1 &&
 
