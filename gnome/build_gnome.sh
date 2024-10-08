@@ -1,16 +1,19 @@
 #!/bin/bash
 set -e
 ROOT="$(pwd)"
+mkdir -p /gnome-logs
 build() {
   echo "Building $1"
-  bash -e $ROOT/$1
+  bash -e $ROOT/$1 &> /gnome-logs/$1.log
 
 }
 build "gcr"
 build "gcr-4"
 build "gsettings-desktop-schemas"
 build "yelp-xsl"
+build "baobab"
 build "gjs"
+build "gnome-color-manager"
 build "gnome-autoar"
 build "gnome-desktop"
 build "gnome-menus"
@@ -19,12 +22,15 @@ build "gnome-online-accounts"
 build "libwnck"
 build "libcloudproviders"
 build "evolution-data-server"
+build "grilo"
 
 # Desktop
 build "dconf"
 build "dconf-editor"
 build "gnome-backgrounds"
+build "gnome-keyring"
 build "gexiv2"
+build "gnome-terminal"
 build "nautilus"
 build "gnome-bluetooth"
 build "gnome-keyring"
@@ -40,4 +46,21 @@ build "gnome-user-docs"
 build "yelp"
 build "loupe"
 build "gdm"
+build "gnome-calculator"
+build "gnome-screenshot"
+build "gnome-logs"
+build "epiphany"
+build "evolution"
+build "evince"
+build "gnome-power-manager"
 build "gnome-software"
+build "gnome-disk-utility"
+build "gnome-system-monitor"
+build "file-roller"
+build "gnome-nettool"
+build "snapshot"
+build "eog"
+build "chrome-gnome-shell"
+build "gnome-weather"
+build "gnome-console"
+
