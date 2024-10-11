@@ -21,7 +21,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 < ../https://www.linuxfromscratch.org/patches/blfs/12.2/brasero-3.12.3-upstream_fixes-1.patch
+patch -Np1 < ../brasero-3.12.3-upstream_fixes-1.patch
 ./configure --prefix=/usr                \
             --enable-compile-warnings=no \
             --enable-cxx-warnings=no  
