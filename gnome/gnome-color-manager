@@ -26,7 +26,7 @@ sed /subdir\(\'man/d -i meson.build
 mkdir build &&
 cd    build &&
 
-meson seutp --prefix=/usr --buildtype=release ..
+meson setup --prefix=/usr --buildtype=release ..
 
 
 ninja 
