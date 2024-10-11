@@ -42,7 +42,7 @@ make DESTDIR=/pkgs/$PACKAGE install
 rm /pkgs/$PACKAGE/usr/lib/*.ajs
 sed -i '/@NSPR_CFLAGS@/d' /pkgs/$PACKAGE/usr/bin/js115-config
 sudo echo "libgcc readline bash zlib icu" > /pkgs/$PACKAGE/depends
-sudo echo "libgcc readline bash zlib clang llvm python3 rustc zip git" > /pkgs/$PACKAGE/make-depends
+sudo echo "libgcc readline bash zlib clang llvm python rustc zip git" > /pkgs/$PACKAGE/make-depends
 cd /pkgs/$PACKAGE
 sudo rm -rf root blfs
 cd ..
