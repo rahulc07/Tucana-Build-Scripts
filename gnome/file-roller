@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 GNOME_MAJOR=44
-GNOME_MINOR=1
+GNOME_MINOR=3
 URL=https://download.gnome.org/sources/file-roller/$GNOME_MAJOR/file-roller-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

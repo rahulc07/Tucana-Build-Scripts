@@ -3,8 +3,8 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=46
-GNOME_MINOR=1
+GNOME_MAJOR=47
+GNOME_MINOR=0
 URL=https://download.gnome.org/sources/nautilus/$GNOME_MAJOR/nautilus-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -17,7 +17,6 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-sed "/docdir =/s@\$@ / 'nautilus-46.1'@" -i meson.build
 mkdir build &&
 cd    build &&
 

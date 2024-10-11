@@ -22,7 +22,7 @@ sed -i 's:"/desktop:"/org:' schema/*.xml
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false .. 
+meson setup --prefix=/usr --buildtype=release -Dgtk_doc=false .. 
 
 
 ninja 

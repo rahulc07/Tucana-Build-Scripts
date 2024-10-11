@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=46
+GNOME_MAJOR=47
 GNOME_MINOR=0
 URL=https://download.gnome.org/sources/gdm/$GNOME_MAJOR/gdm-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

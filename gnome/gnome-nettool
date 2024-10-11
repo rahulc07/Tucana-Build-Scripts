@@ -3,8 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-# Temporarly on Git because nettool 43 has not been released yet and this links to nautilus
-URL=https://download.gnome.org/sources/gnome-nettool/42/gnome-nettool-42.0.tar.xz
+
+PKG_VER=42.0
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://download.gnome.org/sources/gnome-nettool/$MAJOR/gnome-nettool-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -13,7 +15,7 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/gnome-nettool-42.0-ping_and_netstat_fixes-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/gnome-nettool-$PKG_VER-ping_and_netstat_fixes-1.patch
 tar -xvf $TAR
 
 cd $DIR
