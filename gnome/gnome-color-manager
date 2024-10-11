@@ -22,11 +22,11 @@ cd $DIR
 
 # Build
 
+sed /subdir\(\'man/d -i meson.build
 mkdir build &&
 cd    build &&
 
-sed /subdir\(\'man/d -i meson.build
-meson --prefix=/usr --buildtype=release ..
+meson seutp --prefix=/usr --buildtype=release ..
 
 
 ninja 
