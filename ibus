@@ -18,10 +18,9 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
+SAVE_DIST_FILES=1 NOCONFIGURE=1 ./autogen.sh
 sed -i 's@/desktop/ibus@/org/freedesktop/ibus@g' \
     data/dconf/org.freedesktop.ibus.gschema.xml
-autoreconf -fi
 ./configure \
             --prefix=/usr              \
             --sysconfdir=/etc          \
