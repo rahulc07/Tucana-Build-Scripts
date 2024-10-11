@@ -37,7 +37,7 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "libvulkan fribidi gdk-pixbuf graphene iso-codes libepoxy libxkbcommon pango pygobject3 wayland-protocols adwaita  gst-plugins-bad gst-plugins-good libvpx hicolor-icons librsvg ffmpeg sassc" > /pkgs/$PACKAGE/depends
+sudo echo "tinysparql libvulkan fribidi gdk-pixbuf graphene iso-codes libepoxy libxkbcommon pango pygobject3 wayland-protocols adwaita  gst-plugins-bad gst-plugins-good libvpx hicolor-icons librsvg ffmpeg sassc" > /pkgs/$PACKAGE/depends
 echo "shaderc" > /pkgs/$PACKAGE/make-depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs

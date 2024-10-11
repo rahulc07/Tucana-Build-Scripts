@@ -63,4 +63,4 @@ build "eog"
 build "chrome-gnome-shell"
 build "gnome-weather"
 build "gnome-console"
-
+build "gnome"
