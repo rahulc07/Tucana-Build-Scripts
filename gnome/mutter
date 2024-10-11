@@ -24,7 +24,7 @@ cd    build &&
 
 
 
-meson setup --prefix=/usr --buildtype=release -Dtests=false .. &&
+meson setup --prefix=/usr --buildtype=release -Dtests=disabled .. &&
 
 ninja
 
