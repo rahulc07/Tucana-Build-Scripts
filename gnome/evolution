@@ -41,7 +41,7 @@ cd /pkgs
 
 
 sudo echo "adwaita evolution-data-server gnome-autoar itstool libgdata shared-mime-info webkitgtk enchant gnome-desktop gspell libcanberra libgweather libnotify openldap clutter-gtk geocode-glib highlight" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "highlight" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
