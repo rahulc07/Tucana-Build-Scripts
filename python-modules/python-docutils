@@ -25,7 +25,7 @@ python3 -m build --wheel --skip-dependency-check
 
 
 # Install
-sudo python3 -m installer --destdir=/pkgs/$PAKCAGE/ dist/*.whl
+sudo python3 -m installer --destdir=/pkgs/$PACKAGE/ dist/*.whl
 cd /pkgs
 
 sudo cp -rpv /pkgs/$PACKAGE/* /
