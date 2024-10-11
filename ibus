@@ -35,7 +35,9 @@ make -j20
 
 # Install
 sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make DESTDIR=/pkgs/$PACKAGE install-pkgconfigDATA
 sudo make install
+sudo make install-pkgconfigDATA
 cd /pkgs
 
 
