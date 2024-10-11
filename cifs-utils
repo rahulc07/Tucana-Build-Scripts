@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 set -e
 
-PKG_VER=7.0
+PKG_VER=7.1
 URL=https://www.samba.org/ftp/linux-cifs/cifs-utils/cifs-utils-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

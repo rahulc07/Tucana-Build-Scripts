@@ -4,7 +4,7 @@ export CFLAGS="-O2 "
 export CXXFLAGS="-O2"
 
 #HOLD_TUCANA
-PKG_VER=5.4.5
+PKG_VER=5.6.3
  
 URL=https://github.com/tukaani-project/xz/releases/download/v$PKG_VER/xz-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

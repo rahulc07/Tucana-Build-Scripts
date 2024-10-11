@@ -6,7 +6,7 @@ export CXXFLAGS="-O2"
 GNOME_MAJOR=43
 GNOME_MINOR=0
 
-PKG_VER=0.14.2
+PKG_VER=0.14.3
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/gexiv2/$MAJOR/gexiv2-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')

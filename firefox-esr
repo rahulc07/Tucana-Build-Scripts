@@ -3,7 +3,7 @@
 
 set -e
 # Last Validated Version 119.0.1
-PKG_VER=115.15.0esr
+PKG_VER=128.3.1esr
 REFORMAT=$(echo $PKG_VER | sed 's/esr//g')
 URL=https://archive.mozilla.org/pub/firefox/releases/$PKG_VER/source/firefox-$PKG_VER.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
