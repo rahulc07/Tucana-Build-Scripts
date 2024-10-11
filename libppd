@@ -16,8 +16,10 @@ cd /blfs/builds
 wget $URL
 tar -xvf $TAR
 cd $DIR
-
+# Fix for CVE-2024-47175
+wget https://www.linuxfromscratch.org/patches/blfs/svn/libppd-2.0.0-upstream_fixes-1.patch
 # Build
+patch -Np1 < ../libppd-2.0.0-upstream_fixes-1.patch
 
 ./configure --prefix=/usr                   \
             --disable-static                \

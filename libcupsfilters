@@ -11,14 +11,13 @@ DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=libcupsfilters
 
 # Get Package
-
 cd /blfs/builds
 wget $URL
 tar -xvf $TAR
 cd $DIR
-
+wget  https://www.linuxfromscratch.org/patches/blfs/svn/libcupsfilters-2.0.0-upstream_fixes-1.patch
 # Build
-
+patch -Np1 ../libcupsfilters-2.0.0-upstream_fixes-1.patch
 ./configure --prefix=/usr                   \
             --disable-static                \
 
