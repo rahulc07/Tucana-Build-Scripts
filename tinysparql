@@ -6,9 +6,9 @@ export CXXFLAGS="-O2"
 GNOME_MAJOR=43
 GNOME_MINOR=0
 
-PKG_VER=3.7.3
+PKG_VER=3.8.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://download.gnome.org/sources/tinysparql/$MAJOR/tinysparql-$PKG_VER.tar.xz
+URL=https://download.gnome.org/sources/localsearch/$MAJOR/localsearch-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -37,7 +37,7 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "gst-plugins-base tracker exempi gexiv2 giflib gst-plugins-good icu libexif libgrss libgxps poppler  dconf totem-pl-parser upower taglib" > /pkgs/$PACKAGE/depends
+sudo echo "gst-plugins-base tinysparql exempi gexiv2 giflib gst-plugins-good icu libexif libgrss libgxps poppler  dconf totem-pl-parser upower taglib" > /pkgs/$PACKAGE/depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
