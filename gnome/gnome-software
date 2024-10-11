@@ -34,7 +34,7 @@ cd /pkgs
 
 
 sudo echo "packagekit appstream gnome-online-accounts gsettings-desktop-schemas gtk4 libadwaita libsoup3 libsoup flatpak fwupd xmlb libunwind"  > /pkgs/$PACKAGE/depends
-sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
+sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas && flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
