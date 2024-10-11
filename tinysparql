@@ -37,7 +37,7 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "json-glib libseccomp vala gobject-introspection icu libsoup gtk-doc" > /pkgs/$PACKAGE/depends
+sudo echo "json-glib libseccomp vala gobject-introspection icu libsoup3 gtk-doc" > /pkgs/$PACKAGE/depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
