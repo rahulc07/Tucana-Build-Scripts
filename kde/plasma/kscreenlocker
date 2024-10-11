@@ -39,7 +39,7 @@ make -j22
 sudo make DESTDIR=/pkgs/$PACKAGE install
 sudo make install
 cd /pkgs
-mkdir -p /etc/pam.d
+mkdir -p /pkgs/$PACKAGE/etc/pam.d
 cat > /pkgs/$PACKAGE/etc/pam.d/kde << "EOF"
 # Begin /etc/pam.d/kde
 
