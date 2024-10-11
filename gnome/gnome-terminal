@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=3.52.1
+PKG_VER=3.54.0
 URL=https://gitlab.gnome.org/GNOME/gnome-terminal/-/archive/$PKG_VER/gnome-terminal-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -17,15 +17,14 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-sed -i -r 's:"(/system):"/org/pkgs\1:g' src/external.gschema.xml
 mkdir build &&
 cd    build &&
 
 
-meson --prefix=/usr --buildtype=release .. && 
+meson setup --prefix=/usr --buildtype=release .. && 
 
 
-ninja -j16
+ninja
 
 
 # Install

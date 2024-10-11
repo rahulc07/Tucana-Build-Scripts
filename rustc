@@ -71,6 +71,11 @@ llvm-config = "/usr/bin/llvm-config"
 
 EOF
 
+# Fix build with llvm 19
+sed '/CondBitmap/,/^}/s/LLVM_VERSION.*/& \&\& LLVM_VERSION_LT(19, 0)/' \
+        -i compiler/rustc_llvm/llvm-wrapper/RustWrapper.cpp &&
+
+rm -v tests/coverage/mcdc/{cond*,if,inline*,nest*,non_*}.rs
 
 export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi" &&
 python3 ./x.py build --exclude src/tools/miri

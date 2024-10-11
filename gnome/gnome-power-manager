@@ -22,7 +22,7 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr  --buildtype=release ..
+meson setup --prefix=/usr  --buildtype=release ..
 
 
 

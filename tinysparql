@@ -3,9 +3,9 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=43
-GNOME_MINOR=0
-URL=https://download.gnome.org/sources/grilo/0.3/grilo-0.3.16.tar.xz
+PKG_VER=3.8.0
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://download.gnome.org/sources/tinysparql/$MAJOR/tinysparql-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
@@ -22,9 +22,11 @@ cd $DIR
 mkdir build &&
 cd    build &&
 
-meson --prefix=/usr       \
+
+meson setup --prefix=/usr       \
       --buildtype=release \
-      -Denable-gtk-doc=true ..
+      -Ddocs=false        \
+      -Dman=false ..
 
 ninja 
 
@@ -35,7 +37,7 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "glib gobject-introspection gtk3 libsoup3 totem-pl-parser vala" > /pkgs/$PACKAGE/depends
+sudo echo "json-glib libseccomp vala gobject-introspection icu libsoup3 gtk-doc" > /pkgs/$PACKAGE/depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE

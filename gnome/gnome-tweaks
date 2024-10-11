@@ -34,7 +34,7 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "gtk3 gsettings-desktop-schemas libhandy pygobject3" > /pkgs/$PACKAGE/depends
+sudo echo "libadwaita gtk4 gsettings-desktop-schemas libhandy pygobject3" > /pkgs/$PACKAGE/depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE

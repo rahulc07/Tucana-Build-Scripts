@@ -15,11 +15,13 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
+# GCC 14 patch
+wget https://www.linuxfromscratch.org/patches/blfs/12.2/brasero-3.12.3-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-
+patch -Np1 < ../brasero-3.12.3-upstream_fixes-1.patch
 ./configure --prefix=/usr                \
             --enable-compile-warnings=no \
             --enable-cxx-warnings=no  
@@ -35,8 +37,8 @@ cd /pkgs
 
 
 
-sudo echo "gst-plugins-base itstool libcanberra libnotify gobject-introspection tracker totem-pl-parser dvdrw-tools gvfs" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "gst-plugins-base itstool libcanberra libnotify gobject-introspection tinysparql totem-pl-parser dvdrw-tools gvfs" > /pkgs/$PACKAGE/depends
+sudo echo "intltool" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 

@@ -3,8 +3,8 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-GNOME_MAJOR=46
-GNOME_MINOR=2
+GNOME_MAJOR=47
+GNOME_MINOR=0.1
 URL=https://download.gnome.org/sources/snapshot/$GNOME_MAJOR/snapshot-$GNOME_MAJOR.$GNOME_MINOR.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
@@ -34,7 +34,7 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "gtk4 libadwaita pipewire gst-plugins-bad" > /pkgs/$PACKAGE/depends
+sudo echo "pipewire gtk4 libadwaita pipewire gst-plugins-bad" > /pkgs/$PACKAGE/depends
 sudo echo "rustc" > /pkgs/$PACKAGE/make-depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs
