@@ -34,7 +34,7 @@ cd /pkgs
 
 
 
-sudo echo "accounts-service colord-gtk gnome-online-accounts gnome-settings-daemon gsound libgtop libpwquality mitkrb shared-mime-info udisks cups samba gnome-bluetooth ibus libhandy modem-manager libnma xorg gnome-color-manager gnome-shell tecla" > /pkgs/$PACKAGE/depends
+sudo echo "ibus accounts-service colord-gtk gnome-online-accounts gnome-settings-daemon gsound libgtop libpwquality mitkrb shared-mime-info udisks cups samba gnome-bluetooth ibus libhandy modem-manager libnma xorg gnome-color-manager gnome-shell tecla" > /pkgs/$PACKAGE/depends
 sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
