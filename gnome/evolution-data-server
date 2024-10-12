@@ -46,7 +46,7 @@ cd /pkgs
 
 
 
-sudo echo "krb5 berkeley-db gcr-4 libical libsecret nss sqlite gnome-online-accounts gobject-introspection gtk3 icu libcanberra libgdata libgweather vala geocode-glib-2 webkitgtk4.1 webkitgtk5.0" > /pkgs/$PACKAGE/depends
+sudo echo "mitkrb berkeley-db gcr-4 libical libsecret nss sqlite gnome-online-accounts gobject-introspection gtk3 icu libcanberra libgdata libgweather vala geocode-glib-2 webkitgtk4.1 webkitgtk5.0" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
