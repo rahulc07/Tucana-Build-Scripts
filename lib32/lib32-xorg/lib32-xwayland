@@ -23,6 +23,7 @@ mkdir build
 cd build
 
 meson setup --prefix=/usr         \
+      --libdir=/usr/lib32 \
       -Dxkb_output_dir=/var/lib/xkb \
       ..       
 
