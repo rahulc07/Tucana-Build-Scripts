@@ -25,7 +25,6 @@ cd ..
 
 # Install
 sudo make EXTRA="eeprog" PREFIX=/pkgs/$PACKAGE/usr sbindir=/pkgs/$PACKAGE/usr/bin install
-sudo python3 -m installer --destdir=/pkgs/$PACKAGE  dist/*.whl
 
 cd /pkgs
 
