@@ -28,12 +28,11 @@ make -j16
 
 # Install
 sudo mkdir -p /pkgs/$PACKAGE
-sudo ln -s /pkgs/$PACKAGE/usr/sbin /pkgs/$PACKAGE/sbin
 sudo make DESTDIR=/pkgs/$PACKAGE install
 sudo make install
 cd /pkgs
 # Legacy program doesn't use $PREFIX/sbin for some reason
-sudo rm /pkgs/$PACKAGE/sbin
+mv /pkgs/$PACKAGE/sbin /pkgs/$PACKAGE/usr/
 
 sudo echo "mitkrb samba talloc keyutils" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
