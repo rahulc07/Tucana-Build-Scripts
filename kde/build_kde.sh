@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 # Building Depends
+sudo mercury-install URI lmdb
 bash ecm
 bash libdbusmenu-qt
 bash polkit-qt
