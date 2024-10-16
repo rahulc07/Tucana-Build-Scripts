@@ -4,16 +4,16 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=17.0.2
-URL=https://github.com/openjdk/jdk17u/archive/jdk-$PKG_VER-ga.tar.gz
+PKG_VER=22.0.2
+URL=https://github.com/openjdk/jdk22u/archive/jdk-$PKG_VER-ga.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=jdk17u-jdk-$PKG_VER-ga
-PACKAGE=openjdk-17
+DIR=jdk22u-jdk-$PKG_VER-ga
+PACKAGE=openjdk
 
 # Get Package
 
 cd /blfs/builds
-wget $URL
+#wget $URL
 tar -xvf $TAR
 cd $DIR
 
@@ -32,7 +32,7 @@ bash configure --enable-unlimited-crypto              \
                --with-libjpeg=system                  \
                --with-libpng=system                   \
                --with-zlib=system                     \
-               --with-version-build="8"               \
+               --with-version-build="9"               \
                --with-version-pre=""                  \
 	       --with-jobs=20                         \
                --with-version-opt=""                  \
