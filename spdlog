@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=1.14.1
+PKG_VER=1.15.0
 URL=https://github.com/gabime/spdlog/archive/refs/tags/v$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=spdlog-$PKG_VER
