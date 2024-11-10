@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=1.2.2
+PKG_VER=1.2.3
 URL=https://github.com/linuxwacom/xf86-input-wacom/releases/download/xf86-input-wacom-$PKG_VER/xf86-input-wacom-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
