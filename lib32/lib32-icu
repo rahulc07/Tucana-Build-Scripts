@@ -2,7 +2,7 @@
 
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
-PKG_VER=75.1
+PKG_VER=76.1
 MAJOR=$(echo $PKG_VER | sed 's/\./-/g')
 REFORMAT=$(echo $PKG_VER | sed 's/\./_/g')
 URL=https://github.com/unicode-org/icu/releases/download/release-$MAJOR/icu4c-$REFORMAT-src.tgz
