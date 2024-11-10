@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=seatd
 #ARCH_VAR=pkgver
-PKG_VER=0.8.0
+PKG_VER=0.9.1
 URL=https://git.sr.ht/~kennylevinsen/seatd/archive/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=seatd-$(echo $TAR | sed 's|.tar.*||g')
