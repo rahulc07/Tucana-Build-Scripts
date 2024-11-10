@@ -5,7 +5,7 @@ export CXXFLAGS="-O2 "
 
 #ARCH_PKG=liburing
 #ARCH_VAR=pkgver
-PKG_VER=2.7
+PKG_VER=2.8
 URL=https://git.kernel.dk/cgit/liburing/snapshot/liburing-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
