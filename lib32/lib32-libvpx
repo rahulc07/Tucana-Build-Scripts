@@ -3,7 +3,7 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-PKG_VER=1.14.1
+PKG_VER=1.15.0
  
 URL=https://github.com/webmproject/libvpx/archive/v$PKG_VER/libvpx-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
