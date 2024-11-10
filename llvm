@@ -77,7 +77,7 @@ cd /pkgs
 
 # Just 1 make depend line, just needs to picked up by autobuild
 sudo echo "glibc" > /pkgs/$PACKAGE/depends
-echo "cmake" > /pkgs/$PACKAGE/depends
+echo "cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
