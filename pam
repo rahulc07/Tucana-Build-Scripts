@@ -22,6 +22,8 @@ cd $DIR
 
 # Build
 tar -xf ../Linux-PAM-$PKG_VER-docs.tar.xz --strip-components=1
+mkdir build
+cd build
 meson setup ..        \
   --prefix=/usr       \
   --buildtype=release \
