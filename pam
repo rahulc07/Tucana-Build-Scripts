@@ -16,7 +16,7 @@ PACKAGE=pam
 
 cd /blfs/builds
 wget $URL
-wget https://github.com/linux-pam/linux-pam/releases/download/v$PKG_VER/Linux-PAM-$PKG_VER-docs.tar.xz
+wget  https://anduin.linuxfromscratch.org/BLFS/Linux-PAM/Linux-PAM-$PKG_VER-docs.tar.xz
 tar -xvf $TAR
 cd $DIR
 
