@@ -18,6 +18,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
+sed '/U_SHOW_CPLUSPLUS_API/a#define U_SHOW_CPLUSPLUS_HEADER_API 0' -i Source/WTF/wtf/Platform.h
 mkdir build1 &&
 cd    build1 &&
 

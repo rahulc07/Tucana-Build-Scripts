@@ -15,7 +15,8 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
+# icu76 fix
+sed '/pkgicu/s/icu-i18n/& icu-uc/' -i configure.py
 ./configure --prefix=/usr          \
             --shared-cares         \
             --shared-libuv         \
