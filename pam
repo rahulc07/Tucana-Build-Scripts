@@ -22,20 +22,16 @@ cd $DIR
 
 # Build
 tar -xf ../Linux-PAM-$PKG_VER-docs.tar.xz --strip-components=1
-./configure --prefix=/usr                        \
-            --sbindir=/usr/sbin                  \
-            --sysconfdir=/etc                    \
-            --libdir=/usr/lib                    \
-            --enable-securedir=/usr/lib/security \
-	    --disable-db
+meson setup ..        \
+  --prefix=/usr       \
+  --buildtype=release \
+  -D docdir=/usr/share/doc/Linux-PAM
 
 
-
-make -j16
-
+ninja
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo DESTDIR=/pkgs/$PACKAGE ninja install
 install -v -m755 -d /pkgs/$PACKAGE/etc/pam.d
 
 chmod -v 4755 /pkgs/$PACKAGE/usr/sbin/unix_chkpwd
