@@ -20,7 +20,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
+sed 's/icu-i18n/icu-uc &/' -i js/moz.configure
 mkdir obj &&
 cd    obj &&
 
