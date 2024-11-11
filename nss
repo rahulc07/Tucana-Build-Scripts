@@ -12,12 +12,12 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/nss-$PKG_VER-standalone-1.patch
+wget https://www.linuxfromscratch.org/patches/blfs/svn/nss-standalone-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 -i ../nss-$PKG_VER-standalone-1.patch
+patch -Np1 -i ../nss-standalone-1.patch
 
 cd nss
 
