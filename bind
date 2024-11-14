@@ -146,7 +146,7 @@ cd /blfs/builds
 wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
 tar -xvf blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
 cd blfs-systemd-units-$BLFS_SYSTEMD_VER
-make DESTDIR=/pkgs/$PACKAGE install-bind
+make DESTDIR=/pkgs/$PACKAGE install-named
 
 
 sudo echo "liburuc libuv json-c libcap nghttp2" > /pkgs/$PACKAGE/depends
