@@ -22,6 +22,7 @@ bash gmp
 bash mpfr
 bash mpc
 bash glibc-2
+bash lib32-glibc-2
 bash binutils-2
 bash gcc-3
 

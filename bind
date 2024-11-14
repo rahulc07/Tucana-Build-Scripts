@@ -86,7 +86,7 @@ logging {
   };
 };
 EOF
-
+mkdir -p  /pkgs/$PACKAGE/srv/named/etc/named/pz
 cat > /pkgs/$PACKAGE/srv/named/etc/named/pz/127.0.0 << "EOF"
 $TTL 3D
 @      IN      SOA     ns.local.domain. hostmaster.local.domain. (
