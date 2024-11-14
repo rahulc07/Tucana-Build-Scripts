@@ -7,7 +7,7 @@ PKG_VER=0.14.1
 URL=https://lttng.org/files/urcu/userspace-rcu-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=liburuc
 
 # Get Package
 
