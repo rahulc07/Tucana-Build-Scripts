@@ -2,13 +2,14 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-
+#ARCH_VAR=pkgver
+#ARCH_PKG=bind
 PKG_VER=9.18.21
 URL=https://ftp.isc.org/isc/bind9/$PKG_VER/bind-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-BLFS_SYSTEMD_VER=20240205
+BLFS_SYSTEMD_VER=20240916
 # Get Package
 
 cd /blfs/builds
@@ -148,7 +149,7 @@ cd blfs-systemd-units-$BLFS_SYSTEMD_VER
 make DESTDIR=/pkgs/$PACKAGE install-bind
 
 
-sudo echo "libuv json-c libcap nghttp2" > /pkgs/$PACKAGE/depends
+sudo echo "liburuc libuv json-c libcap nghttp2" > /pkgs/$PACKAGE/depends
 sudo echo "groupadd -g 20 named &&
 useradd -c 'BIND Owner' -g named -s /bin/false -u 20 named &&
 install -d -m770 -o named -g named /srv/named
