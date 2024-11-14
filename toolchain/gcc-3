@@ -22,6 +22,9 @@ cd $DIR
 
 # Build
 
+#mstackrealign by default LFS multilib changeset 2b810385f93960acf29c4156e47b6cabec65c8cb
+sed '/STACK_REALIGN_DEFAULT/s/0/(!TARGET_64BIT \&\& TARGET_SSE)/' \
+      -i gcc/config/i386/i386.h
 
 sed -e '/m64=/s/lib64/lib/' \
     -e '/m32=/s/m32=.*/m32=..\/lib32$(call if_multiarch,:i386-linux-gnu)/' \
