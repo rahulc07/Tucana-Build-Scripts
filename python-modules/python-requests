@@ -29,7 +29,7 @@ cd /pkgs
 
 sudo cp -rpv /pkgs/$PACKAGE/* /
 
-sudo echo "python" > /pkgs/$PACKAGE/depends
+sudo echo "python python-urllib3 python-chardet python-idna" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
