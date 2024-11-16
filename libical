@@ -39,7 +39,7 @@ cd /pkgs
 
 
 
-sudo echo "icu libxml2 glib2 berkeley-db glibc" > /pkgs/$PACKAGE/depends
+sudo echo "icu libxml2 glib berkeley-db glibc" > /pkgs/$PACKAGE/depends
 sudo echo "cmake" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

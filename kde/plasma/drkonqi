@@ -41,7 +41,7 @@ cd /pkgs
 
 
 
-sudo echo "libgcc gdb glibc kcmutils kconfig kcoreaddons kcrash ki18n kidletime kio kirigami kitemmodels knotifications kservice kstatusnotifieritem kwallet kwidgetsaddons kwindowsystem polkit-qt python python-psutil syntax-highlighting" > /pkgs/$PACKAGE/depends
+sudo echo "xxhash libgcc gdb glibc kcmutils kconfig kcoreaddons kcrash ki18n kidletime kio kirigami kitemmodels knotifications kservice kstatusnotifieritem kwallet kwidgetsaddons kwindowsystem polkit-qt python python-psutil syntax-highlighting" > /pkgs/$PACKAGE/depends
 sudo echo "ecm" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
