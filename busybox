@@ -26,7 +26,9 @@ make -j16
 
 
 # Install
-sudo make CONFIG_PREFIX=/pkgs/$PACKAGE install
+sudo make CONFIG_PREFIX=/blfs/builds/$DIR/installed install
+mkdir -p /pkgs/$PACKAGE/usr/bin/
+cp /blfs/builds/$DIR/installed/usr/bin/busybox /pkgs/$PACKAGE/usr/bin
 cd /pkgs
 
 
