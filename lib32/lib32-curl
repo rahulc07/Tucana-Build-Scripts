@@ -47,7 +47,7 @@ cp -rpv /pkgs/$PACKAGE/* /
 cd /pkgs
 
 
-sudo echo "lib32-openssl lib32-glibc curl" > /pkgs/$PACKAGE/depends
+sudo echo "lib32-libpsl lib32-brotli lib32-openssl lib32-glibc curl" > /pkgs/$PACKAGE/depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
