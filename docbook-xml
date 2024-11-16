@@ -208,7 +208,7 @@ do
     "file:///etc/xml/docbook" \
     /etc/xml/catalog
 done
-
+EOF
 
 
 sudo echo "libxml2" > /pkgs/$PACKAGE/depends
