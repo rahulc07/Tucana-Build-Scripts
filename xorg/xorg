@@ -16,6 +16,5 @@ sudo cp $PACKAGE.tar.xz /finished
 
 
 cd /blfs/builds
-sudo rm -r $DIR
 
 
