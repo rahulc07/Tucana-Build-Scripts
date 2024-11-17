@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 PACKAGE=polkit-kde-agent-1
-PKG_VER=6.2.0
+PKG_VER=6.2.3
 URL=https://download.kde.org/stable/plasma/$PKG_VER/$PACKAGE-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')

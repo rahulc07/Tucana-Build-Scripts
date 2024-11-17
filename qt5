@@ -20,7 +20,7 @@ cd $DIR
 
 # Build
 
-patch -Np1 -i ../qt-5.15.14-kde.patch
+patch -Np1 -i ../qt-$PKG_VER-kde.patch
 patch -Np1 -i ../qt-gcc14.patch
 mkdir -pv qtbase/.git
 sed -e "/pragma once/a#include <cstdint>"                                      \
