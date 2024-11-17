@@ -12,7 +12,7 @@ PACKAGE=qt5
 # Get Package
 set -e
 cd /blfs/builds
-wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/qt-5.15.14-kde.patch
+wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/qt-$PKG_VER-kde.patch
 wget https://raw.githubusercontent.com/xXTeraXx/Tucana/main/mercury/patches/qt-gcc14.patch
 wget $URL
 tar -xvf $TAR
