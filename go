@@ -40,6 +40,8 @@ cp -rpv doc/* /pkgs/$PACKAGE/usr/share/doc/go
 ln -sfv /usr/lib/go/bin/go /pkgs/$PACKAGE/usr/bin/go
 ln -sfv /usr/lib/go/bin/gofmt /pkgs/$PACKAGE/usr/bin/gofmt
 
+cp go.env /usr/lib/go/
+
 cd /pkgs
 
 
