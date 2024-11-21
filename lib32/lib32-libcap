@@ -3,7 +3,7 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-PKG_VER=2.71
+PKG_VER=2.72
  
 URL=https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
