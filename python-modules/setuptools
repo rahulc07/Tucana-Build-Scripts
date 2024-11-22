@@ -19,20 +19,19 @@ cd $DIR
 
 # Build
 
-
-python3 setup.py build
-
+python3 -m build --wheel --skip-dependency-check
 
 
 
 # Install
-sudo python3 setup.py install --root="/pkgs/$PACKAGE" --optimize=1
+sudo python3 -m installer --destdir=/pkgs/$PACKAGE  dist/*.whl
+
 cd /pkgs
 
 sudo cp -rpv /pkgs/$PACKAGE/* /
 
 sudo echo "python" > /pkgs/$PACKAGE/depends
-sudo echo "" > /pkgs/$PACKAGE/make-depends
+sudo echo "python-build python-installer" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
