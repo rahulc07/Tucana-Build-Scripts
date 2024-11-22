@@ -129,7 +129,7 @@ cd /blfs/builds
 wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
 tar -xvf blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
 cd blfs-systemd-units-$BLFS_SYSTEMD_VER
-make DESTDIR=/pkgs/mariadb install-mysqld
+make DESTDIR=/pkgs/mariadb install-mariadb
 # Done
 cd /pkgs
 
