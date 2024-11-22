@@ -36,7 +36,7 @@ DESTDIR=/pkgs/$PACKAGE ninja install
 cd /pkgs
 
 
-sudo echo "glib2 json-glib libxml2 libsoup3 " > /pkgs/$PACKAGE/depends
+sudo echo "glib json-glib libxml2 libsoup3 " > /pkgs/$PACKAGE/depends
 sudo echo "glib-compile-schemas /usr/share/glib-2.0/schemas" > /pkgs/$PACKAGE/postinst
 sudo rm -rf /pkgs/$PACKAGE/blfs
 sudo tar -cvpzf $PACKAGE.tar.xz $PACKAGE
