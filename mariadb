@@ -29,15 +29,15 @@ cmake -DCMAKE_BUILD_TYPE=Release                      \
       -DINSTALL_DOCDIR=share/doc/mariadb-$PKG_VER       \
       -DINSTALL_DOCREADMEDIR=share/doc/mariadb-$PKG_VER \
       -DINSTALL_MANDIR=share/man                      \
-      -DINSTALL_MYSQLSHAREDIR=share/mysql             \
-      -DINSTALL_MYSQLTESTDIR=share/mysql/test         \
-      -DINSTALL_PLUGINDIR=lib/mysql/plugin            \
+      -DINSTALL_MYSQLSHAREDIR=share/mariadb             \
+      -DINSTALL_MYSQLTESTDIR=share/mariadb/test         \
+      -DINSTALL_PLUGINDIR=lib/mariadb/plugin            \
       -DINSTALL_SBINDIR=sbin                          \
       -DINSTALL_SCRIPTDIR=bin                         \
-      -DINSTALL_SQLBENCHDIR=share/mysql/bench         \
-      -DINSTALL_SUPPORTFILESDIR=share/mysql           \
-      -DMYSQL_DATADIR=/srv/mysql                      \
-      -DMYSQL_UNIX_ADDR=/run/mysqld/mysqld.sock       \
+      -DINSTALL_SQLBENCHDIR=share/mariadb/bench         \
+      -DINSTALL_SUPPORTFILESDIR=share/mariadb           \
+      -DMYSQL_DATADIR=/srv/mariadb                      \
+      -DMYSQL_UNIX_ADDR=/run/mariadb/mariadb.sock       \
       -DWITH_EXTRA_CHARSETS=complex                   \
       -DWITH_EMBEDDED_SERVER=ON                       \
       -DSKIP_TESTS=ON                                 \
@@ -52,21 +52,21 @@ make -j16
 sudo make DESTDIR=/pkgs/$PACKAGE install
 cd /pkgs
 
-install -v -dm 755 /pkgs/mariadb/etc/mysql &&
-cat > /pkgs/mariadb/etc/mysql/my.cnf << "EOF"
-# Begin /etc/mysql/my.cnf
+install -v -dm 755 /pkgs/$PACKAGE/etc/mariadb &&
+cat > /pkgs/$PACKAGE/etc/mariadb/my.cnf << "EOF"
+# Begin /etc/mariadb/my.cnf
 
 # The following options will be passed to all MySQL clients
 [client]
 #password       = your_password
 port            = 3306
-socket          = /run/mysqld/mysqld.sock
+socket          = /run/mariadb/mariadb.sock
 
 # The MySQL server
-[mysqld]
+[mariadb]
 port            = 3306
-socket          = /run/mysqld/mysqld.sock
-datadir         = /srv/mysql
+socket          = /run/mariadb/mariadb.sock
+datadir         = /srv/mariadb
 skip-external-locking
 key_buffer_size = 16M
 max_allowed_packet = 1M
@@ -85,8 +85,8 @@ server-id       = 1
 #bdb_max_lock = 10000
 
 # InnoDB tables are now used by default
-innodb_data_home_dir = /srv/mysql
-innodb_log_group_home_dir = /srv/mysql
+innodb_data_home_dir = /srv/mariadb
+innodb_log_group_home_dir = /srv/mariadb
 # All the innodb_xxx values below are the default ones:
 innodb_data_file_path = ibdata1:12M:autoextend
 # You can set .._buffer_pool_size up to 50 - 80 %
@@ -97,11 +97,11 @@ innodb_log_buffer_size = 16M
 innodb_flush_log_at_trx_commit = 1
 innodb_lock_wait_timeout = 50
 
-[mysqldump]
+[mariadbdump]
 quick
 max_allowed_packet = 16M
 
-[mysql]
+[mariadb]
 no-auto-rehash
 # Remove the next comment character if you are not familiar with SQL
 #safe-updates
@@ -118,12 +118,12 @@ sort_buffer_size = 20M
 read_buffer = 2M
 write_buffer = 2M
 
-[mysqlhotcopy]
+[mariadbhotcopy]
 interactive-timeout
 
-# End /etc/mysql/my.cnf
+# End /etc/mariadb/my.cnf
 EOF
-
+cp -rpv /pkgs/$PACKAGE/* /
 # Install systemd unit
 cd /blfs/builds
 wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
@@ -133,12 +133,12 @@ make DESTDIR=/pkgs/mariadb install-mariadb
 # Done
 cd /pkgs
 
-sudo rm -r /pkgs/mariadb/usr/share/mysql/test
-rm /pkgs/mariadb/usr/lib/*.a
+sudo rm -rf /pkgs/$PACKAGE/usr/share/mariadb/test
+rm /pkgs/$PACKAGE/usr/lib/*.a
 
 sudo echo "bzip2 libxml2 lz4 systemd" > /pkgs/$PACKAGE/depends
-sudo echo 'groupadd -g 40 mysql &&
-useradd -c "MySQL Server" -d /srv/mysql -g mysql -s /bin/false -u 40 mysql' > /pkgs/$PACKAGE/postinst
+sudo echo 'groupadd -g 40 mariadb &&
+useradd -c "MariaDB Server" -d /srv/mariadb -g mariadb -s /bin/false -u 40 mariadb' > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
 
