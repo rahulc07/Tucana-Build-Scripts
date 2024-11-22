@@ -10,7 +10,7 @@ MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://launchpad.net/libdbusmenu/$MAJOR/$PKG_VER/+download/libdbusmenu-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
-PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')-gtk2
 set -e
 # Get Package
 
@@ -37,7 +37,7 @@ cd /pkgs
 
 
 
-sudo echo "gtk3 libdbusmenu-glib" > /pkgs/$PACKAGE/depends
+sudo echo "gtk2 libdbusmenu" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
