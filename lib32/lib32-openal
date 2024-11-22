@@ -26,6 +26,7 @@ cd $DIR
   cmake -S . -B bld -G Ninja \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=None \
+    -DALSOFT_NO_CONFIG_UTIL=OFF \
     -DCMAKE_INSTALL_LIBDIR=lib32
   cmake --build bld
 
