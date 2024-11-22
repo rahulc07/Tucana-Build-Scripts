@@ -21,18 +21,16 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
+export GOPATH="$DIR"
 sed -i '/install -m.*STA/d' libcap/Makefile
 
 
-make  prefix=/usr lib=lib -j16
+make  prefix=/usr lib=lib GOFLAGS="-buildmode=pie -mod=readonly -modcacherw" GO_BUILD_FLAGS="-ldflags '-compressdwarf=false -linkmode=external'" -j16
 
 
 # Install
-sudo make DESTDIR=/pkgs/$PACKAGE  prefix=/usr lib=lib install
-sudo make  prefix=/usr lib=lib install
+make  DESTDIR=/pkgs/$PACKAGE prefix=/usr lib=lib GOFLAGS="-buildmode=pie -mod=readonly -modcacherw" GO_BUILD_FLAGS="-ldflags '-compressdwarf=false -linkmode=external'" install
 cd /pkgs
-
 
 
 sudo echo "glibc" > /pkgs/$PACKAGE/depends
@@ -43,5 +41,6 @@ sudo cp $PACKAGE.tar.xz /finished
 
 cd /blfs/builds
 sudo rm -r $DIR
+cp -rpv /pkgs/$PACKAGE/* /
 
 

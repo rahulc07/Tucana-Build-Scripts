@@ -21,11 +21,10 @@ cd $DIR
 
 sed -i '/install -m.*STA/d' libcap/Makefile
 
-make  prefix=/usr CC="gcc -m32" lib=lib32 -j16
-
+make  GOLANG=no prefix=/usr   RAISE_SETFCAP=no  lib=lib32 CC="gcc -m32"  -j16
 
 # Install
-sudo make prefix=$PWD/DESTDIR/usr lib=lib32 install
+make  GOLANG=no DESTDIR=$PWD/DESTDIR prefix=/usr lib=lib32 CC="gcc -m32"  RAISE_SETFCAP=no install
 mkdir -p /pkgs/$PACKAGE/usr/lib32
 sed -e "s|^libdir=.*|libdir=/usr/lib32|" -i DESTDIR/usr/lib32/pkgconfig/lib{cap,psx}.pc
 cp -Rv DESTDIR/usr/lib32/* /pkgs/$PACKAGE/usr/lib32
