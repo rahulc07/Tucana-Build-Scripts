@@ -47,6 +47,11 @@ cd /pkgs
 
 sudo echo "qt6 upower" > /pkgs/$PACKAGE/depends
 sudo echo "ecm cmake python-docutils" > /pkgs/$PACKAGE/make-depends
+mkdir -p /pkgs/$PACKAGE/var/lib/sddm
+
+/usr/bin/sddm --example-config > /pkgs/$PACKAGE/etc/sddm.conf
+chown -R sddm:sddm /pkgs/$PACKAGE/var/lib/sddm
+
 
 sed -i 's/qtvirtualkeyboard//' /pkgs/$PACKAGE/etc/sddm.conf
 
@@ -59,7 +64,6 @@ if [[ ! $(grep -r "sddm" /etc/passwd) ]]; then
             -d /var/lib/sddm \
             -u 64 -g sddm    \
             -s /bin/false sddm
-   /usr/bin/sddm --example-config > /etc/sddm.conf
 fi
 EOF
 
