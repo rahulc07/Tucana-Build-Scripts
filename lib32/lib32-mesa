@@ -39,7 +39,6 @@ meson setup --prefix=/usr    --native-file crossfile.ini \
       -Degl=enabled \
       -Dglvnd=true \
       -Db_ndebug=true \
-      -Ddri3=enabled \
       -Dllvm=true \
       -Dlibunwind=disabled  \
       -Dgallium-nine=true \
