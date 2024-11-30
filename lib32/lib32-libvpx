@@ -8,7 +8,7 @@ PKG_VER=1.15.0
 URL=https://github.com/webmproject/libvpx/archive/v$PKG_VER/libvpx-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=libvpx-$PKG_VER
-PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')-old
+PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 
