@@ -2,8 +2,9 @@
 
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
-
-URL=https://www.docbook.org/xml/4.5/docbook-xml-4.5.zip
+#HOLD_TUCANA
+PKG_VER=4.5
+URL=https://www.docbook.org/xml/$PKG_VER/docbook-xml-$PKG_VER.zip
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.zip||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
