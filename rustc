@@ -19,9 +19,9 @@ cd $DIR
 
 # Build
 cat << EOF > config.toml
-
+# credit to LFS
 # tell x.py to not keep printing an annoying warning
-change-id = 123711
+change-id = 131075
 
 # see config.toml.example for more possible options
 # See the 8.4 book for an example using shipped LLVM
@@ -32,6 +32,8 @@ targets = "X86"
 
 # When using system llvm prefer shared libraries
 link-shared = true
+
+download-ci-llvm = false
 
 [build]
 # omit docs to save time and space (default is to build them)
