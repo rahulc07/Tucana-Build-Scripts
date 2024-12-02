@@ -67,6 +67,9 @@ make DESTDIR=/pkgs/$PACKAGE install-postfix
 cd /pkgs
 
 
+echo 'default_database_type = lmdb'       >> /pkgs/$PACKAGE/etc/postfix/main.cf &&
+echo 'alias_database = lmdb:/etc/aliases' >> /pkgs/$PACKAGE/etc/postfix/main.cf &&
+echo 'alias_maps = lmdb:/etc/aliases'     >> /pkgs/$PACKAGE/etc/postfix/main.cf
 
 sudo echo "lmdb cyrus-sasl sqlite openldap pcre2 icu" > /pkgs/$PACKAGE/depends
 sudo echo 'groupadd -g 32 postfix &&
