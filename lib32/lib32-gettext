@@ -12,7 +12,7 @@ DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
-cp patches/*$PACKAGE /blfs/builds
+cp patches/gettext* /blfs/builds
 cd /blfs/builds
 wget $URL
 tar -xvf $TAR
