@@ -19,6 +19,11 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
+
+# Upstream fix for x265-4.1
+sed -e 's/X265_BUILD >= 210/(&) \&\& (X265_BUILD < 213)/' \
+     -i libavcodec/libx265.c
+
 patch -Np1 -i ../ffmpeg-$PKG_VER-chromium_method-1.patch
 
 ./configure --prefix=/usr        \
