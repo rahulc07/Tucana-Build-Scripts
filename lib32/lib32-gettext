@@ -4,7 +4,7 @@ export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 
-PKG_VER=0.22.5
+PKG_VER=0.23
  
 URL=https://ftp.gnu.org/gnu/gettext/gettext-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
@@ -15,6 +15,7 @@ PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
 
 cd /blfs/builds
 wget $URL
+wget https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=patch;h=adfbe2ee7cd9b47a0465aa9a07d773fa290f46c1 libxml2-2.12.0.patch
 tar -xvf $TAR
 cd $DIR
 
@@ -22,7 +23,7 @@ cd $DIR
 export CC="gcc -m32"
 export CXX="g++ -m32"
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-
+patch -Np1  < ../libxml2-2.12.0.patch
 
 ./configure --prefix=/usr    \
             --disable-static \
