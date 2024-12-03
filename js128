@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 set -e
 
-PKG_VER=128.5.1esr
+PKG_VER=128.5.0esr
 REFORMAT=$(echo $PKG_VER | sed 's/esr//g')
 URL=https://archive.mozilla.org/pub/firefox/releases/${PKG_VER}/source/firefox-${PKG_VER}.source.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
