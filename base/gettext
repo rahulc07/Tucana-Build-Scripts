@@ -10,18 +10,15 @@ DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
-
+# move patch
+cp patches/$PACKAGE* /blfs/builds
 cd /blfs/builds
 wget $URL
-wget https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=patch;h=adfbe2ee7cd9b47a0465aa9a07d773fa290f46c1 libxml2-2.12.0.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-
-# libxml 2.12.0 fix
-patch -Np1 < ../libxml2-2.12.0.patch
-
+patch -Np1 < ../gettext-0.23-libxml2.12.0.patch
 ./configure --prefix=/usr    \
             --disable-static \
             --docdir=/usr/share/doc/gettext-$PKG_VER
