@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=unrar
 #ARCH_VAR=pkgver
-PKG_VER=7.1.1
+PKG_VER=7.1.2
 URL=https://www.rarlab.com/rar/unrarsrc-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=unrar
