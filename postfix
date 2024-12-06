@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=postfix
 #ARCH_VAR=pkgver
-PKG_VER=3.9.0
+PKG_VER=3.9.1
 URL=https://ghostarchive.org/postfix/postfix-release/official/postfix-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
