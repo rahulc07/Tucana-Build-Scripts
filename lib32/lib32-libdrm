@@ -3,7 +3,7 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-PKG_VER=2.4.122
+PKG_VER=2.4.124
  
 URL=https://dri.freedesktop.org/libdrm/libdrm-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
