@@ -4,7 +4,7 @@ export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
 set -e
-PKG_VER=256.8
+PKG_VER=256.9
  
 URL=https://github.com/systemd/systemd/archive/v$PKG_VER/systemd-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
