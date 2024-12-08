@@ -23,7 +23,7 @@ cd $DIR
 mkdir gbuild &&
 cd    gbuild &&
 
-meson setup --prefix=/usr --buildtype=release .. &&
+meson setup --prefix=/usr --buildtype=release -Dgtk_doc=false  ..
 
 
 ninja
