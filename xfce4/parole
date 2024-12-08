@@ -3,7 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-URL=https://archive.xfce.org/src/apps/parole/4.16/parole-4.16.0.tar.bz2
+
+PKG_VER=4.16.0
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://archive.xfce.org/src/apps/parole/$MAJOR/parole-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
