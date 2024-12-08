@@ -2,9 +2,9 @@
 
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
-PKG_VER=6.10.0
+PKG_VER=6.11.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
-URL=https://github.com/gedit-technology/libgedit-tepl/releases/download/$PKG_VER/libgedit-tepl-$PKG_VER.tar.xz
+URL=https://download.gnome.org/sources/libgedit-tepl/$MAJOR/libgedit-tepl-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=tepl
