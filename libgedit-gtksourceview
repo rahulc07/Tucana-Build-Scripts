@@ -9,7 +9,7 @@ PKG_VER=299.4.0
 MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
 URL=https://download.gnome.org/sources/libgedit-gtksourceview/299/libgedit-gtksourceview-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=libgedit-gtksourceview-$(echo $TAR | sed 's|.tar.*||g')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
