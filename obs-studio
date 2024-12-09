@@ -12,16 +12,13 @@ PACKAGE=obs-studio
 # Get Package
 
 cd /blfs/builds
-wget https://raw.githubusercontent.com/archlinux/svntogit-community/packages/obs-studio/trunk/ignore_unused_submodules.patch
-wget https://src.fedoraproject.org/rpms/obs-studio/raw/rawhide/f/obs-studio-fix-incompatible-pointer-type.patch
 wget $URL
 tar -xvf $TAR
 cd $DIR
 
 # Build
 
-patch -Np1 < ../ignore_unused_submodules.patch
-patch -Np1 < ../obs-studio-fix-incompatible-pointer-type.patch
+
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
