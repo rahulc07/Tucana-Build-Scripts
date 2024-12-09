@@ -3,7 +3,7 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-PKG_VER=2.13.0
+PKG_VER=2.14.0
 URL=https://github.com/linuxwacom/libwacom/releases/download/libwacom-$PKG_VER/libwacom-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
