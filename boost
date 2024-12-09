@@ -13,12 +13,10 @@ PACKAGE=boost
 
 cd /blfs/builds
 wget $URL
-wget https://www.linuxfromscratch.org/patches/blfs/svn/boost-$PKG_VER-upstream_fixes-1.patch
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 < ../boost-$PKG_VER-upstream_fixes-1.patch
 ./bootstrap.sh --prefix=/pkgs/boost/usr --with-python=python3 &&
 ./b2 stage -j16 threading=multi link=shared
 
