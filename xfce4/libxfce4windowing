@@ -1,0 +1,45 @@
+#!/bin/bash
+
+export CFLAGS="-O2 "
+export CXXFLAGS="-O2 "
+
+
+PKG_VER=4.19.10
+MAJOR=$(echo $PKG_VER | sed 's|.[^.]*$||g')
+URL=https://archive.xfce.org/src/xfce/libxfce4windowing/$MAJOR/libxfce4windowing-$PKG_VER.tar.bz2
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.tar.*||g')
+PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+tar -xvf $TAR
+cd $DIR
+
+# Build
+
+./configure --prefix=/usr --sysconfdir=/etc
+
+
+make -j22
+
+
+# Install
+sudo make DESTDIR=/pkgs/$PACKAGE install
+sudo make install
+cd /pkgs
+
+
+
+sudo echo "gdk-pixbuf glib gtk3 libwnck libX11 wayland" > /pkgs/$PACKAGE/depends
+sudo echo "gobject-introspection" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
