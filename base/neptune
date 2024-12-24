@@ -26,12 +26,29 @@ sudo python3 -m installer --destdir=/pkgs/$PACKAGE  dist/*.whl
 
 cd /pkgs
 
-sudo cp -rpv /pkgs/$PACKAGE/* /
+# make inital directories
+mkdir -p /pkgs/$PACKAGE/var/lib/neptune/cache/depend
+mkdir -p /pkgs/$PACKAGE/var/lib/neptune/file-lists
+mkdir -p /pkgs/$PACKAGE/etc/neptune
+mkdir -p /pkgs/$PACKAGE/usr/share/doc/neptune/
 
-sudo echo "python python-requests" > /pkgs/$PACKAGE/depends
+# base config
+cat > /pkgs/$PACKAGE/etc/neptune/config.yaml << EOF
+repositories:
+  - "http://ftp2.osuosl.org/pub/tucana-linux/development/mercury/"
+
+system-settings:
+  install_path: "/"
+  yes_mode_by_default: false
+  stream_chunk_size: 8192  
+EOF
+cp /pkgs/$PACKAGE/etc/neptune/config.yaml /pkgs/$PACKAGE/usr/share/doc/neptune/sample-config.yaml
+
+sudo echo "python-tqdm python-requests" > /pkgs/$PACKAGE/depends
 sudo echo "python-build python-installer" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
+sudo cp -rpv /pkgs/$PACKAGE/* /
 
 
 cd /blfs/builds
