@@ -3,7 +3,7 @@
 export CFLAGS="-O2 "
 export CXXFLAGS="-O2 "
 
-PKG_VER=1.16.0
+PKG_VER=1.14.10
  
 URL=https://dbus.freedesktop.org/releases/dbus/dbus-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
