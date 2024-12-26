@@ -8,7 +8,7 @@ export CXXFLAGS="-O2"
 
 #ARCH_PKG=procps-ng
 #ARCH_VAR=pkgver
-PKG_VER=4.0.4
+PKG_VER=4.0.5
 URL=https://sourceforge.net/projects/procps-ng/files/Production/procps-ng-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
