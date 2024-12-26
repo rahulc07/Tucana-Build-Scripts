@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=2.2.3
+PKG_VER=2.3.0
 URL=https://github.com/urllib3/urllib3/releases/download/$PKG_VER/urllib3-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
