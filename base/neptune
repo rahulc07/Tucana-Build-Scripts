@@ -49,7 +49,6 @@ sudo echo "python-build python-installer" > /pkgs/$PACKAGE/make-depends
 sudo echo "/etc/neptune/config.yaml" > /pkgs/$PACKAGE/backup
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
-sudo cp -rpv /pkgs/$PACKAGE/* /
 
 
 cd /blfs/builds
