@@ -2,7 +2,7 @@
 #UPDATESPECIAL
 
 
-PKG_VER=1.4.0
+PKG_VER=1.5.0
 URL=http://downloads.webmproject.org/releases/webp/libwebp-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
