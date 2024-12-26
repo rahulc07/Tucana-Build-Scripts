@@ -157,17 +157,17 @@ chmod -v 664  /pkgs/$PACKAGE/var/log/lastlog
 chmod -v 600  /pkgs/$PACKAGE/var/log/btmp
 
 
-cat > /pkgs/$PACKAGE/etc/lsb-release << "EOF"
+cat > /pkgs/$PACKAGE/etc/lsb-release << EOF
 DISTRIB_ID="Tucana Linux"
-DISTRIB_RELEASE="3.1"
+DISTRIB_RELEASE="$TUCANA_VERSION"
 DISTRIB_DESCRIPTION="Tucana GNU/Linux"
 EOF
 
-cat > /pkgs/$PACKAGE/etc/os-release << "EOF"
+cat > /pkgs/$PACKAGE/etc/os-release << EOF
 NAME="Tucana Linux"
-VERSION="3.1"
+VERSION="$TUCANA_VERSION"
 ID=tucana
-PRETTY_NAME="Tucana GNU/Linux 3.1"
+PRETTY_NAME="Tucana GNU/Linux $TUCANA_VERSION"
 VENDOR_NAME="Rahul Chandra"
 
 EOF
@@ -194,7 +194,21 @@ cd /pkgs
 
 
 
-sudo echo "zlib mercury coreutils util-linux findutils gettext glibc grep sed libgcc iproute2 file procps-ng systemd tar xz zstd psmisc gzip bzip2 bash shadow pam ca-certificates p11-kit wget mkinitramfs kmod efibootmgr grub libffi man-pages man-db less ncurses perl perl-xml-parser openssl e2fsprogs sudo libunistring diffutils gawk iana-etc" > /pkgs/$PACKAGE/depends
+sudo echo "zlib neptune coreutils util-linux findutils gettext glibc grep sed libgcc iproute2 file procps-ng systemd tar xz zstd psmisc gzip bzip2 bash shadow pam ca-certificates p11-kit wget mkinitramfs kmod efibootmgr grub libffi man-pages man-db less ncurses perl perl-xml-parser openssl e2fsprogs sudo libunistring diffutils gawk iana-etc" > /pkgs/$PACKAGE/depends
+cat > /pkgs/$PACKAGE/backup << "EOF"
+/etc/group
+/etc/hosts
+/etc/passwd
+/etc/shells
+/etc/shadow
+/lib64/ld-lsb-x86-64.so.3
+/etc/early_load_modules.conf
+/var/log/lastlog
+/var/log/faillog
+/var/log/btmp
+/var/log/wtmp
+
+EOF
 sudo echo "coreutils" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished

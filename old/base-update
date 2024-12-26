@@ -26,6 +26,6 @@ VENDOR_NAME="Rahul Chandra"
 EOF
 
 cd /pkgs
-echo "zlib mercury coreutils util-linux findutils gettext glibc grep sed libgcc iproute2 file procps-ng systemd tar xz zstd psmisc gzip bzip2 bash shadow pam ca-certificates p11-kit wget mkinitramfs kmod efibootmgr grub libffi man-pages man-db less ncurses perl perl-xml-parser openssl e2fsprogs sudo libunistring diffutils gawk iana-etc" > /pkgs/$PACKAGE/depends
+echo "zlib neptune coreutils util-linux findutils gettext glibc grep sed libgcc iproute2 file procps-ng systemd tar xz zstd psmisc gzip bzip2 bash shadow pam ca-certificates p11-kit wget mkinitramfs kmod efibootmgr grub libffi man-pages man-db less ncurses perl perl-xml-parser openssl e2fsprogs sudo libunistring diffutils gawk iana-etc" > /pkgs/$PACKAGE/depends
 tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 cp $PACKAGE.tar.xz /finished
