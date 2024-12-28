@@ -10,7 +10,7 @@ URL=https://rsync.osuosl.org/pub/mariadb/mariadb-$PKG_VER/source/mariadb-$PKG_VE
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
-BLFS_SYSTEMD_VER=20240916
+BLFS_SYSTEMD_VER=20241211
 # Get Package
 
 

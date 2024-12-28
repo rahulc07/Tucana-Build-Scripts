@@ -9,7 +9,7 @@ TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=apache
 # Thanks LFS for systemd units
-BLFS_SYSTEMD_VER=20240205
+BLFS_SYSTEMD_VER=20241211
 # Get Package
 
 cd /blfs/builds

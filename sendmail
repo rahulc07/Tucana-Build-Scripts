@@ -9,7 +9,7 @@ URL=https://ftp.sendmail.org/sendmail.$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=sendmail-$PKG_VER
 PACKAGE=sendmail
-BLFS_SYSTEMD_VER=20240205
+BLFS_SYSTEMD_VER=20241211
 # Get Package
 
 cd /blfs/builds

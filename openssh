@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 
 
 PKG_VER=9.9p1
-BLFS_SYSTEMD_VER=20240205
+BLFS_SYSTEMD_VER=20241211
 URL=https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
