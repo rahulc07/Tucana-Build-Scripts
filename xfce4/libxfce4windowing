@@ -33,7 +33,7 @@ cd /pkgs
 
 
 
-sudo echo "gdk-pixbuf glib gtk3 libwnck libX11 wayland" > /pkgs/$PACKAGE/depends
+sudo echo "libdisplay-info gdk-pixbuf glib gtk3 libwnck libX11 wayland" > /pkgs/$PACKAGE/depends
 sudo echo "gobject-introspection xfce4-dev-tools" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
