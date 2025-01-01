@@ -20,7 +20,7 @@ cd $DIR
 
 # Build
 
-./configure --prefix=/usr --sysconfdir=/etc
+./configure --prefix=/usr --sysconfdir=/etc --enable-x11 --disable-debug
 
 
 make -j22
