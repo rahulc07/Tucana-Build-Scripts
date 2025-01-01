@@ -9,8 +9,8 @@ URL=https://downloads.sourceforge.net/tcl/tcl$PKG_VER-src.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=tcl$PKG_VER
 PACKAGE=tcl
-OTHER_VER=1.1.7
-OTHER_VER2=4.2.4
+OTHER_VER=1.1.10
+OTHER_VER2=4.3.2
 
 # Get Package
 
