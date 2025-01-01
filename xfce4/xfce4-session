@@ -35,7 +35,7 @@ cd /pkgs
 
 
 
-sudo echo "libwnck libxfce4ui desktop-file-utils polkit-gnome shared-mime-info" > /pkgs/$PACKAGE/depends
+sudo echo "libxfce4windowing libwnck libxfce4ui desktop-file-utils polkit-gnome shared-mime-info" > /pkgs/$PACKAGE/depends
 sudo echo "" > /pkgs/$PACKAGE/make-depends
 sudo echo "update-desktop-database && update-mime-database /usr/share/mime" > /pkgs/$PACKAGE/postinst
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
