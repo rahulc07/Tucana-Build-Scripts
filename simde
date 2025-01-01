@@ -29,6 +29,8 @@ ninja
 # Install
 sudo  DESTDIR=/pkgs/$PACKAGE ninja install
 sudo ninja install
+install -vD COPYING -t /usr/share/licenses/$PACKAGE
+
 cd /pkgs
 
 
