@@ -3,8 +3,8 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 set -e
-PKG_VER=1.4.0
-URL=https://fltk.org/pub/fltk/$PKG_VER/fltk-$PKG_VER-source.tar.gz
+PKG_VER=1.4.1
+URL=https://github.com/fltk/fltk/releases/download/release-$PKG_VER/fltk-$PKG_VER-source.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=fltk-$PKG_VER
 PACKAGE=fltk
