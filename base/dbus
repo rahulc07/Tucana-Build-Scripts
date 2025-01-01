@@ -19,8 +19,9 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-
-meson setup --prefix=/usr --buildtype=release
+mkdir build
+cd build
+meson setup --prefix=/usr --buildtype=release ..
 
 ninja
 
