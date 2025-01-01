@@ -20,7 +20,7 @@ cd $DIR
 # Build
 sed -i -e '/cat./d' documentation/Makefile  
 
-autoconf -ri
+autoreconf -ri
 ./configure --prefix=/usr    \
             --enable-shared 
 
