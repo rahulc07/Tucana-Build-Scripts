@@ -1,0 +1,41 @@
+#!/bin/bash
+
+export CFLAGS="-O2 "
+export CXXFLAGS="-O2 "
+
+# no currency
+URL=https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/NerdFontsSymbolsOnly.zip
+TAR=$(echo $URL | sed -r 's|(.*)/||')
+DIR=$(echo $TAR | sed 's|.zip||g')
+PACKAGE=ttf-nerd-fonts-symbols
+
+# Get Package
+
+cd /blfs/builds
+wget $URL
+mkdir -p $DIR
+cd $DIR
+unzip ../$TAR
+# Install
+mkdir -p /pkgs/$PACKAGE/usr/share/fontconfig/conf.avail/
+mkdir -p /pkgs/$PACKAGE/usr/share/licenses/$PACKAGE
+mkdir -p /pkgs/$PACKAGE/usr/share/fonts/
+
+install LICENSE /pkgs/$PACKAGE/usr/share/licenses/
+install *.ttf /pkgs/$PACKAGE/usr/share/fonts/
+install *.conf /pkgs/$PACKAGE/usr/share/fontconfig/conf.avail/
+
+cd /pkgs
+
+
+
+sudo echo "" > /pkgs/$PACKAGE/depends
+sudo echo "unzip" > /pkgs/$PACKAGE/make-depends
+sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
+sudo cp $PACKAGE.tar.xz /finished
+
+
+cd /blfs/builds
+sudo rm -r $DIR
+
+
