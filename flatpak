@@ -34,7 +34,7 @@ cd /pkgs
 
 
 
-sudo echo "glib libsoup libxml2 dconf systemd libarchive gpgme fuse2 ostree json-glib appstream-glib ostree libseccomp libxslt docbook-xml docbook-xsl gtk-doc dconf p11-kit avahi xdg-desktop-portal malcontent" > /pkgs/$PACKAGE/depends
+sudo echo "gnupg glib libsoup libxml2 dconf systemd libarchive gpgme fuse2 ostree json-glib appstream-glib ostree libseccomp libxslt docbook-xml docbook-xsl gtk-doc dconf p11-kit avahi xdg-desktop-portal malcontent" > /pkgs/$PACKAGE/depends
 sudo echo "pyparsing" > /pkgs/$PACKAGE/make-depends
 sudo tar -cvzpf $PACKAGE.tar.xz $PACKAGE
 sudo cp $PACKAGE.tar.xz /finished
