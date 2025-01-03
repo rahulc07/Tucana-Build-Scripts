@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 #NLFS
-PKG_VER=0.37.0
+PKG_VER=0.38.1
 URL=https://github.com/kovidgoyal/kitty/releases/download/v$PKG_VER/kitty-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
