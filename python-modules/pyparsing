@@ -3,7 +3,7 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=3.2.0
+PKG_VER=3.2.1
 URL=https://github.com/pyparsing/pyparsing/releases/download/$PKG_VER/pyparsing-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=pyparsing-$PKG_VER
