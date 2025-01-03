@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=11.0.0
+PKG_VER=11.1.0
 URL=https://github.com/python-pillow/Pillow/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=Pillow-$PKG_VER
