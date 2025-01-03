@@ -5,7 +5,7 @@ export CXXFLAGS="-O2"
 #ARCH_PKG=mpg123
 #ARCH_VAR=pkgver
 
-PKG_VER=1.32.9
+PKG_VER=1.32.10
 URL=https://downloads.sourceforge.net/mpg123/mpg123-$PKG_VER.tar.bz2
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
