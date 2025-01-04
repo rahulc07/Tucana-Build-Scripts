@@ -11,15 +11,11 @@ PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
 cd /blfs/builds
-if [[ ! -d tucana-pkgs-extra ]]; then
-   git clone https://github.com/Tucana-Linux/tucana-pkgs-extra.git
-fi
 wget $URL
 tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 < ../tucana-pkgs-extra/gettext/*$PKG_VER*.patch
 ./configure --prefix=/usr    \
             --disable-static \
 
