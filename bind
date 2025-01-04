@@ -196,10 +196,11 @@ EOF
 
 # Install systemd unit
 cd /blfs/builds
-wget https://www.linuxfromscratch.org/blfs/downloads/systemd/blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
-tar -xvf blfs-systemd-units-$BLFS_SYSTEMD_VER.tar.xz
-cd blfs-systemd-units-$BLFS_SYSTEMD_VER
-make DESTDIR=/pkgs/$PACKAGE install-named
+if [[ ! -d tucana-pkgs-extra ]]; then
+   git clone https://github.com/Tucana-Linux/tucana-pkgs-extra.git
+fi
+cd tucana-pkgs-extra
+install -Dm644 bind/systemd/named.service /pkgs/$PACKAGE/usr/lib/systemd/system/named.service
 
 
 sudo echo "liburuc libuv json-c libcap nghttp2" > /pkgs/$PACKAGE/depends
