@@ -7,7 +7,7 @@ export CXXFLAGS="-O2"
 PKG_VER=0.34.2
 URL=https://github.com/martinpitt/python-dbusmock/releases/download/$PKG_VER/dist.python_dbusmock-$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=python-dbusmock-$PKG_VER
+DIR=python_dbusmock-$PKG_VER
 PACKAGE=dbusmock
 set -e
 
