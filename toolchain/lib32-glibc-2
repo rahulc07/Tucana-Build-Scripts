@@ -32,6 +32,7 @@ CC="gcc -m32" CXX="g++ -m32" \
       --build=$(../scripts/config.guess) \
       --enable-kernel=3.2                \
       --with-headers=/usr/include \
+      --disable-nscd \
       --host=i686-pc-linux-gnu \
       --enable-multi-arch                \
       --libexecdir=/usr/lib32            \

@@ -30,6 +30,7 @@ echo "rootsbindir=/usr/sbin" > configparms
       --enable-kernel=4.14                \
       --with-headers=/usr/include    \
       --enable-multi-arch                \
+      --disable-nscd \
       --host=x86_64-tucana-linux-gnu libc_cv_slibdir=/usr/lib
 
 
