@@ -19,7 +19,7 @@ tar -xvf $TAR
 cd $DIR
 
 # Build
-patch -Np1 < ../tucana-pkgs-extras/gettext/*$PKG_VER*.patch
+patch -Np1 < ../tucana-pkgs-extras/*$PKG_VER*.patch
 ./configure --prefix=/usr    \
             --disable-static \
             --docdir=/usr/share/doc/gettext-$PKG_VER
