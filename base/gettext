@@ -22,7 +22,6 @@ cd $DIR
 patch -Np1 < ../tucana-pkgs-extra/gettext/*$PKG_VER*.patch
 ./configure --prefix=/usr    \
             --disable-static \
-            --docdir=/usr/share/doc/gettext-$PKG_VER
 
 
 make -j20

@@ -12,8 +12,10 @@ DIR=$(echo $TAR | sed 's|.tar.*||g')
 PACKAGE=lib32-$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
-cp patches/gettext* /blfs/builds
 cd /blfs/builds
+if [[ ! -d tucana-pkgs-extra ]]; then
+  git clone https://github.com/Tucana-Linux/tucana-pkgs-extra.git
+fi
 wget $URL
 tar -xvf $TAR
 cd $DIR
@@ -22,11 +24,10 @@ cd $DIR
 export CC="gcc -m32"
 export CXX="g++ -m32"
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-patch -Np1  < ../gettext-0.23-libxml2.12.0.patch
+patch -Np1  < ../tucana-pkgs-extra/gettext/*$PKG_VER*.patch
 
 ./configure --prefix=/usr    \
             --disable-static \
-            --docdir=/usr/share/doc/gettext-$PKG_VER \
 	    --libdir=/usr/lib32 \
 
 
