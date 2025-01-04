@@ -3,10 +3,10 @@
 export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
-PKG_VER=1.47.1
-URL=https://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/v$PKG_VER/e2fsprogs-$PKG_VER.tar.gz
+PKG_VER=1.47.2
+URL=https://github.com/tytso/e2fsprogs/archive/refs/tags/v$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
-DIR=$(echo $TAR | sed 's|.tar.*||g')
+DIR=e2fsprogs-$PKG_VER
 PACKAGE=$(echo $DIR | sed 's|-[^-]*$||g')
 
 # Get Package
