@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=11.1.0
+PKG_VER=11.1.1
 URL=https://github.com/fmtlib/fmt/archive/refs/tags/$PKG_VER.tar.gz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=fmt-$(echo $TAR | sed 's|.tar.*||g')

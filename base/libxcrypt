@@ -4,7 +4,7 @@ export CFLAGS=-"O2"
 export CXXFLAGS="-O2"
 
 
-PKG_VER=4.4.36
+PKG_VER=4.4.37
 URL=https://github.com/besser82/libxcrypt/releases/download/v$PKG_VER/libxcrypt-$PKG_VER.tar.xz
 TAR=$(echo $URL | sed -r 's|(.*)/||')
 DIR=$(echo $TAR | sed 's|.tar.*||g')
